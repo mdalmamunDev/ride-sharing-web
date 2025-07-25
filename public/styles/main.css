@@ -1,0 +1,33 @@
+body {
+    font-family: "Outfit", sans-serif;
+}
+
+.bg-1 {
+    background: #5680C0;
+}
+.bg-2 {
+    background: #283B59;
+}
+.bg-3 {
+    background: #6B6B6B;
+}
+.bg-4 {
+    background: #7FA4DC;
+}
+.bg-5 {
+    background: #436496;
+}
+
+@media print {
+    .print-cols-2 {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+    .print-cols-5 {
+        display: grid !important;
+        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    }
+    .print-border {
+        border: 0.2px solid black;
+    }
+}
