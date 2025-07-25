@@ -18,6 +18,10 @@ body {
     background: #436496;
 }
 
+.bg-g {
+    background: linear-gradient(to right, #56E1E8, #5C58EB, #BA63FF);
+}
+
 @media print {
     .print-cols-2 {
         display: grid !important;
