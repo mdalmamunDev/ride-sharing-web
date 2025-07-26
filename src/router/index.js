@@ -16,6 +16,7 @@ import ChangePassPage from "@/pages/ChangePassPage.vue";
 import EquipmentDetailsPage from "@/pages/EquipmentDetailsPage.vue";
 import SettingsPage from "@/pages/SettingsPage.vue";
 import SignupPage from "@/pages/auth/SignupPage.vue";
+import BookingPage from "@/pages/BookingPage.vue";
 
 const routes = [
   {
@@ -35,7 +36,8 @@ const routes = [
     path: "/",
     component: AppLayout,
     children: [
-      { path: "", redirect: "/clients" }, // Redirect to /clients
+      // { path: "", redirect: "/clients" }, // Redirect to /clients
+      { path: "", component: BookingPage,  meta: { title: "Client Accounts", dataUrl: "clients" } }, // Redirect to /clients
       { path: "clients", component: ClientsAccountsPage, meta: { title: "Client Accounts", dataUrl: "clients" } },
       { path: "equipments", component: EquipmentsPage, meta: { title: "Equipments", dataUrl: "equipments" } },
       { path: "equipment-details", component: EquipmentDetailsPage, meta: { title: "Equipment Details", dataUrl: "equipments" } },
@@ -66,14 +68,14 @@ router.beforeEach((to, from, next) => {
 
   // If user is logged in, don't permit visiting public pages
   if (token && publicPages.includes(to.path)) {
-    return next('/');
+    // return next('/');
   }
   const authRequired = !publicPages.includes(to.path) && !to.path.startsWith('/auth');
 
   document.title = `ACES | ${to.meta.title}`;
 
   if (authRequired && !token) {
-    return next('/auth/login');
+    // return next('/auth/login');
   }
   next();
 });
