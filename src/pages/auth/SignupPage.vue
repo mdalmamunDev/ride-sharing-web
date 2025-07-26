@@ -1,17 +1,20 @@
 <template>
   <div class="flex flex-col items-center w-full pt-8">
     <!-- Heading -->
-    <h2 class="text-2xl font-bold mb-2 text-center">Welcome Back</h2>
-    <p class="text-sm text-gray-500 mb-6 text-center">Enter your email &amp; password to login.</p>
-
-    <!-- Toggle -->
-    <div class="flex w-full max-w-md mb-6 gap-4 justify-center">
-      <button :class="['flex-1 py-2 rounded-full font-semibold shadow', userType === 'Passenger' ? 'bg-g text-white' : 'bg-[#F3F3F3] text-gray-600']" @click="userType = 'Passenger'">Passenger</button>
-      <button :class="['flex-1 py-2 rounded-full font-semibold shadow', userType === 'Driver' ? 'bg-g text-white' : 'bg-[#F3F3F3] text-gray-600']" @click="userType = 'Driver'">Driver</button>
-    </div>
+    <h2 class="text-2xl font-bold mb-2 text-center">Create an account</h2>
+    <p class="text-sm text-gray-500 mb-6 text-center">Enter your information and create an account.</p>
 
     <!-- Form -->
     <form @submit.prevent="handleSubmit" class="w-full max-w-md space-y-5">
+      <div>
+        <label for="name" class="block text-sm font-medium mb-1">Name</label>
+        <div class="relative">
+          <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-1">
+            <i class="fas fa-user"></i>
+          </span>
+          <input type="text" id="name" placeholder="Enter your name" v-model="formData.name" class="pl-12 pr-4 py-3 w-full rounded-full bg-[#F3F3F3] text-sm outline-none" required />
+        </div>
+      </div>
       <div>
         <label for="email" class="block text-sm font-medium mb-1">Email</label>
         <div class="relative">
@@ -19,6 +22,15 @@
             <i class="fas fa-envelope"></i>
           </span>
           <input type="email" id="email" placeholder="Enter your email" v-model="formData.email" class="pl-12 pr-4 py-3 w-full rounded-full bg-[#F3F3F3] text-sm outline-none" required />
+        </div>
+      </div>
+      <div>
+        <label for="phone" class="block text-sm font-medium mb-1">Phone</label>
+        <div class="relative">
+          <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-1">
+            <i class="fas fa-phone"></i>
+          </span>
+          <input type="phone" id="phone" placeholder="Enter your phone" v-model="formData.phone" class="pl-12 pr-4 py-3 w-full rounded-full bg-[#F3F3F3] text-sm outline-none" required />
         </div>
       </div>
       <div>
@@ -40,14 +52,14 @@
     </form>
 
     <div class="flex justify-end items-center text-sm mt-10 mb-2">
-      Not a member? <router-link to="/auth/signup" class="text-g hover:underline ms-1">Signup now</router-link>
+      Already have account? <router-link to="/auth/login" class="text-g hover:underline ms-1">Signin now</router-link>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "LoginPage",
+  name: "SignupPage",
   data() {
     return {
       userType: 'Passenger',

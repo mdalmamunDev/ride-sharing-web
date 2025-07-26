@@ -22,6 +22,17 @@ body {
     background: linear-gradient(to right, #56E1E8, #5C58EB, #BA63FF);
 }
 
+.text-1 {
+    color: #5C58EB;
+}
+
+.text-g {
+  background: linear-gradient(to right, #5C58EB, #BA63FF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
 @media print {
     .print-cols-2 {
         display: grid !important;

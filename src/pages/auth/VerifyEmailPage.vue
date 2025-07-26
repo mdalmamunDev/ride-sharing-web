@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="flex flex-col items-center w-full pt-8">
     <h1 class="text-4xl font-bold mb-2">Verify Email</h1>
     <p class="text-sm text-gray-600 mb-8"> Please check your email and enter the code</p>
 
@@ -13,7 +13,7 @@
             inputmode="numeric"
             maxlength="1"
             autocomplete="one-time-code"
-            class="text-2xl text-center border-b-2 border-gray-300 focus:outline-none focus:border-blue-500"
+            class="text-2xl text-center bg-gray-200 h-14 w-12 rounded-md focus:outline-none focus:border-blue-500"
             v-model="code[i]"
             @input="handleInput($event, i)"
             @paste="handlePaste"
@@ -25,7 +25,7 @@
 
       <div v-if="error" class="text-red-500 text-sm mt-2">{{ error }}</div>
 
-      <button type="submit" class="w-full bg-[#5680C0] text-white py-3 rounded-md text-base font-medium hover:bg-blue-700 transition" :disabled="loading">
+      <button type="submit" class="w-full py-3 rounded-full bg-g text-white text-base font-bold shadow" :disabled="loading">
         <span v-if="loading" class="flex justify-center items-center">
           <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -35,6 +35,9 @@
         <span v-else>Verify</span>
       </button>
     </form>
+    <div class="flex justify-end items-center text-sm mt-10 mb-2">
+      Don't get code? <span class="text-g hover:underline ms-1 cursor-pointer">Resend</span>
+    </div>
   </div>
 </template>
 
@@ -120,26 +123,26 @@ export default {
         return;
       }
       this.loading = true;
-      const codeStr = this.code.join("");
-      this.httpReq({
-        data: {
-          email: this.email,
-          code: codeStr,
-        },
-        callback: ({token}) => {
-          this.loading = false;
-          if (token) {
-            localStorage.setItem('resetToken', token);
+      // const codeStr = this.code.join("");
+      // this.httpReq({
+      //   data: {
+      //     email: this.email,
+      //     code: codeStr,
+      //   },
+      //   callback: ({token}) => {
+      //     this.loading = false;
+      //     if (token) {
+      //       localStorage.setItem('resetToken', token);
             this.$router.push('/auth/reset-password');
-          } else {
-            this.error = "Verification failed.";
-          }
-        },
-        errorCallback: ({message}) => {
+        //   } else {
+        //     this.error = "Verification failed.";
+        //   }
+        // },
+        // errorCallback: ({message}) => {
           this.loading = false;
-          this.error = message || "An error occurred.";
-        }
-      });
+      //     this.error = message || "An error occurred.";
+      //   }
+      // });
     },
   },
   mounted() {

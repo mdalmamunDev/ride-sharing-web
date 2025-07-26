@@ -20,5 +20,5 @@
     "src/**/*/*.js",
     "src/**/*/*.ts",
     "src/**/*/*.vue"
-  ]
+, "public/SortDropDown.vue"  ]
 }

@@ -15,6 +15,7 @@ import UserLayout from "@/components/UserLayout.vue";
 import ChangePassPage from "@/pages/ChangePassPage.vue";
 import EquipmentDetailsPage from "@/pages/EquipmentDetailsPage.vue";
 import SettingsPage from "@/pages/SettingsPage.vue";
+import SignupPage from "@/pages/auth/SignupPage.vue";
 
 const routes = [
   {
@@ -23,6 +24,7 @@ const routes = [
     children: [
       { path: "", redirect: "auth/login" }, // Redirect to /auth/login
       { path: "login", component: LoginPage, meta: { title: "Login", dataUrl: "auth/sign-in" } },
+      { path: "signup", component: SignupPage, meta: { title: "Signup", dataUrl: "auth/sign-up" } },
       { path: "forgot-password", component: ForgotPasswordPage, meta: { title: "Forgot Password", dataUrl: "auth/forgot-password" } },
       { path: "verify-email", component: VerifyEmailPage, meta: { title: "Verify Email", dataUrl: "auth/verify-otp" } },
       { path: "reset-password", component: ResetPasswordPage, meta: { title: "Reset Password", dataUrl: "auth/forgot/reset-password" } },
