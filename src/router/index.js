@@ -7,13 +7,9 @@ import LoginPage from "../pages/auth/LoginPage.vue";
 import ForgotPasswordPage from "../pages/auth/ForgotPasswordPage.vue";
 import VerifyEmailPage from "../pages/auth/VerifyEmailPage.vue";
 import ResetPasswordPage from "../pages/auth/ResetPasswordPage.vue";
-import ReportPage from "../pages/ReportPage.vue";
-import ClientsAccountsPage from "../pages/ClientsAccountsPage.vue"; // <- Create this component
-import EquipmentsPage from "../pages/EquipmentsPage.vue"; // <- Create this component
 import ProfilePage from "@/pages/ProfilePage.vue";
 import UserLayout from "@/components/UserLayout.vue";
 import ChangePassPage from "@/pages/ChangePassPage.vue";
-import EquipmentDetailsPage from "@/pages/EquipmentDetailsPage.vue";
 import SettingsPage from "@/pages/SettingsPage.vue";
 import SignupPage from "@/pages/auth/SignupPage.vue";
 import BookingPage from "@/pages/BookingPage.vue";
@@ -37,11 +33,9 @@ const routes = [
     component: AppLayout,
     children: [
       // { path: "", redirect: "/clients" }, // Redirect to /clients
-      { path: "", component: BookingPage,  meta: { title: "Client Accounts", dataUrl: "clients" } }, // Redirect to /clients
-      { path: "clients", component: ClientsAccountsPage, meta: { title: "Client Accounts", dataUrl: "clients" } },
-      { path: "equipments", component: EquipmentsPage, meta: { title: "Equipments", dataUrl: "equipments" } },
-      { path: "equipment-details", component: EquipmentDetailsPage, meta: { title: "Equipment Details", dataUrl: "equipments" } },
-      { path: "report", component: ReportPage, meta: { title: "Report", dataUrl: "clients/report" } },
+      { path: "", component: BookingPage,  meta: { title: "Book Ride", dataUrl: "booking" } }, // Redirect to /clients
+      { path: "my-rides", component: BookingPage, meta: { title: "Client Accounts", dataUrl: "clients" } },
+      { path: "support", component: BookingPage, meta: { title: "Equipments", dataUrl: "equipments" } },
       {
         path: "/",
         component: UserLayout,
@@ -72,7 +66,7 @@ router.beforeEach((to, from, next) => {
   }
   const authRequired = !publicPages.includes(to.path) && !to.path.startsWith('/auth');
 
-  document.title = `ACES | ${to.meta.title}`;
+  document.title = `Split Ride | ${to.meta.title}`;
 
   if (authRequired && !token) {
     // return next('/auth/login');
