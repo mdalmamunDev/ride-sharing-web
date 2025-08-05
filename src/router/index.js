@@ -15,6 +15,7 @@ import SignupPage from "@/pages/auth/SignupPage.vue";
 import BookingPage from "@/pages/BookingPage.vue";
 import NavigatePage from "@/pages/NavigatePage.vue";
 import MessagePage from "@/pages/MessagePage.vue";
+import UserDetailsPage from "@/pages/UserDetailsPage.vue";
 
 const routes = [
   {
@@ -39,6 +40,7 @@ const routes = [
       { path: "my-rides", component: BookingPage, meta: { title: "Client Accounts", dataUrl: "clients" } },
       { path: "support", component: BookingPage, meta: { title: "Equipments", dataUrl: "equipments" } },
       { path: "messages", component: MessagePage, meta: { title: "Chat", dataUrl: "messages" } },
+      { path: "user-details", component: UserDetailsPage, meta: { title: "User Details", dataUrl: "users" } },
       {
         path: "/",
         component: UserLayout,

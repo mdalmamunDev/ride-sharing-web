@@ -22,11 +22,16 @@
 
       <!-- Middle Section -->
       <div class="sm:col-span-3 p-6 rounded-2xl bg-purple-100 flex items-center justify-between">
-        <div class="flex items-center justify-center flex-col">
+        <button @click="isShowProfile = true" class="hidden sm:flex items-center justify-center flex-col">
           <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Jane Cooper"
             class="w-16 h-16 rounded-full object-cover bg-g p-0.5" />
           <h3 class="text-sm font-semibold mt-1">Jane Cooper</h3>
-        </div>
+        </button>
+        <router-link to="/user-details" class="flex sm:hidden items-center justify-center flex-col">
+          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Jane Cooper"
+            class="w-16 h-16 rounded-full object-cover bg-g p-0.5" />
+          <h3 class="text-sm font-semibold mt-1">Jane Cooper</h3>
+        </router-link>
         <img src="/images/car.png" alt="Car" class="w-28 mt-1" />
       </div>
 
@@ -64,26 +69,36 @@
       @click="showMsg = !showMsg">
       <i class="fa-solid fa-comment-dots"></i>
     </button>
-    <div v-if="showMsg" class="hidden sm:block absolute bottom-20 right-6 max-w-md mx-auto max-h-[70%] bg-white flex flex-col rounded-xl overflow-y-auto">
+    <div v-if="showMsg"
+      class="hidden sm:block absolute bottom-20 right-6 max-w-md mx-auto max-h-[70%] bg-white flex flex-col rounded-xl overflow-y-auto">
       <messages-com />
     </div>
 
+    <details-box class="hidden sm:flex" :is-open="isShowProfile" maxW="md">
+      <button @click="isShowProfile = false" class="w-full text-end text-2xl">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <UserDetails/>
+    </details-box>
   </div>
 </template>
 
 
 
 <script>
+import DetailsBox from '@/components/DetailsBox.vue';
+import UserDetails from '@/components/UserDetails.vue';
 import MessagesCom from '@/components/MessagesCom.vue';
 
 
 export default {
   name: 'NavigatePage',
-  components: { MessagesCom },
+  components: { MessagesCom, DetailsBox, UserDetails },
   data() {
     return {
       rideType: 'split',
       showMsg: false,
+      isShowProfile: true,
     };
   },
   mounted() {

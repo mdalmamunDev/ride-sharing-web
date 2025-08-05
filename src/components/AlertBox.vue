@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isAlert" class="fixed inset-0 z-50 flex items-center justify-center bg-overlay">
+  <div v-if="isAlert" class="fixed inset-0 z-50 flex items-center justify-center bg-overlay overflow-auto">
     <div class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-40"></div>
 
     <!-- Modal Container -->

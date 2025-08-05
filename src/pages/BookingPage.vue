@@ -275,106 +275,106 @@
   </AlertBox>
 
   <!-- box ride view -->
-  <div v-if="isOpenRideViewBox" class="fixed inset-0 z-50 flex items-center justify-center bg-overlay">
-    <div class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-40"></div>
-    <!-- Modal Container -->
-    <div class="relative z-50 w-full max-w-lg mx-4">
-      <div class="bg-white rounded-2xl p-8 shadow-2xl text-center transform transition-all duration-300 scale-100">
-
-        <!-- Header -->
-        <div className="px-6 py-4">
-          <div className="flex justify-between items-center">
-            <div>
-              <span className="text-sm font-bold">Status:</span>
-              <span className="ml-2 text-g font-medium">Pending Confirmation</span>
-            </div>
-            <div className="text-right">
-              <span className="text-sm font-bold">Booking ID:</span>
-              <span className="ml-2 font-mono text-sm text-g">SR128656</span>
-            </div>
-          </div>
+  <details-box :is-open="isOpenRideViewBox">
+    <!-- Header -->
+    <div className="px-6 py-4">
+      <div className="flex justify-between items-center">
+        <div>
+          <span className="text-sm font-bold">Status:</span>
+          <span className="ml-2 text-g font-medium">Pending Confirmation</span>
         </div>
-
-        <!-- Route Information -->
-        <div className="px-6 py-4 bg-blue-50 rounded-xl mb-3 bg-blue-50">
-          <div className="flex">
-            <svg width="24" height="76" viewBox="0 0 24 76" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M19.2901 9.17005L7.70015 3.07005C4.95015 1.62005 1.96015 4.55005 3.35015 7.33005L4.97015 10.57C5.42015 11.47 5.42015 12.53 4.97015 13.43L3.35015 16.67C1.96015 19.45 4.95015 22.37 7.70015 20.93L19.2901 14.83C21.5701 13.63 21.5701 10.37 19.2901 9.17005Z" stroke="#333333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M12 24L12 52" stroke="#858585" stroke-linecap="round" stroke-dasharray="4 4"/>
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M4.23926 62.3912C4.25367 58.1506 7.70302 54.7247 11.9436 54.7391C16.1842 54.7535 19.6102 58.2028 19.5958 62.4434V62.5304C19.5436 65.2869 18.0045 67.8347 16.1175 69.826C15.0384 70.9466 13.8333 71.9387 12.5262 72.7825C12.1767 73.0848 11.6583 73.0848 11.3088 72.7825C9.36033 71.5143 7.65019 69.9131 6.25665 68.0521C5.01461 66.4293 4.30942 64.4597 4.23926 62.4173L4.23926 62.3912Z" stroke="#333333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <circle cx="11.9179" cy="62.539" r="2.46087" stroke="#333333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-
-             <!-- Address Text -->
-            <div className="relative h-[76px] w-full ms-2 overflow-hidden">
-              <p className="text-gray-800 absolute top-0 truncate whitespace-nowrap">1901 Thornridge Cir, Shiloh</p>
-              <p className="text-gray-800 absolute bottom-0 truncate whitespace-nowrap">4140 Parker Rd, Allentown, New Mexico</p>
-            </div>
-          </div>
+        <div className="text-right">
+          <span className="text-sm font-bold">Booking ID:</span>
+          <span className="ml-2 font-mono text-sm text-g">SR128656</span>
         </div>
-
-        <!-- Trip Details -->
-        <div className="px-6 py-4 bg-blue-50 rounded-xl mb-3">
-          <div className="space-y-3">
-            <div className="flex justify-between">
-              <span className="text-sm font-bold">Date</span>
-              <span className="text-sm text-gray-800">25 May 2025</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-sm font-bold">Time</span>
-              <span className="text-sm text-gray-800">11:00 AM</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-sm font-bold">Passenger</span>
-              <span className="text-sm text-gray-800">2</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-sm font-bold">Luggages</span>
-              <span className="text-sm text-gray-800">1 Bag (10kg)</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Pricing Breakdown -->
-        <div className="px-6 py-4 bg-blue-50 rounded-xl mb-3">
-          <div className="space-y-3">
-            <div className="flex justify-between">
-              <span className="text-sm font-bold">Base Fare</span>
-              <span className="text-sm text-gray-800">$6.99</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-sm font-bold">Booking Fee</span>
-              <span className="text-sm text-gray-800">$2.13</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-sm font-bold">Minimum Fare</span>
-              <span className="text-sm text-gray-800">$7.00</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-sm font-bold">Cancellation Fee</span>
-              <span className="text-sm text-gray-800">$6.00</span>
-            </div>
-            <div className="border-t pt-3 flex justify-between">
-              <span className="font-semibold text-gray-800">Total Fare</span>
-              <span className="font-semibold text-blue-600 text-lg">$65.90</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Action Button -->
-        <button @click="isOpenRideViewBox = false; $router.push('/navigate')"
-          class="w-full py-3 btn-g">
-          View Your Ride
-        </button>
       </div>
     </div>
-  </div>
+
+    <!-- Route Information -->
+    <div className="px-6 py-4 bg-blue-50 rounded-xl mb-3 bg-blue-50">
+      <div className="flex">
+        <svg width="24" height="76" viewBox="0 0 24 76" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M19.2901 9.17005L7.70015 3.07005C4.95015 1.62005 1.96015 4.55005 3.35015 7.33005L4.97015 10.57C5.42015 11.47 5.42015 12.53 4.97015 13.43L3.35015 16.67C1.96015 19.45 4.95015 22.37 7.70015 20.93L19.2901 14.83C21.5701 13.63 21.5701 10.37 19.2901 9.17005Z"
+            stroke="#333333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M12 24L12 52" stroke="#858585" stroke-linecap="round" stroke-dasharray="4 4" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M4.23926 62.3912C4.25367 58.1506 7.70302 54.7247 11.9436 54.7391C16.1842 54.7535 19.6102 58.2028 19.5958 62.4434V62.5304C19.5436 65.2869 18.0045 67.8347 16.1175 69.826C15.0384 70.9466 13.8333 71.9387 12.5262 72.7825C12.1767 73.0848 11.6583 73.0848 11.3088 72.7825C9.36033 71.5143 7.65019 69.9131 6.25665 68.0521C5.01461 66.4293 4.30942 64.4597 4.23926 62.4173L4.23926 62.3912Z"
+            stroke="#333333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          <circle cx="11.9179" cy="62.539" r="2.46087" stroke="#333333" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
+
+        <!-- Address Text -->
+        <div className="relative h-[76px] w-full ms-2 overflow-hidden">
+          <p className="text-gray-800 absolute top-0 truncate whitespace-nowrap">1901 Thornridge Cir, Shiloh</p>
+          <p className="text-gray-800 absolute bottom-0 truncate whitespace-nowrap">4140 Parker Rd, Allentown, New
+            Mexico
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trip Details -->
+    <div className="px-6 py-4 bg-blue-50 rounded-xl mb-3">
+      <div className="space-y-3">
+        <div className="flex justify-between">
+          <span className="text-sm font-bold">Date</span>
+          <span className="text-sm text-gray-800">25 May 2025</span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-sm font-bold">Time</span>
+          <span className="text-sm text-gray-800">11:00 AM</span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-sm font-bold">Passenger</span>
+          <span className="text-sm text-gray-800">2</span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-sm font-bold">Luggages</span>
+          <span className="text-sm text-gray-800">1 Bag (10kg)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pricing Breakdown -->
+    <div className="px-6 py-4 bg-blue-50 rounded-xl mb-3">
+      <div className="space-y-3">
+        <div className="flex justify-between">
+          <span className="text-sm font-bold">Base Fare</span>
+          <span className="text-sm text-gray-800">$6.99</span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-sm font-bold">Booking Fee</span>
+          <span className="text-sm text-gray-800">$2.13</span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-sm font-bold">Minimum Fare</span>
+          <span className="text-sm text-gray-800">$7.00</span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-sm font-bold">Cancellation Fee</span>
+          <span className="text-sm text-gray-800">$6.00</span>
+        </div>
+        <div className="border-t pt-3 flex justify-between">
+          <span className="font-semibold text-gray-800">Total Fare</span>
+          <span className="font-semibold text-blue-600 text-lg">$65.90</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Button -->
+    <button @click="isOpenRideViewBox = false; $router.push('/navigate')" class="w-full py-3 btn-g">
+      View Your Ride
+    </button>
+  </details-box>
   <!-- box ride view end -->
 
 </template>
 
 <script>
 import AlertBox from '@/components/AlertBox.vue';
+import DetailsBox from '@/components/DetailsBox.vue';
 import ModalComp from '@/components/ModalComp.vue';
 
 export default {
@@ -382,6 +382,7 @@ export default {
   components: {
     ModalComp,
     AlertBox,
+    DetailsBox,
   },
   data() {
     return {

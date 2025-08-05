@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-overlay">
+  <div v-if="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-overlay overflow-auto">
     <div class="bg-white rounded-lg shadow-lg w-full max-w-xl p-1 sm:p-6 relative">
       <div v-if="showHeader" class="flex items-center justify-between mb-4">
           <span class="font-semibold text-lg">{{ title }}</span>
