@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isAlert" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+  <div v-if="isAlert" class="fixed inset-0 z-50 flex items-center justify-center bg-overlay">
     <div class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-40"></div>
 
     <!-- Modal Container -->
@@ -13,9 +13,7 @@
         <slot></slot>
 
         <!-- Action Button -->
-        <button @click="closeAlert(); $emit('ok')" class="w-full py-3 bg-g text-white font-semibold rounded-full transition-all duration-200 transform hover:scale-105">
-          {{ okBtnText }}
-        </button>
+        <button @click="closeAlert(); $emit('ok')" class="w-full py-3 btn-g">{{ okBtnText }}</button>
       </div>
     </div>
   </div>

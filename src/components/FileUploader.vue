@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="cursor-pointer">
     <div @click="triggerFileInput">
       <slot></slot>
     </div>

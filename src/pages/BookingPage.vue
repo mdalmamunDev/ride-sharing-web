@@ -193,10 +193,7 @@
           </div>
         </div>
 
-        <button type="submit"
-          class="w-full py-3 rounded-full bg-g text-white font-semibold shadow-md hover:opacity-90 transition">
-          Complete Your Booking
-        </button>
+        <button type="submit" class="w-full py-3 btn-g">Complete Your Booking</button>
       </form>
 
       <p class="mt-10 text-sm text-center">
@@ -278,7 +275,7 @@
   </AlertBox>
 
   <!-- box ride view -->
-  <div v-if="isOpenRideViewBox" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+  <div v-if="isOpenRideViewBox" class="fixed inset-0 z-50 flex items-center justify-center bg-overlay">
     <div class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-40"></div>
     <!-- Modal Container -->
     <div class="relative z-50 w-full max-w-lg mx-4">
@@ -366,7 +363,7 @@
 
         <!-- Action Button -->
         <button @click="isOpenRideViewBox = false; $router.push('/navigate')"
-          class="w-full py-3 bg-g text-white font-semibold rounded-full transition-all duration-200 transform hover:scale-105">
+          class="w-full py-3 btn-g">
           View Your Ride
         </button>
       </div>

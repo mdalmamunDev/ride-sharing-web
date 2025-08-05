@@ -22,6 +22,14 @@
     background: linear-gradient(to right, #56E1E8, #5C58EB, #BA63FF);
 }
 
+.bg-overlay {
+    background: linear-gradient(to bottom, 
+      rgba(86, 225, 232, 0.6), 
+      rgba(92, 88, 235, 0.6), 
+      rgba(186, 99, 255, 0.6)
+    );
+}
+
 .text-1 {
     color: #5C58EB;
 }
@@ -30,6 +38,21 @@
   background: linear-gradient(to right, #5C58EB, #BA63FF);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.btn-g {
+    background: linear-gradient(to right, #56E1E8, #5C58EB, #BA63FF);
+    transition: all 0.3s ease;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 9999px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.btn-g:hover {
+    filter: brightness(1.1);
 }
 
 

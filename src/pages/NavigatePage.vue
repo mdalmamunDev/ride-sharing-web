@@ -53,7 +53,7 @@
       </div>
 
       <!-- Chat Mobile -->
-      <router-link to="/messages" class="sm:hidden bg-g w-full text-white rounded-full p-3 flex items-center justify-center gap-4">
+      <router-link to="/messages" class="btn-g sm:hidden w-full p-3 flex items-center justify-center gap-4">
         <i class="fa-solid fa-comment-dots text-3xl"></i> Chat with your driver
       </router-link>
     </div>
@@ -64,8 +64,7 @@
       @click="showMsg = !showMsg">
       <i class="fa-solid fa-comment-dots"></i>
     </button>
-    <div v-if="showMsg"
-      class="absolute bottom-20 right-6 max-w-md mx-auto max-h-[70%] bg-white flex flex-col rounded-xl">
+    <div v-if="showMsg" class="hidden sm:block absolute bottom-20 right-6 max-w-md mx-auto max-h-[70%] bg-white flex flex-col rounded-xl overflow-y-auto">
       <messages-com />
     </div>
 

@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="">
     <!-- Chat Messages Container -->
-    <div class="flex-1 p-4 space-y-3 overflow-y-auto">
+    <div class="flex-1 p-4 space-y-3">
       <!-- Incoming message -->
       <div class="flex justify-end">
         <div class="bg-purple-500 text-white rounded-xl rounded-br-none px-6 py-3 max-w-xs shadow-sm">
@@ -68,14 +68,13 @@
           <input type="text" placeholder="Chat with your driver"
             class="w-full px-4 py-3 bg-gray-50 rounded-full text-sm text-gray-600 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent pr-12">
           <!-- Attachment Icon -->
-          <button class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
+          <file-uploader class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
             <i class="fas fa-paperclip text-lg"></i>
-          </button>
+          </file-uploader>
         </div>
 
         <!-- Voice Message Button -->
-        <button
-          class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">
+        <button class="btn-g w-12 h-12 flex items-center justify-center shadow-lg">
           <i class="fa-solid fa-paper-plane"></i>
         </button>
       </div>
@@ -84,8 +83,11 @@
 </template>
 
 <script>
+import FileUploader from './FileUploader.vue';
+
 export default {
   name: "MessagesCom",
+  components: {FileUploader},
   props: {
     show: {
       type: Boolean,
