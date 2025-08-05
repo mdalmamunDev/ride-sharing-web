@@ -30,5 +30,8 @@ export const mutations = {
     },
     setIsLoading(state, data) {
         state.isLoading = data;
-    }
+    },
+    setIsAlert(state, data) {
+        state.isAlert = data;
+    },
 };

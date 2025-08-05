@@ -28,5 +28,8 @@ export const getters = {
     },
     isLoading(state) {
         return state.isLoading;
-    }
+    },
+    isAlert(state) {
+        return state.isAlert;
+    },
 };

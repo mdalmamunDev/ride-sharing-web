@@ -9,4 +9,5 @@ export const state = {
     filters: {},
     isModalOpen: false,
     isLoading: false,
+    isAlert: false,
 };

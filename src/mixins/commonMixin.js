@@ -68,6 +68,9 @@ export default {
     isModalOpen() {
       return this.$store.getters.isModalOpen;
     },
+    isAlert() {
+      return this.$store.getters.isAlert;
+    },
 
     isLoading() {
       return this.$store.getters.isLoading;
@@ -108,6 +111,12 @@ export default {
     closeModal() {
       this.$store.commit('setIsModalOpen', false);
       this.$store.commit('setFormData', {});
+    },
+    openAlert() {
+      this.$store.commit('setIsAlert', true);
+    },
+    closeAlert() {
+      this.$store.commit('setIsAlert', false);
     },
     formatDate(date) {
       if (!date) return date;
