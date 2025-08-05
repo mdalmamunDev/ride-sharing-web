@@ -1,5 +1,5 @@
 <template>
-  <div class="sm:relative h-screen w-full overflow-auto">
+  <div class="sm:relative h-screen w-full overflow-y-auto">
     <!-- Map Placeholder -->
     <div class="sm:absolute h-[50%] sm:h-full inset-0">
       <div class="w-full h-full bg-gray-300 flex items-center justify-center text-lg text-gray-500">
@@ -8,9 +8,10 @@
     </div>
 
     <!-- Driver Details Bottom Card -->
-    <div class="sm:absolute bottom-10 left-10  w-[100%] max-w-5xl bg-white sm:shadow-xl rounded-2xl p-6 grid grid-cols-1 sm:grid-cols-9 gap-4">
+    <div
+      class="sm:absolute bottom-10 left-10  w-[100%] sm:w-[90%] max-w-5xl bg-white sm:shadow-xl rounded-2xl p-6 grid grid-cols-1 sm:grid-cols-9 gap-0 sm:gap-4">
       <!-- Left Section -->
-      <div class="sm:col-span-2 flex sm:flex-col justify-between mb-4 sm:mb-0">
+      <div class="sm:col-span-2 flex sm:flex-col justify-between mb-8 sm:mb-0 border-b sm:border-none pb-3 sm:pb-0">
         <p class="text-lg text-gray-500 font-bold ">Arriving in <span class="text-g">10 Mins</span></p>
         <p class="text-lg">10:30 PM</p>
         <div class="p-2 rounded-2xl bg-purple-100 hidden sm:block">
@@ -28,7 +29,9 @@
         </div>
         <img src="/images/car.png" alt="Car" class="w-28 mt-1" />
       </div>
-      <div className="flex sm:col-span-4 p-6 rounded-2xl bg-blue-100">
+
+      <!-- Right Section -->
+      <div className="flex sm:col-span-4 p-6 rounded-2xl sm:bg-blue-100">
         <svg width="24" height="76" viewBox="0 0 24 76" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M19.2901 9.17005L7.70015 3.07005C4.95015 1.62005 1.96015 4.55005 3.35015 7.33005L4.97015 10.57C5.42015 11.47 5.42015 12.53 4.97015 13.43L3.35015 16.67C1.96015 19.45 4.95015 22.37 7.70015 20.93L19.2901 14.83C21.5701 13.63 21.5701 10.37 19.2901 9.17005Z"
@@ -48,25 +51,40 @@
             Mexico</p>
         </div>
       </div>
+
+      <!-- Chat Mobile -->
+      <router-link to="/messages" class="sm:hidden bg-g w-full text-white rounded-full p-3 flex items-center justify-center gap-4">
+        <i class="fa-solid fa-comment-dots text-3xl"></i> Chat with your driver
+      </router-link>
     </div>
 
-    <!-- Chat Button -->
+    <!-- Chat Web -->
     <button
-      class="absolute bottom-6 right-6 bg-g text-white text-xl p-2 xl:text-3xl xl:p-3 shadow-lg rounded-full flex items-center gap-2">
+      class="hidden sm:block absolute bottom-6 right-6 bg-g text-white text-2xl w-[50px] h-[50px] shadow-lg rounded-full flex items-center gap-2"
+      @click="showMsg = !showMsg">
       <i class="fa-solid fa-comment-dots"></i>
     </button>
+    <div v-if="showMsg"
+      class="absolute bottom-20 right-6 max-w-md mx-auto max-h-[70%] bg-white flex flex-col rounded-xl">
+      <messages-com />
+    </div>
+
   </div>
 </template>
 
 
+
 <script>
+import MessagesCom from '@/components/MessagesCom.vue';
+
 
 export default {
   name: 'NavigatePage',
+  components: { MessagesCom },
   data() {
     return {
       rideType: 'split',
-      isOpenRideViewBox: false,
+      showMsg: false,
     };
   },
   mounted() {
@@ -76,32 +94,7 @@ export default {
     })
   },
   methods: {
-    submitBooking() {
-      console.log('Booking Submitted:', {
-        rideType: this.rideType,
-        ...this.form,
-      });
-      this.openModal();
-    },
-    increasePassengers() {
-      this.formData.passengers++;
-    },
-    decreasePassengers() {
-      if (this.formData.passengers > 1) {
-        this.formData.passengers--;
-      }
-    },
-    handleBookingOk() {
-      this.isOpenRideViewBox = true;
-    },
-    handleViewRideOk() {
-      this.isOpenRideViewBox = false;
-    }
-  },
-  watch: {
-    rideType(newVal, oldVal) {
-      console.log(`Switched from ${oldVal} to ${newVal} ride`);
-    },
+    //
   },
 };
 </script>

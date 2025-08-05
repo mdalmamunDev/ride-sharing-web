@@ -46,7 +46,7 @@
     </header>
 
     <!-- mobile nav -->
-    <div class="sm:hidden flex justify-between p-5 w-full absolute top-0 left-0 z-50">
+    <div v-if="!['/messages'].includes($route.path)" class="sm:hidden flex justify-between p-5 w-full absolute top-0 left-0 z-50">
       <div class="flex items-center">
         <div class="bg-g w-10 h-10 rounded-full flex items-center justify-center text-white me-4">
           <i class="fa-solid fa-bars"></i>

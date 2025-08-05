@@ -365,7 +365,7 @@
         </div>
 
         <!-- Action Button -->
-        <button @click="isOpenRideViewBox = false"
+        <button @click="isOpenRideViewBox = false; $router.push('/navigate')"
           class="w-full py-3 bg-g text-white font-semibold rounded-full transition-all duration-200 transform hover:scale-105">
           View Your Ride
         </button>
