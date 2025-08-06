@@ -3,26 +3,32 @@
     <!-- Map Placeholder -->
     <div class="sm:absolute h-[50%] sm:h-full inset-0">
       <div class="w-full h-full bg-gray-300 flex items-center justify-center text-lg text-gray-500">
-        Google Map will be rendered here
+        <!-- Google Map will be rendered here -->
+        <img class="w-full h-full object-cover" src="/images/map-placeholder2.png" alt="">
       </div>
     </div>
 
     <!-- Driver Details Bottom Card -->
     <div
-      class="sm:absolute bottom-10 left-10  w-[100%] sm:w-[90%] max-w-5xl bg-white sm:shadow-xl rounded-2xl p-6 grid grid-cols-1 sm:grid-cols-9 gap-0 sm:gap-4">
+      class=" bg-glass sm:absolute bottom-10 left-10  w-[100%] sm:w-[90%] max-w-5xl sm:shadow-xl rounded-2xl p-6 grid grid-cols-1 sm:grid-cols-9 gap-0 sm:gap-4">
       <!-- Left Section -->
       <div class="sm:col-span-2 flex sm:flex-col justify-between mb-8 sm:mb-0 border-b sm:border-none pb-3 sm:pb-0">
         <p class="text-lg text-gray-500 font-bold ">Arriving in <span class="text-g">10 Mins</span></p>
-        <p class="text-lg">10:30 PM</p>
-        <div class="p-2 rounded-2xl bg-purple-100 hidden sm:block">
+        <p class="text-lg flex gap-1 items-center">10:30 PM |
+          <button @click="isShowComplete = true"
+            class="bg-green-100/50 rounded border border-green-500 px-1 text-green-600 font-bold hover:bg-green-200 duration-200">
+            Complete
+          </button>
+        </p>
+        <div class="p-2 rounded-2xl bg-purple-100/50 hidden sm:block">
           <p class="text-gray-500 text-xs mb-2"><i class="fa-regular fa-envelope text-g"></i> janecooper@email.com</p>
           <p class="text-gray-500 text-xs"><i class="fa-solid fa-phone-volume text-g"></i> +1 234 567 8901</p>
         </div>
       </div>
 
       <!-- Middle Section -->
-      <div class="sm:col-span-3 p-6 rounded-2xl bg-purple-100 flex items-center justify-between">
-        <button @click="isShowProfile = true" class="hidden sm:flex items-center justify-center flex-col">
+      <div class="sm:col-span-3 p-6 rounded-2xl bg-purple-100/50 flex items-center justify-between">
+        <button @click="isShowUser = true" class="hidden sm:flex items-center justify-center flex-col">
           <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Jane Cooper"
             class="w-16 h-16 rounded-full object-cover bg-g p-0.5" />
           <h3 class="text-sm font-semibold mt-1">Jane Cooper</h3>
@@ -36,7 +42,7 @@
       </div>
 
       <!-- Right Section -->
-      <div className="flex sm:col-span-4 p-6 rounded-2xl sm:bg-blue-100">
+      <div className="flex sm:col-span-4 p-6 rounded-2xl sm:bg-blue-100/50">
         <svg width="24" height="76" viewBox="0 0 24 76" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M19.2901 9.17005L7.70015 3.07005C4.95015 1.62005 1.96015 4.55005 3.35015 7.33005L4.97015 10.57C5.42015 11.47 5.42015 12.53 4.97015 13.43L3.35015 16.67C1.96015 19.45 4.95015 22.37 7.70015 20.93L19.2901 14.83C21.5701 13.63 21.5701 10.37 19.2901 9.17005Z"
@@ -70,15 +76,86 @@
       <i class="fa-solid fa-comment-dots"></i>
     </button>
     <div v-if="showMsg"
-      class="hidden sm:block absolute bottom-20 right-6 max-w-md mx-auto max-h-[70%] bg-white flex flex-col rounded-xl overflow-y-auto">
+      class="hidden sm:block absolute bottom-20 right-6 max-w-md mx-auto h-[70%] bg-white flex flex-col rounded-xl">
       <messages-com />
     </div>
 
-    <details-box class="hidden sm:flex" :is-open="isShowProfile" maxW="md">
-      <button @click="isShowProfile = false" class="w-full text-end text-2xl">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-      <UserDetails/>
+    <!-- user details -->
+    <details-box class="hidden sm:flex" :is-open="isShowUser" @close="isShowUser = false" maxW="md">
+      <UserDetails />
+    </details-box>
+
+    <!-- mark as completed -->
+    <details-box :is-open="isShowComplete" max-w="sm" @close="isShowComplete = false" title="Fare Breakdown">
+      <!-- Fare Items -->
+      <div class="space-y-3">
+        <div class="flex justify-between items-center">
+          <span class="text-gray-700 text-sm">Base Fare</span>
+          <span class="text-gray-900 text-sm font-medium">${{ 99 }}</span>
+        </div>
+
+        <div class="flex justify-between items-center">
+          <span class="text-gray-700 text-sm">Booking Fee</span>
+          <span class="text-gray-900 text-sm font-medium">${{ 99 }}</span>
+        </div>
+
+        <div class="flex justify-between items-center">
+          <span class="text-gray-700 text-sm">Minimum Fare</span>
+          <span class="text-gray-900 text-sm font-medium">${{ 99 }}</span>
+        </div>
+
+        <div class="flex justify-between items-center">
+          <span class="text-gray-700 text-sm">Cancellation Fee</span>
+          <span class="text-gray-900 text-sm font-medium">${{ 99 }}</span>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <hr class="my-4 border-gray-200">
+
+      <!-- Total -->
+      <div class="flex justify-between items-center">
+        <span class="text-blue-600 text-sm font-medium">Total Fare</span>
+        <span class="text-blue-600 text-sm font-semibold">${{ 99 }}</span>
+      </div>
+
+      <button @click="isShowComplete = false, isShowReview = true" class="btn-g w-full mt-10">Mark As Completed</button>
+    </details-box>
+
+    <!-- revive user -->
+    <details-box :is-open="isShowReview" max-w="sm" :show-close-btn="false" title="How was your ride?">
+      <!-- Profile Section -->
+      <div class="flex flex-col items-center mb-6">
+        <!-- Profile Image -->
+        <div class="w-16 h-16 rounded-full overflow-hidden mb-3">
+          <img src="	https://randomuser.me/api/portraits/women/44.jpg" alt="alt" class="w-full h-full object-cover" />
+        </div>
+
+        <!-- Driver Name -->
+        <h3 class="text-lg font-medium text-gray-900 mb-3">{{ driverName }}</h3>
+
+        <!-- Star Rating -->
+        <div class="flex items-center space-x-1 mb-2 text-xl">
+          <i v-for="i in 4" :key="i" class="fa fa-star text-orange-500"></i>
+          <i class="fa-regular fa-star"></i>
+        </div>
+      </div>
+
+      <!-- Comment Section -->
+      <div class="relative">
+        <!-- Label and Character Count -->
+        <div class="flex justify-between items-center mb-2">
+          <label class="text-sm text-gray-600">Write your comment</label>
+          <span class="text-xs text-gray-400">20/300</span>
+        </div>
+
+        <!-- Text Area -->
+        <textarea v-model="comment" placeholder="This ride was awesome!"
+          class="w-full h-20 p-3 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          maxlength="300"></textarea>
+      </div>
+
+      <button @click="isShowReview = false" class="btn-g w-full mt-3">Submit Review</button>
     </details-box>
   </div>
 </template>
@@ -98,7 +175,9 @@ export default {
     return {
       rideType: 'split',
       showMsg: false,
-      isShowProfile: true,
+      isShowUser: false,
+      isShowComplete: false,
+      isShowReview: false,
     };
   },
   mounted() {

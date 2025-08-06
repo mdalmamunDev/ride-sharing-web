@@ -16,6 +16,7 @@ import BookingPage from "@/pages/BookingPage.vue";
 import NavigatePage from "@/pages/NavigatePage.vue";
 import MessagePage from "@/pages/MessagePage.vue";
 import UserDetailsPage from "@/pages/UserDetailsPage.vue";
+import MyRidesPage from "@/pages/MyRidesPage.vue";
 
 const routes = [
   {
@@ -37,7 +38,7 @@ const routes = [
     children: [
       { path: "", component: BookingPage,  meta: { title: "Book Ride", dataUrl: "booking" } },
       { path: "navigate", component: NavigatePage,  meta: { title: "Navigate", dataUrl: "navigate" } },
-      { path: "my-rides", component: BookingPage, meta: { title: "Client Accounts", dataUrl: "clients" } },
+      { path: "my-rides", component: MyRidesPage, meta: { title: "Client Accounts", dataUrl: "clients" } },
       { path: "support", component: BookingPage, meta: { title: "Equipments", dataUrl: "equipments" } },
       { path: "messages", component: MessagePage, meta: { title: "Chat", dataUrl: "messages" } },
       { path: "user-details", component: UserDetailsPage, meta: { title: "User Details", dataUrl: "users" } },

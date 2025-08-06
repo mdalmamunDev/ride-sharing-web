@@ -50,7 +50,7 @@
     </div>
 
     <!-- Review 1 -->
-    <div v-for="(item, index) in 2" :key="index" class="bg-blue-50 rounded-xl p-4 mb-4">
+    <div v-for="(item, index) in 20" :key="index" class="bg-blue-50 rounded-xl p-4 mb-4">
       <div class="flex items-start justify-between mb-3">
         <div class="flex items-center">
           <div class="w-10 h-10 rounded-full overflow-hidden bg-gray-300 mr-3">

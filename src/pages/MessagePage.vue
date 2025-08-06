@@ -1,7 +1,7 @@
 <template>
-  <div class="min-h-screen flex flex-col bg-white">
+  <div class="h-screen flex flex-col bg-white">
     <!-- Fixed Top Header -->
-    <div class="fixed top-0 left-0 right-0 sm:hidden flex justify-between p-3 bg-g text-white rounded-b-xl shadow-lg z-50">
+    <div class=" sm:hidden flex justify-between p-3 bg-g text-white rounded-b-xl shadow-lg z-50">
       <div class="flex items-center">
         <button @click="$router.back()" class="w-10 h-10 rounded-full flex items-center justify-center me-4">
           <i class="fas fa-chevron-left"></i>
@@ -19,7 +19,7 @@
     </div>
 
     <!-- Scrollable Messages Section -->
-    <div class="flex-1 mt-[88px] overflow-y-auto flex items-end">
+    <div class="flex-1 overflow-y-auto flex items-end">
       <!-- Adjust `mt-[88px]` based on your header height -->
       <messages-com class="w-full"></messages-com>
     </div>

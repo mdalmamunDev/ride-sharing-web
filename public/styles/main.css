@@ -29,6 +29,13 @@
       rgba(186, 99, 255, 0.6)
     );
 }
+.bg-glass {
+  background: rgba(255, 255, 255, 0.2); /* semi-transparent white */
+  backdrop-filter: blur(10px);         /* blur background behind */
+  -webkit-backdrop-filter: blur(10px); /* Safari support */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* subtle border */
+  border-radius: 12px;                 /* optional: rounded corners */
+}
 
 .text-1 {
     color: #5C58EB;
