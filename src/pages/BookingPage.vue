@@ -16,7 +16,7 @@
     </div>
 
     <!-- Form Panel - Shows second on mobile, first on desktop -->
-    <div class="w-full md:w-1/2 p-8 md:p-16 sm:mt-8 order-2 md:order-1">
+    <div class="w-full h-full overflow-y-auto md:w-1/2 p-8 md:p-16 order-2 md:order-1">
       <h1 class="hidden sm:block text-3xl md:text-4xl font-bold mb-4 text-center">Let's Book Your Ride</h1>
 
       <!-- Tabs -->
@@ -275,7 +275,7 @@
   </AlertBox>
 
   <!-- box ride view -->
-  <details-box :is-open="isOpenRideViewBox">
+  <details-box :is-open="isOpenRideViewBox" :show-close-btn="false">
     <!-- Header -->
     <div className="px-6 py-4">
       <div className="flex justify-between items-center">

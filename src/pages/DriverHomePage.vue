@@ -129,86 +129,32 @@
     </div>
   </div>
 
-  <ModalComp title="Confirm To Payment" submitBtnText="Pay Now" @submit="openAlert">
-    <h3 class="text-lg font-semibold text-gray-800 mb-6">Overview</h3>
-
-    <div class="space-y-4">
-      <div class="flex justify-between items-center">
-        <span class="text-gray-600">Ride Price</span>
-        <span class="text-blue-500 font-semibold">$40</span>
-      </div>
-
-      <div class="flex justify-between items-center">
-        <span class="text-gray-600">Car Type</span>
-        <span class="text-gray-800 font-medium">Sedan (4 Seater)</span>
-      </div>
-
-      <div class="flex justify-between items-center">
-        <span class="text-gray-600">Luggage Type</span>
-        <span class="text-gray-800 font-medium">Type</span>
-      </div>
-
-      <div class="flex justify-between items-center">
-        <span class="text-gray-600">Weight</span>
-        <span class="text-gray-800 font-medium">10 Kg</span>
-      </div>
-
-      <div class="flex justify-between items-center">
-        <span class="text-gray-600">Pickup time</span>
-        <span class="text-gray-800 font-medium">30 Min</span>
-      </div>
-
-      <div class="flex justify-between items-center">
-        <span class="text-gray-600">Car Seats</span>
-        <span class="text-gray-800 font-medium">4</span>
-      </div>
-
-      <div class="flex justify-between items-center pt-2">
-        <span class="text-gray-600">Your Pickup time</span>
-        <span class="text-gray-800 font-medium">10:30 PM</span>
-      </div>
-
-      <hr class="my-4">
-
-      <div class="flex justify-between items-center text-lg font-semibold">
-        <span class="text-gray-800">Total Amount</span>
-        <span class="text-blue-500">$40</span>
-      </div>
-    </div>
-
-    <!-- Disclaimer -->
-    <div class="mt-8 p-4 bg-blue-50 rounded-xl">
-      <h4 class="font-semibold text-gray-800 mb-2">Disclaimer:</h4>
-      <p class="text-sm font-bold leading-relaxed">
-        Payment must be made at least 2 hours in advance.
-        Cancellation is allowed up to 1 hour before the scheduled
-        pickup. Within 5-24 hours get 50% and you will Get driver is
-        on the way or not message.
-      </p>
-    </div>
-  </ModalComp>
-
-  <AlertBox ok-btn-text="View Your Booking">
-
-    <!-- Booking ID -->
-    <div class="mb-8 flex gap-2 justify-center text-sm">
-      <span class="font-bold">Booking ID:</span>
-      <span class="text-g">#123456</span>
-    </div>
-  </AlertBox>
+  <AlertBox ok-btn-text="View The Map" @ok="$router.push('/navigate'); closeAlert()" title="Ride Accepted"
+    message="Reach the location by 10:25 PM to pick up the passenger" />
 
   <!-- box ride view -->
-  <details-box :is-open="isOpenRideViewBox">
-    <!-- Header -->
-    <div className="px-6 py-4">
-      <div className="flex justify-between items-center">
-        <div>
-          <span className="text-sm font-bold">Status:</span>
-          <span className="ml-2 text-g font-medium">Pending Confirmation</span>
+  <details-box :is-open="isOpenRideViewBox" @close="isOpenRideViewBox = false">
+    <!-- Profile Header -->
+    <div class="text-center pb-6">
+      <div class="w-28 h-28 mx-auto mb-4 rounded-full overflow-hidden bg-gray-200">
+        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
+          alt="Jane Cooper" class="w-full h-full object-cover">
+      </div>
+
+      <div class="mb-4 flex items-center justify-center gap-3">
+        <h1 class="text-2xl font-semibold text-gray-800">Jane Cooper</h1>
+        <span class=""><i class="fa fa-star text-orange-500 me-1"></i>4.9</span>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="flex justify-between items-center space-x-8">
+        <div class="flex items-center text-purple-600">
+          <i class="fas fa-envelope text-sm mr-2"></i>
+          <span class="text-sm">janecooper@gmail.com</span>
         </div>
-        <div className="text-right">
-          <span className="text-sm font-bold">Booking ID:</span>
-          <span className="ml-2 font-mono text-sm text-g">SR128656</span>
+        <div class="flex items-center text-purple-600">
+          <i class="fas fa-phone text-sm mr-2"></i>
+          <span class="text-sm">+1 234 567 8901</span>
         </div>
       </div>
     </div>
@@ -239,56 +185,41 @@
     </div>
 
     <!-- Trip Details -->
-    <div className="px-6 py-4 bg-blue-50 rounded-xl mb-3">
-      <div className="space-y-3">
-        <div className="flex justify-between">
-          <span className="text-sm font-bold">Date</span>
-          <span className="text-sm text-gray-800">25 May 2025</span>
-        </div>
-        <div className="flex justify-between">
-          <span className="text-sm font-bold">Time</span>
-          <span className="text-sm text-gray-800">11:00 AM</span>
-        </div>
-        <div className="flex justify-between">
-          <span className="text-sm font-bold">Passenger</span>
-          <span className="text-sm text-gray-800">2</span>
-        </div>
-        <div className="flex justify-between">
-          <span className="text-sm font-bold">Luggages</span>
-          <span className="text-sm text-gray-800">1 Bag (10kg)</span>
-        </div>
+    <div className="px-6 bg-blue-50 rounded-xl mb-3">
+      <div className="flex justify-between py-3 border-b">
+        <span className="text-sm font-bold">Ride Price</span>
+        <span className="text-sm text-purple-600 font-bold">$60</span>
+      </div>
+      <div className="flex justify-between py-3 border-b">
+        <span className="text-sm font-bold">ID</span>
+        <span className="text-sm text-gray-900">IDHERE77</span>
+      </div>
+      <div className="flex justify-between py-3 border-b">
+        <span className="text-sm font-bold">Date</span>
+        <span className="text-sm text-gray-800">25 May 2025</span>
+      </div>
+      <div className="flex justify-between py-3 border-b">
+        <span className="text-sm font-bold">Time</span>
+        <span className="text-sm text-gray-800">11:00 AM</span>
+      </div>
+      <div className="flex justify-between py-3 border-b">
+        <span className="text-sm font-bold">Passenger</span>
+        <span className="text-sm text-gray-800">2</span>
+      </div>
+      <div className="flex justify-between py-3 border-b">
+        <span className="text-sm font-bold">Luggages</span>
+        <span className="text-sm text-gray-800">1 Bag (10kg)</span>
       </div>
     </div>
 
-    <!-- Pricing Breakdown -->
-    <div className="px-6 py-4 bg-blue-50 rounded-xl mb-3">
-      <div className="space-y-3">
-        <div className="flex justify-between">
-          <span className="text-sm font-bold">Base Fare</span>
-          <span className="text-sm text-gray-800">$6.99</span>
-        </div>
-        <div className="flex justify-between">
-          <span className="text-sm font-bold">Booking Fee</span>
-          <span className="text-sm text-gray-800">$2.13</span>
-        </div>
-        <div className="flex justify-between">
-          <span className="text-sm font-bold">Minimum Fare</span>
-          <span className="text-sm text-gray-800">$7.00</span>
-        </div>
-        <div className="flex justify-between">
-          <span className="text-sm font-bold">Cancellation Fee</span>
-          <span className="text-sm text-gray-800">$6.00</span>
-        </div>
-        <div className="border-t pt-3 flex justify-between">
-          <span className="font-semibold text-gray-800">Total Fare</span>
-          <span className="font-semibold text-blue-600 text-lg">$65.90</span>
-        </div>
-      </div>
+    <div class="w-full text-start">
+      <h3 class="font-bold mb-3">Passenger Note:</h3>
+      <p class="text-gray-500 test-xs">Please enter with your change or transfer to the account on the headrest. </p>
     </div>
 
     <!-- Action Button -->
-    <button @click="isOpenRideViewBox = false; $router.push('/navigate')" class="w-full py-3 btn-g">
-      View Your Ride
+    <button @click="isOpenRideViewBox = false; openAlert()" class="w-full py-3 mt-4 btn-g">
+      Accept Ride
     </button>
   </details-box>
   <!-- box ride view end -->
@@ -298,12 +229,10 @@
 <script>
 import AlertBox from '@/components/AlertBox.vue';
 import DetailsBox from '@/components/DetailsBox.vue';
-import ModalComp from '@/components/ModalComp.vue';
 
 export default {
   name: 'DriverHomePage',
   components: {
-    ModalComp,
     AlertBox,
     DetailsBox,
   },
@@ -333,9 +262,7 @@ export default {
   },
   methods: {
     acceptRide() {
-      console.log("Ride accepted:", this.rideRequest.bookingId);
-      // Add your accept ride logic here
-      alert(`Ride ${this.rideRequest.bookingId} accepted!`);
+      this.isOpenRideViewBox = true;
     },
     declineRide() {
       console.log("Ride declined:", this.rideRequest.bookingId);

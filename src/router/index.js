@@ -20,6 +20,7 @@ import MyRidesPage from "@/pages/MyRidesPage.vue";
 import SupportPage from "@/pages/SupportPage.vue";
 import CompleteAccountPage from "@/pages/auth/CompleteAccountPage.vue";
 import DriverHomePage from "@/pages/DriverHomePage.vue";
+import MyPaymentsPage from "@/pages/MyPaymentsPage.vue";
 
 const routes = [
   {
@@ -47,6 +48,7 @@ const routes = [
       { path: "my-rides", component: MyRidesPage, meta: { title: "My Rides", dataUrl: "clients" } },
       { path: "support", component: SupportPage, meta: { title: "Help & Support", dataUrl: "support" } },
       { path: "messages", component: MessagePage, meta: { title: "Chat", dataUrl: "messages" } },
+      { path: "payments", component: MyPaymentsPage, meta: { title: "Payments", dataUrl: "payments" } },
       { path: "user-details", component: UserDetailsPage, meta: { title: "User Details", dataUrl: "users" } },
       {
         path: "/",

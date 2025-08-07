@@ -33,6 +33,13 @@
               class="absolute -bottom-[7px] left-0 right-0 h-[14px] bg-g rounded-full"></div>
           </router-link>
 
+          <router-link to="/payments" class="relative h-full flex items-center"
+            :class="{ 'text-g': $route.path === '/my-rides' }">
+            My Payments
+            <div v-if="$route.path === '/payments'"
+              class="absolute -bottom-[7px] left-0 right-0 h-[14px] bg-g rounded-full"></div>
+          </router-link>
+
           <router-link to="/support" class="relative h-full flex items-center"
             :class="{ 'text-g': $route.path === '/support' }">
             Help & Support
@@ -122,6 +129,13 @@
             :class="{ 'text-g bg-gray-50': $route.path === '/my-rides' }">
             <i class="fa-solid fa-list text-lg me-4 w-5"></i>
             My Rides
+          </router-link>
+
+          <router-link to="/payments" @click="closeSideNav"
+            class="flex items-center px-6 py-4 text-gray-700 hover:bg-gray-50 font-medium"
+            :class="{ 'text-g bg-gray-50': $route.path === '/payments' }">
+            <i class="fa-solid fa-list text-lg me-4 w-5"></i>
+            My Payments
           </router-link>
 
           <router-link to="/support" @click="closeSideNav"
