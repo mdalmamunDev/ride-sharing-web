@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-white flex flex-col md:flex-row text-gray-800">
+  <div class="h-full bg-white flex flex-col md:flex-row text-gray-800">
     <!-- Map Panel - Shows first on mobile, second on desktop -->
     <div class="w-full md:w-1/2 relative order-1 md:order-2">
       <div class="h-64 md:h-full">

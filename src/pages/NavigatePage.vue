@@ -1,5 +1,5 @@
 <template>
-  <div class="sm:relative h-screen w-full overflow-y-auto">
+  <div class="sm:relative h-full w-full overflow-y-auto">
     <!-- Map Placeholder -->
     <div class="sm:absolute h-[50%] sm:h-full inset-0">
       <div class="w-full h-full bg-gray-300 flex items-center justify-center text-lg text-gray-500">
