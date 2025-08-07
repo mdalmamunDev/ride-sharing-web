@@ -19,6 +19,7 @@ import UserDetailsPage from "@/pages/UserDetailsPage.vue";
 import MyRidesPage from "@/pages/MyRidesPage.vue";
 import SupportPage from "@/pages/SupportPage.vue";
 import CompleteAccountPage from "@/pages/auth/CompleteAccountPage.vue";
+import DriverHomePage from "@/pages/DriverHomePage.vue";
 
 const routes = [
   {
@@ -41,6 +42,7 @@ const routes = [
     component: AppLayout,
     children: [
       { path: "", component: BookingPage, meta: { title: "Book Ride", dataUrl: "booking" } },
+      { path: "d-home", component: DriverHomePage, meta: { title: "Home", dataUrl: "driver-home" } },
       { path: "navigate", component: NavigatePage, meta: { title: "Navigate", dataUrl: "navigate" } },
       { path: "my-rides", component: MyRidesPage, meta: { title: "My Rides", dataUrl: "clients" } },
       { path: "support", component: SupportPage, meta: { title: "Help & Support", dataUrl: "support" } },

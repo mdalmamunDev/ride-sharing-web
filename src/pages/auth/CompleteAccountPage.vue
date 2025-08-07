@@ -138,7 +138,7 @@
     <!-- Alert Box -->
     <alert-box title="Driver Registration Received"
       message="We will review the provided information and get back to you after verification"
-      ok-btn-text="Go Back To Home Screen" @ok="$router.push('/')"/>
+      ok-btn-text="Go Back To Home Screen" @ok="$router.push('/d-home')"/>
   </div>
 </template>
 
