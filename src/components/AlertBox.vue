@@ -10,6 +10,8 @@
           <i class="fas fa-check text-white text-2xl"></i>
         </div>
 
+        <h3 v-if="title" class="text-xl font-bold mb-1">{{ title }}</h3>
+        <p class="text-xs text-gray-500 mb-5">{{ message }}</p>
         <slot></slot>
 
         <!-- Action Button -->
@@ -21,10 +23,12 @@
 
 <script>
 
+
 export default {
   name: "AlertBox",
   props: {
     title: String,
+    message: String,
     showIcon: {
       type: Boolean,
       default: true,

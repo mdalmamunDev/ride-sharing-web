@@ -17,6 +17,8 @@ import NavigatePage from "@/pages/NavigatePage.vue";
 import MessagePage from "@/pages/MessagePage.vue";
 import UserDetailsPage from "@/pages/UserDetailsPage.vue";
 import MyRidesPage from "@/pages/MyRidesPage.vue";
+import SupportPage from "@/pages/SupportPage.vue";
+import CompleteAccountPage from "@/pages/auth/CompleteAccountPage.vue";
 
 const routes = [
   {
@@ -31,15 +33,17 @@ const routes = [
       { path: "reset-password", component: ResetPasswordPage, meta: { title: "Reset Password", dataUrl: "auth/forgot/reset-password" } },
     ],
   },
+  { path: "/auth/complete", component: CompleteAccountPage, meta: { title: "Complete Account", dataUrl: "auth/complete" } },
+
 
   {
     path: "/",
     component: AppLayout,
     children: [
-      { path: "", component: BookingPage,  meta: { title: "Book Ride", dataUrl: "booking" } },
-      { path: "navigate", component: NavigatePage,  meta: { title: "Navigate", dataUrl: "navigate" } },
+      { path: "", component: BookingPage, meta: { title: "Book Ride", dataUrl: "booking" } },
+      { path: "navigate", component: NavigatePage, meta: { title: "Navigate", dataUrl: "navigate" } },
       { path: "my-rides", component: MyRidesPage, meta: { title: "My Rides", dataUrl: "clients" } },
-      { path: "support", component: BookingPage, meta: { title: "Equipments", dataUrl: "equipments" } },
+      { path: "support", component: SupportPage, meta: { title: "Help & Support", dataUrl: "support" } },
       { path: "messages", component: MessagePage, meta: { title: "Chat", dataUrl: "messages" } },
       { path: "user-details", component: UserDetailsPage, meta: { title: "User Details", dataUrl: "users" } },
       {
