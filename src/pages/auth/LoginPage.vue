@@ -6,8 +6,8 @@
 
     <!-- Toggle -->
     <div class="flex w-full max-w-md mb-6 gap-4 justify-center">
-      <button :class="['flex-1 py-2 rounded-full font-semibold shadow', userType === 'Passenger' ? 'bg-g text-white' : 'bg-[#F3F3F3] text-gray-600']" @click="userType = 'Passenger'">Passenger</button>
-      <button :class="['flex-1 py-2 rounded-full font-semibold shadow', userType === 'Driver' ? 'bg-g text-white' : 'bg-[#F3F3F3] text-gray-600']" @click="userType = 'Driver'">Driver</button>
+      <button :class="['flex-1 py-2 rounded-full font-semibold shadow', userType === 'user' ? 'bg-g text-white' : 'bg-[#F3F3F3] text-gray-600']" @click="userType = 'user'">Passenger</button>
+      <button :class="['flex-1 py-2 rounded-full font-semibold shadow', userType === 'provider' ? 'bg-g text-white' : 'bg-[#F3F3F3] text-gray-600']" @click="userType = 'provider'">Driver</button>
     </div>
 
     <!-- Form -->
@@ -50,7 +50,7 @@ export default {
   name: "LoginPage",
   data() {
     return {
-      userType: 'Passenger',
+      userType: 'user',
       showPassword: false,
       formData: {
         email: '',
@@ -60,17 +60,17 @@ export default {
   },
   methods: {
     handleSubmit() {      
-      this.httpReq({
+      // this.httpReq({
         // data: {
         //   email: this.email,
         //   password: this.password,
         // },
-        callback: ({token}) => {
-          if(!token) return;
-          localStorage.setItem('token', token);
-          this.$router.replace('/clients');
-        }
-      });
+        // callback: ({token}) => {
+        //   if(!token) return;
+        //   localStorage.setItem('token', token);
+          this.$router.replace(this.userType === 'user' ? '/' : '/d-home');
+        // }
+      // });
     },
   },
 };
