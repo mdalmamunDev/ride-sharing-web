@@ -20,7 +20,6 @@
 
     <!-- Scrollable Messages Section -->
     <div class="flex-1 overflow-y-auto flex items-end">
-      <!-- Adjust `mt-[88px]` based on your header height -->
       <messages-com class="w-full"></messages-com>
     </div>
   </div>

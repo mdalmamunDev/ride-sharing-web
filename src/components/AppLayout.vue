@@ -34,7 +34,7 @@
           </router-link>
 
           <router-link to="/payments" class="relative h-full flex items-center"
-            :class="{ 'text-g': $route.path === '/my-rides' }">
+            :class="{ 'text-g': $route.path === '/payments' }">
             My Payments
             <div v-if="$route.path === '/payments'"
               class="absolute -bottom-[7px] left-0 right-0 h-[14px] bg-g rounded-full"></div>
@@ -65,7 +65,7 @@
 
     <!-- mobile nav -->
     <div v-if="!['/messages'].includes($route.path)"
-      class="sm:hidden flex justify-between p-5 w-full absolute top-0 left-0 z-50">
+      class="sm:hidden flex justify-between p-5 py-9 w-full absolute top-0 left-0 z-50">
       <div class="flex items-center">
         <button @click="toggleSideNav"
           class="bg-g w-10 h-10 rounded-full flex items-center justify-center text-white me-4">
@@ -83,7 +83,7 @@
     <div v-if="isSideNavOpen" @click="closeSideNav" class="sm:hidden fixed inset-0 z-50 bg-black bg-opacity-50">
       <!-- Side Navigation Panel -->
       <div @click.stop :class="[
-        'fixed left-0 top-0 h-full w-80 bg-white shadow-xl transform transition-transform duration-300 ease-in-out',
+        'fixed left-0 top-0 h-full w-80 max-w-[95%] bg-white shadow-xl transform transition-transform duration-300 ease-in-out pt-6',
         isSideNavOpen ? 'translate-x-0' : '-translate-x-full'
       ]">
         <!-- Side Nav Header -->

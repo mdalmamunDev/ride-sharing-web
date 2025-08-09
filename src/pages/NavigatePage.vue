@@ -56,7 +56,7 @@
         </svg>
 
         <!-- Address Text -->
-        <div className="relative h-[76px] w-full ms-2 overflow-hidden">
+        <div className="relative h-[86px] w-full ms-2 overflow-hidden">
           <p className="text-gray-800 absolute top-0 truncate whitespace-nowrap">1901 Thornridge Cir, Shiloh</p>
           <p className="text-gray-800 absolute bottom-0 truncate whitespace-nowrap">4140 Parker Rd, Allentown, New
             Mexico</p>

@@ -4,6 +4,12 @@
     <h2 class="text-2xl font-bold mb-2 text-center">Create an account</h2>
     <p class="text-sm text-gray-500 mb-6 text-center">Enter your information and create an account.</p>
 
+       <!-- Toggle -->
+    <div class="flex w-full max-w-md mb-6 gap-4 justify-center">
+      <button :class="['flex-1 py-2 rounded-full font-semibold shadow', userType === 'user' ? 'bg-g text-white' : 'bg-[#F3F3F3] text-gray-600']" @click="userType = 'user'">Passenger</button>
+      <button :class="['flex-1 py-2 rounded-full font-semibold shadow', userType === 'provider' ? 'bg-g text-white' : 'bg-[#F3F3F3] text-gray-600']" @click="userType = 'provider'">Driver</button>
+    </div>
+
     <!-- Form -->
     <form @submit.prevent="handleSubmit" class="w-full max-w-md space-y-5">
       <div>
@@ -48,11 +54,11 @@
       <div class="flex justify-end items-center text-sm mb-2">
         <router-link to="/auth/forgot-password" class="text-g hover:underline">Forgot password?</router-link>
       </div>
-      <button type="submit" class="w-full py-3 rounded-full bg-g text-white text-base font-bold shadow">Login</button>
+      <button type="submit" class="w-full py-3 rounded-full bg-g text-white text-base font-bold shadow">Signup</button>
     </form>
 
     <div class="flex justify-end items-center text-sm mt-10 mb-2">
-      Already have account? <router-link to="/auth/login" class="text-g hover:underline ms-1">Signin now</router-link>
+      Already have account? <router-link to="/auth/login" class="text-g hover:underline ms-1">Login now</router-link>
     </div>
   </div>
 </template>
@@ -62,7 +68,7 @@ export default {
   name: "SignupPage",
   data() {
     return {
-      userType: 'Passenger',
+      userType: 'user',
       showPassword: false,
       formData: {
         email: '',
@@ -72,17 +78,17 @@ export default {
   },
   methods: {
     handleSubmit() {      
-      this.httpReq({
+    //   this.httpReq({
         // data: {
         //   email: this.email,
         //   password: this.password,
         // },
-        callback: ({token}) => {
-          if(!token) return;
-          localStorage.setItem('token', token);
-          this.$router.replace('/clients');
-        }
-      });
+        // callback: ({token}) => {
+        //   if(!token) return;
+        //   localStorage.setItem('token', token);
+          this.$router.replace(this.userType === 'user' ? '/' : 'complete');
+      //   }
+      // });
     },
   },
 };

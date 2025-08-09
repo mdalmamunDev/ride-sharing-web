@@ -5,7 +5,7 @@
        <!-- mobile -->
       <div class="sm:hidden flex flex-col justify-end mx-auto w-full bg-g">
         <!-- Logo -->
-        <img src="/logo-white.svg" alt="Split Ride Logo" class="w-48 mx-auto mb-8" />
+        <img src="/logo-white.svg" alt="Split Ride Logo" class="w-48 pt-8 mx-auto mb-8" />
         <div class="bg-white p-4 rounded-t-[40px] min-h-[75vh]">
           <router-view />
         </div>

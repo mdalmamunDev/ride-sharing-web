@@ -16,7 +16,7 @@
     </div>
 
     <!-- Form Panel - Shows second on mobile, first on desktop -->
-    <div class="w-full h-full overflow-y-auto md:w-1/2 p-8 md:p-16 order-2 md:order-1">
+    <div class="w-full h-full overflow-y-auto md:w-1/2 p-2 sm:p-8 md:p-16 order-2 md:order-1">
       <h1 class="hidden sm:block text-3xl md:text-4xl font-bold mb-4 text-center">Let's Book Your Ride</h1>
 
       <!-- Tabs -->
@@ -197,7 +197,7 @@
       </form>
 
       <p class="mt-10 text-sm text-center">
-        Have Issues Booking? Get In Touch With <a href="#" class="text-g font-medium">Our Support</a>
+        Have Issues Booking? Get In Touch With <router-link to="/support" class="text-g font-medium">Our Support</router-link>
       </p>
     </div>
   </div>
@@ -306,7 +306,7 @@
         </svg>
 
         <!-- Address Text -->
-        <div className="relative h-[76px] w-full ms-2 overflow-hidden">
+        <div className="relative h-[86px] w-full ms-2 overflow-hidden">
           <p className="text-gray-800 absolute top-0 truncate whitespace-nowrap">1901 Thornridge Cir, Shiloh</p>
           <p className="text-gray-800 absolute bottom-0 truncate whitespace-nowrap">4140 Parker Rd, Allentown, New
             Mexico

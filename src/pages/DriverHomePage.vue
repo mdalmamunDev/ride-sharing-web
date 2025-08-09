@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <div class="h-[76px] w-full fixed top-0 left-0 bg-glass shadow-lg rounded-b-lg"></div>
+    <div class="sm:hidden h-[86px] w-full fixed top-0 left-0 bg-glass shadow-lg rounded-b-lg"></div>
 
     <!-- Form Panel - Shows second on mobile, first on desktop -->
     <div class="w-full h-full overflow-y-none md:overflow-y-auto md:w-1/2 p-8 px-1 xl:px-8 order-2 md:order-1">
@@ -23,7 +23,7 @@
         <h1 class="hidden sm:block text-3xl md:text-4xl font-bold my-8 text-center">Available Rides</h1>
 
         <!-- Tabs -->
-        <div class="flex mb-6 bg-purple-100 rounded-full">
+        <div class="flex mb-6 bg-purple-100 rounded-full mx-1 sm:mx-0">
           <button :class="[
             'flex-1 py-2 font-bold rounded-full transition',
             rideType === 'split'
@@ -43,7 +43,7 @@
         </div>
 
         <div v-for="(item, index) in 5" :key="index"
-          class="bg-gray-50 rounded-2xl p-6 shadow border border-gray-100 mb-3">
+          class="bg-gray-50 rounded-2xl p-2 sm:p-6 shadow border border-gray-100 mb-3">
           <!-- Driver Info Header -->
           <div class="block lg:flex space-y-2 items-center justify-between mb-6">
             <!-- Driver Profile -->
@@ -111,10 +111,10 @@
             <!-- Action Buttons -->
             <div class="flex space-x-3">
               <button @click="declineRide"
-                class="flex-1 bg-purple-100 text-purple-600 font-medium py-3 px-6 rounded-full hover:bg-purple-200 transition-colors duration-200">
+                class="flex-1 bg-purple-100 text-purple-600 font-medium py-2 px-3 sm:py-3 sm:px-6 rounded-full hover:bg-purple-200 transition-colors duration-200">
                 Decline
               </button>
-              <button @click="acceptRide" class="flex-1 btn-g text-white font-medium py-3 px-6 shadow-md">
+              <button @click="acceptRide" class="flex-1 btn-g text-white font-medium py-2 px-3 sm:py-3 sm:px-6 shadow-md">
                 Accept
               </button>
             </div>
@@ -175,7 +175,7 @@
         </svg>
 
         <!-- Address Text -->
-        <div className="relative h-[76px] w-full ms-2 overflow-hidden">
+        <div className="relative h-[86px] w-full ms-2 overflow-hidden">
           <p className="text-gray-800 absolute top-0 truncate whitespace-nowrap">1901 Thornridge Cir, Shiloh</p>
           <p className="text-gray-800 absolute bottom-0 truncate whitespace-nowrap">4140 Parker Rd, Allentown, New
             Mexico

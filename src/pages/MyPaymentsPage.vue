@@ -76,7 +76,7 @@
       </div>
     </div>
 
-    <div class="h-[76px] w-full fixed top-0 left-0 bg-glass shadow-lg rounded-b-lg"></div>
+    <div class="hidden h-[86px] w-full fixed top-0 left-0 bg-glass shadow-lg rounded-b-lg"></div>
   </div>
 </template>
 
