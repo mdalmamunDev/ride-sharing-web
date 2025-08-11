@@ -4,7 +4,8 @@
     <div class="sm:absolute h-[50%] sm:h-full inset-0">
       <div class="w-full h-full bg-gray-300 flex items-center justify-center text-lg text-gray-500">
         <!-- Google Map will be rendered here -->
-        <img class="w-full h-full object-cover" src="/images/map-placeholder2.png" alt="">
+        <!-- <img class="w-full h-full object-cover" src="/images/map-placeholder2.png" alt=""> -->
+        <MapComp :settings="mapSettings" :destination="location" />
       </div>
     </div>
 
@@ -166,11 +167,12 @@
 import DetailsBox from '@/components/DetailsBox.vue';
 import UserDetails from '@/components/UserDetails.vue';
 import MessagesCom from '@/components/MessagesCom.vue';
+import MapComp from '@/components/MapComp.vue';
 
 
 export default {
   name: 'NavigatePage',
-  components: { MessagesCom, DetailsBox, UserDetails },
+  components: { MessagesCom, DetailsBox, UserDetails, MapComp },
   data() {
     return {
       rideType: 'split',
@@ -178,16 +180,72 @@ export default {
       isShowUser: false,
       isShowComplete: false,
       isShowReview: false,
+      location: { lat: 23.786320, lng: 90.391597 },
+
+      mapSettings: {
+        zoomControl: true,
+        zoomControlOptions: {
+          position: 12,
+        },
+
+        mapTypeControl: true,
+        mapTypeControlOptions: {
+          position: 12,
+        },
+
+        scaleControl: false,
+        scaleControlOptions: {
+          position: 12,
+        },
+
+        fullscreenControl: true,
+        fullscreenControlOptions: {
+          position: 12,
+        },
+      }
     };
   },
   mounted() {
     this.$store.commit('setFormData', {
       passengers: 1,
       luggages: [{}]
-    })
+    });
+
+
+    // const destLoc = { lat: 23.795519, lng: 90.3936814 };
+    // const manualStart = new Date("2025-08-11T15:30:00");
+
+    this.simulateSimpleMove();
   },
   methods: {
-    //
+    simulateSimpleMove() {
+      const destination = { lat: 23.795519, lng: 90.3936814 };
+
+      const steps = 500;
+      let stepCount = 0;
+
+      const latStep = (destination.lat - this.location.lat) / steps;
+      const lngStep = (destination.lng - this.location.lng) / steps;
+
+      const interval = setInterval(() => {
+        if (stepCount >= steps) {
+          clearInterval(interval);
+          console.log("Arrived at destination");
+          return;
+        }
+
+        // this.location.lat += latStep;
+        // this.location.lng += lngStep;
+        this.location = {lat: this.location.lat + latStep, lng: this.location.lng + lngStep}
+        
+
+        // console.log(`Current position: ${this.location.lat.toFixed(6)}, ${this.location.lng.toFixed(6)}`);
+
+        stepCount++;
+      }, 500);
+    }
+
+
   },
 };
 </script>

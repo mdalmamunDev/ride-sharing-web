@@ -374,6 +374,7 @@
 
 </template>
 
+<!-- global google -->
 <script>
 import AlertBox from '@/components/AlertBox.vue';
 import DetailsBox from '@/components/DetailsBox.vue';
