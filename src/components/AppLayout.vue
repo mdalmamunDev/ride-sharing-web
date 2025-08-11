@@ -49,7 +49,7 @@
         </nav>
 
         <!-- User Profile -->
-        <div class="flex items-center space-x-3">
+        <router-link to="/profile" class="flex items-center space-x-3">
           <div class="w-10 h-10 rounded-full overflow-hidden">
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnnFf6DXcgRxe71BOQm1orHpnKjJloo9c2jg&s"
               alt="Kimmy Natasa" class="w-full h-full object-cover" />
@@ -58,7 +58,7 @@
             <span class="text-gray-800 font-medium">Kimmy Natasa</span>
             <p class="text-sm text-blue-400 -mt-1">Verified</p>
           </div>
-        </div>
+        </router-link>
 
       </div>
     </header>

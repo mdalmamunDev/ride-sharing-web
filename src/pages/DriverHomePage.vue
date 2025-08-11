@@ -2,15 +2,15 @@
   <div class="h-full overflow-y-auto md:overflow-y-none bg-white flex flex-col md:flex-row text-gray-800">
     <!-- Map Panel - Shows first on mobile, second on desktop -->
     <div class="w-full md:w-1/2 relative order-1 md:order-2 z-10">
-      <div class="h-64 md:h-full">
+      <div class="h-[60vh] md:h-full">
         <!-- <div class="w-full h-full bg-gray-200 flex items-center justify-center">
           <div class="text-center text-gray-500">
             <i class="fa-solid fa-map-location-dot text-4xl mb-2"></i>
             <p>Map View</p>
           </div>
         </div> -->
-        <div class="absolute inset-0">
-          <img src="images/map-placeholder-d.png" alt="Map" class="w-full h-full max-h-[100vh] object-cover" />
+        <div class="absolute inset-0 max-h-[100vh]">
+          <MapComp :locations="locations" icon="user" authIcon="car"/>
         </div>
       </div>
     </div>
@@ -229,13 +229,11 @@
 <script>
 import AlertBox from '@/components/AlertBox.vue';
 import DetailsBox from '@/components/DetailsBox.vue';
+import MapComp from '@/components/MapComp.vue';
 
 export default {
   name: 'DriverHomePage',
-  components: {
-    AlertBox,
-    DetailsBox,
-  },
+  components: { AlertBox, DetailsBox, MapComp },
   data() {
     return {
       rideType: 'split',
@@ -252,6 +250,17 @@ export default {
         destination: "HCL Technologies Sector 126, Rai..."
       },
       isOpenRideViewBox: false,
+
+      locations: [
+        { lat: 23.797309, lng: 90.393681, title: "Driver 1" },
+        { lat: 23.796512, lng: 90.395500, title: "Driver 2" },
+        { lat: 23.795121, lng: 90.396267, title: "Driver 3" },
+        { lat: 23.793729, lng: 90.395500, title: "Driver 4" },
+        { lat: 23.792932, lng: 90.393681, title: "Driver 5" },
+        { lat: 23.793729, lng: 90.391861, title: "Driver 6" },
+        { lat: 23.795121, lng: 90.391095, title: "Driver 7" },
+        { lat: 23.796512, lng: 90.391861, title: "Driver 8" },
+      ],
     };
   },
   mounted() {

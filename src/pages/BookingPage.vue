@@ -1,22 +1,23 @@
 <template>
-  <div class="h-full bg-white flex flex-col md:flex-row text-gray-800">
+  <div class="h-full overflow-y-auto bg-white flex flex-col md:flex-row text-gray-800">
     <!-- Map Panel - Shows first on mobile, second on desktop -->
     <div class="w-full md:w-1/2 relative order-1 md:order-2">
-      <div class="h-64 md:h-full">
+      <div class="h-[60vh] md:h-full">
         <!-- <div class="w-full h-full bg-gray-200 flex items-center justify-center">
           <div class="text-center text-gray-500">
             <i class="fa-solid fa-map-location-dot text-4xl mb-2"></i>
             <p>Map View</p>
           </div>
         </div> -->
-        <div class="absolute inset-0">
-          <img src="images/map-placeholder.png" alt="Map" class="w-full h-full max-h-[100vh] object-cover" />
+        <div class="absolute inset-0 h-full max-h-[100vh]">
+          <MapComp :locations="locations" icon="car" authIcon="user"/>
+          <!-- <img src="images/map-placeholder.png" alt="Map" class="w-full h-full object-cover" /> -->
         </div>
       </div>
     </div>
 
     <!-- Form Panel - Shows second on mobile, first on desktop -->
-    <div class="w-full h-full overflow-y-auto md:w-1/2 p-2 sm:p-8 md:p-16 order-2 md:order-1">
+    <div class="w-full h-full md:w-1/2 p-2 sm:p-8 md:p-16 order-2 md:order-1">
       <h1 class="hidden sm:block text-3xl md:text-4xl font-bold mb-4 text-center">Let's Book Your Ride</h1>
 
       <!-- Tabs -->
@@ -197,7 +198,8 @@
       </form>
 
       <p class="mt-10 text-sm text-center">
-        Have Issues Booking? Get In Touch With <router-link to="/support" class="text-g font-medium">Our Support</router-link>
+        Have Issues Booking? Get In Touch With <router-link to="/support" class="text-g font-medium">Our
+          Support</router-link>
       </p>
     </div>
   </div>
@@ -375,26 +377,34 @@
 <script>
 import AlertBox from '@/components/AlertBox.vue';
 import DetailsBox from '@/components/DetailsBox.vue';
+import MapComp from '@/components/MapComp.vue';
 import ModalComp from '@/components/ModalComp.vue';
 
 export default {
   name: 'BookingPage',
-  components: {
-    ModalComp,
-    AlertBox,
-    DetailsBox,
-  },
+  components: { ModalComp, AlertBox, DetailsBox, MapComp },
   data() {
     return {
       rideType: 'split',
       isOpenRideViewBox: false,
+
+      locations: [
+        { lat: 23.797309, lng: 90.393681, title: "Driver 1" },
+        { lat: 23.796512, lng: 90.395500, title: "Driver 2" },
+        { lat: 23.795121, lng: 90.396267, title: "Driver 3" },
+        { lat: 23.793729, lng: 90.395500, title: "Driver 4" },
+        { lat: 23.792932, lng: 90.393681, title: "Driver 5" },
+        { lat: 23.793729, lng: 90.391861, title: "Driver 6" },
+        { lat: 23.795121, lng: 90.391095, title: "Driver 7" },
+        { lat: 23.796512, lng: 90.391861, title: "Driver 8" },
+      ],
     };
   },
   mounted() {
     this.$store.commit('setFormData', {
       passengers: 1,
       luggages: [{}]
-    })
+    });
   },
   methods: {
     submitBooking() {
@@ -420,9 +430,9 @@ export default {
     }
   },
   watch: {
-    rideType(newVal, oldVal) {
-      console.log(`Switched from ${oldVal} to ${newVal} ride`);
-    },
+    // rideType(newVal, oldVal) {
+    //   console.log(`Switched from ${oldVal} to ${newVal} ride`);
+    // },
   },
 };
 </script>
