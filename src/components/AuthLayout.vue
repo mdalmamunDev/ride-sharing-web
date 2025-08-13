@@ -18,11 +18,11 @@
           <router-view />
         </div>
       </div>
-      <div class="hidden md:flex w-2/3 relative items-center justify-center overflow-hidden bg-g rounded-l-[85px]">
+      <div class="hidden md:flex w-2/3 relative items-center justify-center overflow-hidden bg-g rounded-l-[55px] lg:rounded-l-[85px]">
         <div class="relative z-10 w-full h-full flex items-center justify-center" style="
               background-image: url('/images/auth-bottm-left-circles.svg'), url('/images/auth-top-right-circles.svg');
               background-position: left bottom, right top;
-              background-size: 40% auto, 30% auto; /* first image width, second image width */
+              background-size: 500px auto, 350px auto; /* first image width, second image width */
               background-repeat: no-repeat, no-repeat;
               background-color: transparent;
               ">
