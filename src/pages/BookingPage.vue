@@ -10,8 +10,8 @@
           </div>
         </div> -->
         <div class="absolute inset-0 h-full max-h-[100vh]">
-          <MapComp :locations="locations" icon="car" authIcon="user"/>
-          <!-- <img src="images/map-placeholder.png" alt="Map" class="w-full h-full object-cover" /> -->
+          <!-- <MapComp :locations="locations" icon="car" authIcon="user" /> -->
+          <img src="images/map-placeholder.png" alt="Map" class="w-full h-full object-cover" />
         </div>
       </div>
     </div>
@@ -204,8 +204,8 @@
     </div>
   </div>
 
-  <ModalComp title="Confirm To Payment" submitBtnText="Pay Now" @submit="openAlert">
-    <h3 class="text-lg font-semibold text-gray-800 mb-6">Overview</h3>
+  <details-box :is-open="isOpenOverview" title="Overview" @close="isOpenOverview = false">
+    <!-- <h3 class="text-lg font-semibold text-gray-800 mb-6 text-start">Overview</h3> -->
 
     <div class="space-y-4">
       <div class="flex justify-between items-center">
@@ -253,7 +253,7 @@
 
     <!-- Disclaimer -->
     <div class="mt-8 p-4 bg-blue-50 rounded-xl">
-      <h4 class="font-semibold text-gray-800 mb-2">Disclaimer:</h4>
+      <h4 class="font-semibold text-gray-800 mb-2 text-start">Disclaimer:</h4>
       <p class="text-sm font-bold leading-relaxed">
         Payment must be made at least 2 hours in advance.
         Cancellation is allowed up to 1 hour before the scheduled
@@ -261,7 +261,12 @@
         on the way or not message.
       </p>
     </div>
-  </ModalComp>
+
+
+    <button class="btn-g w-full mt-3" @click="openAlert(); isOpenOverview = false">
+      Pay Now
+    </button>
+  </details-box>
 
   <AlertBox ok-btn-text="View Your Booking" @ok="handleBookingOk">
     <!-- Success Message -->
@@ -378,15 +383,15 @@
 <script>
 import AlertBox from '@/components/AlertBox.vue';
 import DetailsBox from '@/components/DetailsBox.vue';
-import MapComp from '@/components/MapComp.vue';
-import ModalComp from '@/components/ModalComp.vue';
+// import MapComp from '@/components/MapComp.vue';
 
 export default {
   name: 'BookingPage',
-  components: { ModalComp, AlertBox, DetailsBox, MapComp },
+  components: { AlertBox, DetailsBox },
   data() {
     return {
       rideType: 'split',
+      isOpenOverview: false,
       isOpenRideViewBox: false,
 
       locations: [
@@ -413,7 +418,7 @@ export default {
         rideType: this.rideType,
         ...this.form,
       });
-      this.openModal();
+      this.isOpenOverview = true;
     },
     increasePassengers() {
       this.formData.passengers++;

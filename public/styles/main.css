@@ -37,6 +37,10 @@
   border-radius: 12px;                 /* optional: rounded corners */
 }
 
+.bg-glass {
+    background: white;
+}
+
 .text-1 {
     color: #5C58EB;
 }
