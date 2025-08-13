@@ -1,4 +1,7 @@
+import ActionButton from "@/components/ActionButton.vue";
+
 export default {
+  components: {ActionButton},
   data() {
     return {
       conditionColorMap : {
@@ -44,8 +47,11 @@ export default {
       if(existAuth) return existAuth;
 
       this.$store.commit('setAuth', {});
-      this.httpReq({customUrl: 'user/profile', method: 'get', callback: (data) => {
+      this.httpReq({customUrl: 'user/me', method: 'get', callback: (data) => {
         this.$store.commit('setAuth', data);
+        
+        if(data.role === 'provider' && data.step === 1) 
+          this.$router.push('/auth/complete');
       }});
       return this.$store.getters.auth
     },

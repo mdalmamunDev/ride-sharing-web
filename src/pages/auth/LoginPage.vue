@@ -36,7 +36,7 @@
       <div class="flex justify-end items-center text-sm mb-2">
         <router-link to="/auth/forgot-password" class="text-g hover:underline">Forgot password?</router-link>
       </div>
-      <button type="submit" class="w-full py-3 rounded-full bg-g text-white text-base font-bold shadow">Login</button>
+      <action-button type="submit" class="w-full py-3">Login</action-button>
     </form>
 
     <div class="flex justify-end items-center text-sm mt-10 mb-2">
@@ -52,25 +52,17 @@ export default {
     return {
       userType: 'user',
       showPassword: false,
-      formData: {
-        email: '',
-        password: '',
-      },
     };
   },
   methods: {
     handleSubmit() {      
-      // this.httpReq({
-        // data: {
-        //   email: this.email,
-        //   password: this.password,
-        // },
-        // callback: ({token}) => {
-        //   if(!token) return;
-        //   localStorage.setItem('token', token);
+      this.httpReq({
+        callback: ({tokens}) => {
+          if(!tokens || !tokens.accessToken) return;
+          localStorage.setItem('token', tokens.accessToken);
           this.$router.replace(this.userType === 'user' ? '/' : '/d-home');
-        // }
-      // });
+        }
+      });
     },
   },
 };

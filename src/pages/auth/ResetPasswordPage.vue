@@ -10,7 +10,7 @@
           <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-1">
             <i class="fa-solid fa-lock"></i>
           </span>
-          <input :type="showPassword ? 'text' : 'password'" id="password" placeholder="New password" v-model="formData.password" class="pl-12 pr-10 py-3 w-full rounded-full bg-[#F3F3F3] text-sm outline-none" required />
+          <input :type="showPassword ? 'text' : 'password'" id="password" placeholder="New password" v-model="password" class="pl-12 pr-10 py-3 w-full rounded-full bg-[#F3F3F3] text-sm outline-none" required />
           <span class="absolute right-4 top-1/2 transform -translate-y-1/2 text-1 cursor-pointer" @click="showPassword = !showPassword">
             <i :class="showPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"></i>
           </span>
@@ -22,17 +22,14 @@
           <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-1">
             <i class="fa-solid fa-lock"></i>
           </span>
-          <input :type="showPassword2 ? 'text' : 'password'" id="password" placeholder="New password" v-model="formData.confirmPassword" class="pl-12 pr-10 py-3 w-full rounded-full bg-[#F3F3F3] text-sm outline-none" required />
+          <input :type="showPassword2 ? 'text' : 'password'" id="password" placeholder="New password" v-model="confirmPassword" class="pl-12 pr-10 py-3 w-full rounded-full bg-[#F3F3F3] text-sm outline-none" required />
           <span class="absolute right-4 top-1/2 transform -translate-y-1/2 text-1 cursor-pointer" @click="showPassword2 = !showPassword2">
             <i :class="showPassword2 ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"></i>
           </span>
         </div>
       </div>
       <div v-if="error" class="text-red-500 text-sm mt-2">{{ error }}</div>
-      <button type="submit" class="w-full py-3 rounded-full bg-g text-white text-base font-bold shadow" :disabled="loading">
-        <span v-if="loading"><i class="fa fa-spinner fa-spin mr-2"></i> Resetting...</span>
-        <span v-else>Reset Password</span>
-      </button>
+      <action-button extra-class="w-full py-3">Reset Password</action-button>
     </form>
   </div>
 </template>

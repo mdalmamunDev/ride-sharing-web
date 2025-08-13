@@ -16,7 +16,7 @@ export default {
       return url;
     },
 
-    async fetchData({url = false, page = false, callback = false, errorCallback = false} = {}) {
+    async fetchData({ url = false, page = false, callback = false, errorCallback = false } = {}) {
       if (!callback) {
         this.$store.commit('setDataList', null);
       }
@@ -64,11 +64,12 @@ export default {
       }
     },
 
-    httpReq({ url = false, customUrl = false, urlSuffix = false, method = 'post', callback = false, errorCallback = false, data = false, token = false }) {
+    httpReq({ url = false, customUrl = false, urlSuffix = false, method = 'post', callback = false, errorCallback = false, data = false, token = false } = {}) {
       const _this = this;
-      // Attach authentication token if available
+      this.$store.commit('setIsLoading', true);
 
-      if(!token) {
+      // Attach authentication token if available
+      if (!token) {
         token = localStorage.getItem('token');
       }
 
@@ -84,7 +85,7 @@ export default {
         data: data ? data : (this.$store ? this.$store.getters.formData : {})      // The data to be sent with the request (for POST/PUT)
       })
         .then(function (response) {
-            if(!response.data) return;
+          if (!response.data) return;
           if (typeof callback === 'function') {
             callback(response.data.data, response);  // Execute the callback with the response
           }
@@ -96,11 +97,14 @@ export default {
           }
         })
         .catch(function (error) {
-            if (typeof errorCallback === 'function') {
-              errorCallback(error.response?.data, error.response);
-            }
-            const message = error.response?.data?.message || error.message || 'Something went wrong!';
-            _this.showToast(message, 'error');
+          if (typeof errorCallback === 'function') {
+            errorCallback(error.response?.data, error.response);
+          }
+          const message = error.response?.data?.message || error.message || 'Something went wrong!';
+          _this.showToast(message, 'error');
+        })
+        .finally(() => {
+          _this.$store.commit('setIsLoading', false);
         });
     },
 
@@ -118,7 +122,7 @@ export default {
       const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
       let method = 'post';
-      if(this.formData.id) {
+      if (this.formData.id) {
         method = 'put';
         if (!urlSuffix) {
           urlSuffix = this.formData.id; // Use the ID from formData for PUT requests

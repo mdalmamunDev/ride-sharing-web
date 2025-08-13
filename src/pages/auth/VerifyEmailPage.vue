@@ -24,16 +24,7 @@
       </div>
 
       <div v-if="error" class="text-red-500 text-sm mt-2">{{ error }}</div>
-
-      <button type="submit" class="w-full py-3 rounded-full bg-g text-white text-base font-bold shadow" :disabled="loading">
-        <span v-if="loading" class="flex justify-center items-center">
-          <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
-          </svg>
-        </span>
-        <span v-else>Verify</span>
-      </button>
+      <action-button extra-class="w-full py-3">Verify</action-button>
     </form>
     <div class="flex justify-end items-center text-sm mt-10 mb-2">
       Don't get code? <span class="text-g hover:underline ms-1 cursor-pointer">Resend</span>
@@ -46,7 +37,6 @@ export default {
   name: "VerifyEmailPage",
   data() {
     return {
-      email: "", // Should be set from previous step or route param
       code: Array(6).fill(""),
       loading: false,
       error: "",
@@ -122,35 +112,35 @@ export default {
         this.error = "Please enter the full 6-digit code.";
         return;
       }
-      this.loading = true;
-      // const codeStr = this.code.join("");
-      // this.httpReq({
-      //   data: {
-      //     email: this.email,
-      //     code: codeStr,
-      //   },
-      //   callback: ({token}) => {
-      //     this.loading = false;
-      //     if (token) {
-      //       localStorage.setItem('resetToken', token);
+
+      const resetPasswordToken = localStorage.getItem('resetPasswordToken');
+      if(!resetPasswordToken) {
+        this.showToast('Reset token error', 'error');
+        return;
+      }
+
+      const codeStr = this.code.join("");
+      this.httpReq({
+        token: resetPasswordToken,
+        data: {
+          otp: codeStr,
+        },
+        callback: ({token}) => {
+          if (token) {
+            localStorage.setItem('resetToken', token);
             this.$router.push('/auth/reset-password');
-        //   } else {
-        //     this.error = "Verification failed.";
-        //   }
-        // },
-        // errorCallback: ({message}) => {
-          this.loading = false;
-      //     this.error = message || "An error occurred.";
-      //   }
-      // });
+          } else {
+            this.$router.push('/auth/login');
+          }
+        },
+        errorCallback: ({message}) => {
+          this.error = message || "An error occurred.";
+        }
+      });
+      
+      // remove the token
+      localStorage.removeItem('resetPasswordToken');
     },
-  },
-  mounted() {
-    // Try to get email from query param
-    const emailFromQuery = this.$route.query.email;
-    if (emailFromQuery) {
-      this.email = emailFromQuery;
-    }
   },
 };
 </script>

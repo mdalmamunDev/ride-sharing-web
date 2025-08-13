@@ -28,11 +28,11 @@ const routes = [
     component: AuthLayout,
     children: [
       { path: "", redirect: "auth/login" }, // Redirect to /auth/login
-      { path: "login", component: LoginPage, meta: { title: "Login", dataUrl: "auth/sign-in" } },
-      { path: "signup", component: SignupPage, meta: { title: "Signup", dataUrl: "auth/sign-up" } },
+      { path: "login", component: LoginPage, meta: { title: "Login", dataUrl: "auth/login" } },
+      { path: "signup", component: SignupPage, meta: { title: "Signup", dataUrl: "auth/register" } },
       { path: "forgot-password", component: ForgotPasswordPage, meta: { title: "Forgot Password", dataUrl: "auth/forgot-password" } },
-      { path: "verify-email", component: VerifyEmailPage, meta: { title: "Verify Email", dataUrl: "auth/verify-otp" } },
-      { path: "reset-password", component: ResetPasswordPage, meta: { title: "Reset Password", dataUrl: "auth/forgot/reset-password" } },
+      { path: "verify-email", component: VerifyEmailPage, meta: { title: "Verify Email", dataUrl: "auth/verify-email" } },
+      { path: "reset-password", component: ResetPasswordPage, meta: { title: "Reset Password", dataUrl: "auth/reset-password" } },
     ],
   },
   { path: "/auth/complete", component: CompleteAccountPage, meta: { title: "Complete Account", dataUrl: "auth/complete" } },
@@ -76,14 +76,14 @@ router.beforeEach((to, from, next) => {
 
   // If user is logged in, don't permit visiting public pages
   if (token && publicPages.includes(to.path)) {
-    // return next('/');
+    return next('/');
   }
   const authRequired = !publicPages.includes(to.path) && !to.path.startsWith('/auth');
 
   document.title = `Split Ride | ${to.meta.title}`;
 
   if (authRequired && !token) {
-    // return next('/auth/login');
+    return next('/auth/login');
   }
   next();
 });

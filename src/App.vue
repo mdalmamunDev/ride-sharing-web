@@ -8,10 +8,21 @@
 
 <script>
 // import { SpeedInsights } from '@vercel/speed-insights/vue';
+// import { io } from "socket.io-client";
 export default {
   name: "App",
   components: {
     // SpeedInsights,
+  },
+  mounted() {
+    // const socket = io(process.env.VUE_APP_SOCKET);
+
+    // socket.on("connect", () => {
+    //   console.log("Socket Connected:");
+    //   // TODO: 
+    //   socket.emit("user-connected", { userId: this.auth?.id, fcmToken: "TOKEN" });
+    // });
+
   },
 };
 </script>

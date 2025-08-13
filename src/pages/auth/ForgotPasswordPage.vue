@@ -15,7 +15,7 @@
           <input type="email" id="email" placeholder="Enter your email" v-model="formData.email" class="pl-12 pr-4 py-3 w-full rounded-full bg-[#F3F3F3] text-sm outline-none" required />
         </div>
       </div>
-      <button type="submit" class="w-full py-3 rounded-full bg-g text-white text-base font-bold shadow">Continue</button>
+      <action-button extra-class="w-full py-3">Continue</action-button>
     </form>
   </div>
 </template>
@@ -25,21 +25,20 @@ export default {
   name: "ForgotPasswordPage",
   data() {
     return {
-      loading: false,
+      //
     };
   },
   methods: {
     handleSubmit() {
-      this.loading = true;
-      // this.httpReq({
-      //   callback: () => {
-      //     this.loading = false;
-          this.$router.push({ path: '/auth/verify-email', query: { email: this.formData.email } });
-      //   },
-      //   errorCallback: () => {
-      //     this.loading = false;
-      //   }
-      // });
+      this.httpReq({
+        callback: ({resetPasswordToken}) => {
+          
+          localStorage.setItem('resetPasswordToken', resetPasswordToken);
+          this.$router.push({ path: '/auth/verify-email' });
+        },
+        errorCallback: () => {
+        }
+      });
     },
   },
 };
