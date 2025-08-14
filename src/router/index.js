@@ -4,9 +4,6 @@ import NotFoundPage from "../pages/NotFoundPage.vue"; // <- Create this componen
 import AuthLayout from "../components/AuthLayout.vue";
 import AppLayout from "../components/AppLayout.vue";
 import LoginPage from "../pages/auth/LoginPage.vue";
-import ForgotPasswordPage from "../pages/auth/ForgotPasswordPage.vue";
-import VerifyEmailPage from "../pages/auth/VerifyEmailPage.vue";
-import ResetPasswordPage from "../pages/auth/ResetPasswordPage.vue";
 import ProfilePage from "@/pages/ProfilePage.vue";
 import UserLayout from "@/components/UserLayout.vue";
 import ChangePassPage from "@/pages/ChangePassPage.vue";
@@ -30,9 +27,9 @@ const routes = [
       { path: "", redirect: "auth/login" }, // Redirect to /auth/login
       { path: "login", component: LoginPage, meta: { title: "Login", dataUrl: "auth/sign-in" } },
       { path: "signup", component: SignupPage, meta: { title: "Signup", dataUrl: "auth/sign-up" } },
-      { path: "forgot-password", component: ForgotPasswordPage, meta: { title: "Forgot Password", dataUrl: "auth/forgot-password" } },
-      { path: "verify-email", component: VerifyEmailPage, meta: { title: "Verify Email", dataUrl: "auth/verify-otp" } },
-      { path: "reset-password", component: ResetPasswordPage, meta: { title: "Reset Password", dataUrl: "auth/forgot/reset-password" } },
+      // { path: "forgot-password", component: ForgotPasswordPage, meta: { title: "Forgot Password", dataUrl: "auth/forgot-password" } },
+      // { path: "verify-email", component: VerifyEmailPage, meta: { title: "Verify Email", dataUrl: "auth/verify-otp" } },
+      // { path: "reset-password", component: ResetPasswordPage, meta: { title: "Reset Password", dataUrl: "auth/forgot/reset-password" } },
     ],
   },
   { path: "/auth/complete", component: CompleteAccountPage, meta: { title: "Complete Account", dataUrl: "auth/complete" } },

@@ -13,12 +13,12 @@
 
       <!-- desktop -->
       <div class="hidden sm:flex w-1/3 flex-col justify-center mx-auto min-w-[500px]">
-        <div class="bg-white p-6 rounded-t-[40px] overflow-y-auto">
+        <div class="bg-white p-10 rounded-t-[40px] overflow-y-auto">
           <img src="/logo.svg" alt="Split Ride Logo" class="w-48 pt-8 mx-auto" />
           <router-view />
         </div>
       </div>
-      <div class="hidden md:flex w-2/3 relative items-center justify-center overflow-hidden bg-g rounded-l-[55px] lg:rounded-l-[85px]">
+      <div class="hidden md:flex w-2/3 relative items-center justify-center overflow-hidden bg-g rounded-l-[25px] lg:rounded-l-[40px]">
         <div class="relative z-10 w-full h-full flex items-center justify-center" style="
               background-image: url('/images/auth-bottm-left-circles.svg'), url('/images/auth-top-right-circles.svg');
               background-position: left bottom, right top;
