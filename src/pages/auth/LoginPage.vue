@@ -29,14 +29,14 @@
 
 
     <!-- Form -->
-    <form @submit.prevent="handleSubmit" class="w-full max-w-md space-y-5">
+    <form @submit.prevent="handleLogIn" class="w-full max-w-md space-y-5">
       <div>
-        <label for="email" class="block text-sm font-medium mb-1">Email</label>
+        <label class="block text-sm font-medium mb-1">Email</label>
         <div class="relative">
           <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-1">
             <img src="/icons/email.svg" alt="">
           </span>
-          <input type="email" id="email" placeholder="Enter your email" v-model="formData.email"
+          <input type="email" placeholder="Enter your email" v-model="formData.email"
             class="pl-12 pr-4 py-5 w-full rounded-full bg-gray-100 text-sm outline-none" required />
         </div>
       </div>
@@ -46,7 +46,7 @@
           <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-1">
             <img src="/icons/lock.svg" alt="">
           </span>
-          <input :type="showPassword ? 'text' : 'password'" id="password" placeholder="Enter your password"
+          <input :type="showPassword ? 'text' : 'password'" placeholder="Enter your password"
             v-model="formData.password" class="pl-12 pr-10 py-5 w-full rounded-full bg-gray-100 text-sm outline-none"
             required />
           <span class="absolute right-4 top-1/2 transform -translate-y-1/2 text-1 cursor-pointer"
@@ -61,7 +61,7 @@
           Forgot password?
         </a>
       </div>
-      <button type="submit" class="w-full py-4 btn-g font-semibold">Login</button>
+      <action-button type="submit" class="w-full py-4">Login</action-button>
 
       <div class="my-6 w-full text-center relative">
         <div class="absolute top-1/2 w-full border-t border-gray-300 transform -translate-y-1/2"></div>
@@ -70,46 +70,49 @@
 
       <!-- Social Login Buttons -->
       <div class="w-full grid grid-cols-2 gap-4">
-        <button class="col-span-1 flex items-center justify-center bg-gray-100 py-4 rounded-full duration-300 transform hover:bg-gray-200">
+        <button
+          class="col-span-1 flex items-center justify-center bg-gray-100 py-4 rounded-full duration-300 transform hover:bg-gray-200">
           <img src="/icons/fb.svg" alt="">
         </button>
-        <button class="col-span-1 flex items-center justify-center bg-gray-100 py-4 rounded-full duration-300 transform hover:bg-gray-200">
+        <button
+          class="col-span-1 flex items-center justify-center bg-gray-100 py-4 rounded-full duration-300 transform hover:bg-gray-200">
           <img src="/icons/google.svg" alt="">
         </button>
       </div>
-      <action-button type="submit" class="w-full py-3">Login</action-button>
     </form>
 
-    <div class="flex justify-end items-center text-sm mt-10 mb-2">
+    <div class="flex justify-end items-center text-sm mt-10 mb-2 text-gray-400 font-bold">
       Not a member? <router-link to="/auth/signup" class="text-[#5C58EB] font-bold ms-1">Sign up now</router-link>
     </div>
 
-    <details-box :is-open="isOpenForgotPass" :show-close-btn="false" title="Enter your 6 digit code"
-      message="Please check your email and enter your 6 digit code.">
+    <!-- Forgot Password -->
+    <details-box :is-open="isOpenForgotPass" @clickOutside="isOpenForgotPass = false" :show-close-btn="false"
+      title="Forgot Your Password?"
+      message="Please enter your email and we will send you a code to reset your password.">
       <div class="flex flex-col items-center w-full">
         <!-- Form -->
-        <form @submit.prevent="handleSubmit" class="w-full max-w-md space-y-5">
+        <form @submit.prevent="handleForgot" class="w-full max-w-md space-y-5">
           <div>
-            <label for="email" class="block text-sm font-medium mb-1 text-start">Email</label>
+            <label class="block text-sm font-medium mb-1 text-start">Email</label>
             <div class="relative">
               <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-1">
                 <img src="/icons/email.svg" alt="">
               </span>
-              <input type="email" id="email" placeholder="Enter your email"
+              <input type="email" v-model="forgotEmail" placeholder="Enter your email"
                 class="pl-12 pr-4 py-4 w-full rounded-full bg-[#F3F3F3] text-sm outline-none" required />
             </div>
           </div>
-          <button type="submit" @click="isOpenForgotPass = false; isOpenVerify = true"
-            class="w-full py-4 btn-g font-semibold">Continue</button>
+          <action-button type="submit" class="w-full py-4 btn-g font-semibold">Continue</action-button>
         </form>
       </div>
     </details-box>
 
+    <!-- Mail Verify -->
     <details-box :is-open="isOpenVerify" :show-close-btn="false" title="Enter your 6 digit code"
       message="Please check your email and enter your 6 digit code.">
       <div class="flex flex-col items-center w-full">
 
-        <form @submit.prevent="handleSubmit" class="space-y-6">
+        <form @submit.prevent="handleVerify" class="space-y-6">
           <div class="w-full">
             <div class="grid grid-cols-6 gap-2 justify-center">
               <input v-for="(c, i) in code" :key="i" type="text" inputmode="numeric" maxlength="1"
@@ -120,19 +123,7 @@
             </div>
           </div>
 
-          <div v-if="error" class="text-red-500 text-sm mt-2">{{ error }}</div>
-
-          <button type="submit" @click="isOpenVerify = false; isOpenReset = true"
-            class="w-full py-4 btn-g font-semibold" :disabled="loading">
-            <span v-if="loading" class="flex justify-center items-center">
-              <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
-                viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity- 75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
-              </svg>
-            </span>
-            <span v-else>Verify your account</span>
-          </button>
+          <action-button class="w-full py-4 btn-g font-semibold">Verify your account</action-button>
         </form>
         <div class="flex justify-end items-center text-sm mt-4">
           Don't get code? <span class="text-g hover:underline ms-1 cursor-pointer font-bold">Resend</span>
@@ -140,16 +131,17 @@
       </div>
     </details-box>
 
+    <!-- Reset Password -->
     <details-box :is-open="isOpenReset" :show-close-btn="false" title="Setup New Password"
       message="Enter your new password.">
-      <form @submit.prevent="handleSubmit" class="space-y-6">
+      <form @submit.prevent="handleReset" class="space-y-6">
         <div>
           <label for="password" class="block text-sm font-medium mb-1 text-start">Password</label>
           <div class="relative">
             <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-1">
               <img src="/icons/lock.svg" alt="">
             </span>
-            <input :type="showPassword ? 'text' : 'password'" id="password" placeholder="Enter your password"
+            <input v-model="resetPassword" :type="showPassword ? 'text' : 'password'" placeholder="Enter your password"
               class="pl-12 pr-10 py-5 w-full rounded-full bg-gray-100 text-sm outline-none" required />
             <span class="absolute right-4 top-1/2 transform -translate-y-1/2 text-1 cursor-pointer"
               @click="showPassword = !showPassword">
@@ -164,7 +156,8 @@
             <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-1">
               <img src="/icons/lock.svg" alt="">
             </span>
-            <input :type="showPassword ? 'text' : 'password'" id="password" placeholder="Enter again your password"
+            <input v-model="resetConformPassword" :type="showPassword ? 'text' : 'password'"
+              placeholder="Enter again your password"
               class="pl-12 pr-10 py-5 w-full rounded-full bg-gray-100 text-sm outline-none" required />
             <span class="absolute right-4 top-1/2 transform -translate-y-1/2 text-1 cursor-pointer"
               @click="showPassword = !showPassword">
@@ -173,11 +166,7 @@
             </span>
           </div>
         </div>
-        <div v-if="error" class="text-red-500 text-sm mt-2">{{ error }}</div>
-        <button type="submit" @click="isOpenReset = false" class="w-full py-4 btn-g font-semibold" :disabled="loading">
-          <span v-if="loading"><i class="fa fa-spinner fa-spin mr-2"></i> Resetting...</span>
-          <span v-else>Submit</span>
-        </button>
+        <action-button class="w-full py-4 btn-g font-semibold">Submit</action-button>
       </form>
     </details-box>
 
@@ -203,16 +192,107 @@ export default {
       loading: false,
       error: "",
 
+
+      forgotEmail: "",
+
+      resetPassword: "",
+      resetConformPassword: "",
+
     };
   },
   methods: {
-    handleSubmit() {      
+    handleLogIn() {
       this.httpReq({
-        callback: ({tokens}) => {
-          if(!tokens || !tokens.accessToken) return;
+        callback: ({ tokens, user }) => {
+          if (!tokens || !tokens.accessToken) return;
           localStorage.setItem('token', tokens.accessToken);
-          this.$router.replace(this.userType === 'user' ? '/' : '/d-home');
+
+          let des = '/';
+          if (user.role === 'provider') des = user.step === 1 ? '/auth/complete' : '/d-home';
+          this.$router.push(des);
         }
+      });
+    },
+
+    handleForgot() {
+      this.httpReq({
+        customUrl: 'auth/forgot-password',
+        data: {
+          email: this.forgotEmail,
+        },
+        callback: ({ resetPasswordToken }) => {
+
+          localStorage.setItem('resetPasswordToken', resetPasswordToken);
+
+          this.isOpenForgotPass = false;
+          this.isOpenVerify = true;
+          this.forgotEmail = "";
+        },
+        errorCallback: () => {
+        }
+      });
+    },
+
+    handleVerify() {
+      if (this.code.some(c => !c)) {
+        this.error = "Please enter the full 6-digit code.";
+        return;
+      }
+
+      const resetPasswordToken = localStorage.getItem('resetPasswordToken');
+      if (!resetPasswordToken) {
+        this.showToast('Reset token error', 'error');
+        return;
+      }
+
+      const codeStr = this.code.join("");
+      this.httpReq({
+        customUrl: 'auth/verify-email',
+        token: resetPasswordToken,
+        data: {
+          otp: codeStr,
+        },
+        callback: ({ token }) => {
+          if (token) {
+            localStorage.setItem('resetToken', token);
+            this.isOpenReset = true
+          }
+          this.isOpenVerify = false;
+          this.code = "";
+        },
+      });
+
+      // remove the token
+      localStorage.removeItem('resetPasswordToken');
+    },
+
+    handleReset() {
+      this.error = "";
+      if (!this.resetPassword || !this.resetConformPassword) {
+        this.error = "Please fill in both password fields.";
+        return;
+      }
+      if (this.resetPassword !== this.resetConformPassword) {
+        this.error = "Passwords do not match.";
+        return;
+      }
+      if (this.resetPassword.length < 8) {
+        this.error = "Password must be at least 8 characters long.";
+        return;
+      }
+      this.httpReq({
+        customUrl: 'auth/reset-password',
+        data: {
+          password: this.resetPassword,
+          confirmPassword: this.resetConformPassword,
+        },
+        token: localStorage.getItem('resetToken'),
+        callback: () => {
+          localStorage.removeItem('resetToken');
+          this.isOpenReset = false
+          this.resetPassword = "";
+          this.resetConformPassword = "";
+        },
       });
     },
 

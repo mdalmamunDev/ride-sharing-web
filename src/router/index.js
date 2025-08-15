@@ -25,8 +25,8 @@ const routes = [
     component: AuthLayout,
     children: [
       { path: "", redirect: "auth/login" }, // Redirect to /auth/login
-      { path: "login", component: LoginPage, meta: { title: "Login", dataUrl: "auth/sign-in" } },
-      { path: "signup", component: SignupPage, meta: { title: "Signup", dataUrl: "auth/sign-up" } },
+      { path: "login", component: LoginPage, meta: { title: "Login", dataUrl: "auth/login" } },
+      { path: "signup", component: SignupPage, meta: { title: "Signup", dataUrl: "auth/register" } },
       // { path: "forgot-password", component: ForgotPasswordPage, meta: { title: "Forgot Password", dataUrl: "auth/forgot-password" } },
       // { path: "verify-email", component: VerifyEmailPage, meta: { title: "Verify Email", dataUrl: "auth/verify-otp" } },
       // { path: "reset-password", component: ResetPasswordPage, meta: { title: "Reset Password", dataUrl: "auth/forgot/reset-password" } },
@@ -68,7 +68,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/auth/login', '/auth/forgot-password', '/auth/verify-email', '/auth/reset-password'];
+  const publicPages = ['/auth/login', '/auth/signup', '/auth/forgot-password', '/auth/verify-email', '/auth/reset-password'];
   const token = localStorage.getItem('token');
 
   // If user is logged in, don't permit visiting public pages

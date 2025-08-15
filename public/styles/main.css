@@ -5,15 +5,19 @@
 .bg-1 {
     background: #5680C0;
 }
+
 .bg-2 {
     background: #283B59;
 }
+
 .bg-3 {
     background: #6B6B6B;
 }
+
 .bg-4 {
     background: #7FA4DC;
 }
+
 .bg-5 {
     background: #436496;
 }
@@ -21,23 +25,29 @@
 .bg-g {
     background: linear-gradient(to right, #56E1E8, #5C58EB, #BA63FF);
 }
+
 .bg-g-danger {
     background: linear-gradient(to right, #ff8800, #ff3737, #d60000);
 }
 
 .bg-overlay {
-    background: linear-gradient(to bottom, 
-      rgba(86, 225, 232, 0.6), 
-      rgba(92, 88, 235, 0.6), 
-      rgba(186, 99, 255, 0.6)
-    );
+    background: linear-gradient(to bottom,
+            rgba(86, 225, 232, 0.6),
+            rgba(92, 88, 235, 0.6),
+            rgba(186, 99, 255, 0.6));
 }
+
 .bg-glass {
-  background: rgba(255, 255, 255, 0.2); /* semi-transparent white */
-  backdrop-filter: blur(10px);         /* blur background behind */
-  -webkit-backdrop-filter: blur(10px); /* Safari support */
-  border: 1px solid rgba(255, 255, 255, 0.1); /* subtle border */
-  border-radius: 12px;                 /* optional: rounded corners */
+    background: rgba(255, 255, 255, 0.2);
+    /* semi-transparent white */
+    backdrop-filter: blur(10px);
+    /* blur background behind */
+    -webkit-backdrop-filter: blur(10px);
+    /* Safari support */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    /* subtle border */
+    border-radius: 12px;
+    /* optional: rounded corners */
 }
 
 .bg-glass {
@@ -49,9 +59,9 @@
 }
 
 .text-g {
-  background: linear-gradient(to right, #5C58EB, #BA63FF);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+    background: linear-gradient(to right, #5C58EB, #BA63FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .btn-g {
@@ -75,11 +85,58 @@
         display: grid !important;
         grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     }
+
     .print-cols-5 {
         display: grid !important;
         grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
     }
+
     .print-border {
         border: 0.2px solid black;
+    }
+}
+
+.auth-bg {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-image: url('/images/auth-bottm-left-circles.svg'), url('/images/auth-top-right-circles.svg');
+    background-position: left bottom, right top;
+    background-size: 500px auto, 350px auto;
+    /* default large desktop */
+    background-repeat: no-repeat, no-repeat;
+    background-color: transparent;
+}
+
+/* 2K+ screens (≥1600px) */
+@media (min-width: 1600px) {
+    .auth-bg {
+        background-size: 550px auto, 380px auto;
+    }
+}
+
+/* Large desktops (1200px–1599px) */
+@media (max-width: 1599px) and (min-width: 1200px) {
+    .auth-bg {
+        background-size: 500px auto, 350px auto;
+    }
+}
+
+/* Laptops / Medium desktops (992px–1199px) */
+@media (max-width: 1199px) and (min-width: 992px) {
+    .auth-bg {
+        background-size: 420px auto, 300px auto;
+    }
+}
+
+/* Tablets (768px–991px) */
+@media (max-width: 991px) and (min-width: 768px) {
+    .auth-bg {
+        background-size: 250px auto, 180px auto;
     }
 }

@@ -19,14 +19,8 @@
         </div>
       </div>
       <div class="hidden md:flex w-2/3 relative items-center justify-center overflow-hidden bg-g rounded-l-[25px] lg:rounded-l-[40px]">
-        <div class="relative z-10 w-full h-full flex items-center justify-center" style="
-              background-image: url('/images/auth-bottm-left-circles.svg'), url('/images/auth-top-right-circles.svg');
-              background-position: left bottom, right top;
-              background-size: 500px auto, 350px auto; /* first image width, second image width */
-              background-repeat: no-repeat, no-repeat;
-              background-color: transparent;
-              ">
-          <img src="/images/auth-bg.svg" alt="Design Image" class="h-full w-2/3" />
+        <div class="auth-bg">
+          <img src="/images/auth-bg.svg" alt="Design Image" class="h-full w-4/5 xl:w-2/3" />
         </div>
         <!-- <div class="absolute h-full w-1/2 right-0 bg-[#94B3E2]"></div>
       <div class="absolute bottom-0 right-0 w-[25%] h-[25%] bg-[#ACB690] rounded-full translate-x-1/2 translate-y-1/2"></div>
