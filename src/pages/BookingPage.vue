@@ -17,7 +17,7 @@
     </div>
 
     <!-- Form Panel - Shows second on mobile, first on desktop -->
-    <div class="w-full h-full md:w-1/2 p-2 sm:p-8 md:p-16 order-2 md:order-1">
+    <div class="w-full my-auto sm:max-h-full sm:overflow-auto md:w-1/2 p-2 sm:p-8 md:p-16 order-2 md:order-1">
       <h1 class="hidden sm:block text-3xl md:text-4xl font-bold mb-4 text-center">Let's Book Your Ride</h1>
 
       <!-- Tabs -->
@@ -46,13 +46,13 @@
           <!-- Passengers -->
           <div class="flex flex-col">
             <label class="text-sm font-medium text-gray-600 mb-1">Passengers</label>
-            <div class="flex items-center justify-between bg-gray-100 w-full p-3 px-6 rounded-xl overflow-hidden">
+            <div class="flex items-center justify-between bg-gray-100 w-full p-3 rounded-xl overflow-hidden">
               <button type="button" @click="decreasePassengers">
-                <i class="fa-solid fa-circle-minus text-purple-800"></i>
+                <img class="w-5" src="/icons/minus.svg" alt="-">
               </button>
               <span>{{ formData.passengers }}</span>
               <button type="button" @click="increasePassengers">
-                <i class="fa-solid fa-circle-plus text-purple-800"></i>
+                <img class="w-5" src="/icons/plus.svg" alt="+">
               </button>
             </div>
           </div>
@@ -61,11 +61,14 @@
           <div class="w-full">
             <label class="text-sm font-medium text-gray-600 mb-1">Select Date & Time</label>
             <div class="relative w-full">
+              <!-- Calendar Icon -->
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-purple-800">
                 <i class="fa-solid fa-calendar-days"></i>
               </div>
-              <input type="datetime-local" v-model="formData.dateTime"
-                class="w-full bg-gray-100 rounded-xl p-3 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300" />
+
+              <!-- Vue Datepicker -->
+              <Datepicker placeholder="Date & Time" v-model="formData.dateTime" :enable-time-picker="true" :minute-increment="5"
+                class="w-full bg-gray-100 rounded-xl border-none focus:outline-none focus:ring-2 focus:ring-purple-300" />
             </div>
           </div>
 
@@ -74,12 +77,11 @@
             <label class="text-sm font-medium text-gray-600 mb-1">Type Of Car</label>
             <div class="relative w-full">
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-purple-800">
-                <i class="fa-solid fa-car"></i>
+                <img src="/icons/car.svg" alt="">
               </div>
               <select v-model="formData.carType"
-                class="w-full bg-gray-100 rounded-xl p-4 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300">
-                <option value="">--Select--</option>
-                <option value="economy">Economy</option>
+                class="w-full bg-gray-100 rounded-xl p-3 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300">
+                <option :value="undefined">Sedon</option>
                 <option value="comfort">Comfort</option>
                 <option value="premium">Premium</option>
                 <option value="luxury">Luxury</option>
@@ -96,12 +98,11 @@
             <label class="text-sm font-medium text-gray-600 mb-1">Options</label>
             <div class="relative w-full">
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-purple-800">
-                <i class="fa-solid fa-gear"></i>
+                <img src="/icons/car.svg" alt="">
               </div>
               <select v-model="formData.options"
-                class="w-full bg-gray-100 rounded-xl p-4 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300">
-                <option value="">--Select--</option>
-                <option value="ac">Air Conditioning</option>
+                class="w-full bg-gray-100 rounded-xl p-3 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300">
+                <option :value="undefined">4 Seater</option>
                 <option value="wifi">WiFi</option>
                 <option value="child-seat">Child Seat</option>
                 <option value="wheelchair">Wheelchair Accessible</option>
@@ -119,12 +120,11 @@
               <label class="text-sm font-medium text-gray-600 mb-1">Luggage Type</label>
               <div class="relative w-full">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-purple-800">
-                  <i class="fa-solid fa-briefcase"></i>
+                  <img src="/icons/luggage.svg" alt="">
                 </div>
                 <select v-model="luggage.type"
-                  class="w-full bg-gray-100 rounded-xl p-4 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300">
-                  <option value="">--Select--</option>
-                  <option value="carry-on">Carry-on</option>
+                  class="w-full bg-gray-100 rounded-xl p-3 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300">
+                  <option :value="undefined">Suitcase</option>
                   <option value="small">Small Bag</option>
                   <option value="medium">Medium Suitcase</option>
                   <option value="large">Large Suitcase</option>
@@ -141,14 +141,12 @@
               <label class="text-sm font-medium text-gray-600 mb-1">Weight</label>
               <div class="relative w-full">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-purple-800">
-                  <i class="fa-solid fa-weight-scale"></i>
+                  <img src="/icons/weight.svg" alt="">
                 </div>
                 <div class="flex">
                   <select v-model="luggage.weight"
-                    class="w-full bg-gray-100 rounded-xl rounded-e-none p-4 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300">
-                    <option value="">--Select--</option>
-                    <option value="5">5 kg</option>
-                    <option value="10">10 kg</option>
+                    class="w-full bg-gray-100 rounded-xl rounded-e-none p-3 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300">
+                    <option :value="undefined">10 kg</option>
                     <option value="15">15 kg</option>
                     <option value="20">20 kg</option>
                     <option value="25">25 kg</option>
@@ -157,11 +155,11 @@
                     <option value="40">40+ kg</option>
                   </select>
                   <button v-if="i === formData.luggages?.length - 1" @click="addItem(formData.luggages, {})"
-                    class="p-2 text-lg rounded-e-xl text-white bg-green-600">
+                    class="p-2 text-lg rounded-e-xl text-white bg-g">
                     <i class="fa-solid fa-plus"></i>
                   </button>
                   <button v-else @click="removeItem(formData.luggages, i)"
-                    class="p-2 text-lg rounded-e-xl text-white bg-red-600">
+                    class="p-2 text-lg rounded-e-xl text-white bg-g-danger">
                     <i class="fa-solid fa-minus"></i>
                   </button>
                 </div>
@@ -174,7 +172,7 @@
             <label class="text-sm font-medium text-gray-600 mb-1">From</label>
             <div class="relative w-full">
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-purple-800">
-                <i class="fa-solid fa-location-dot"></i>
+                <img src="/icons/location.svg" alt="">
               </div>
               <input type="text" placeholder="Get Ride From" v-model="formData.fromLocation"
                 class="w-full bg-gray-100 rounded-xl p-3 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300" />
@@ -186,20 +184,22 @@
             <label class="text-sm font-medium text-gray-600 mb-1">To</label>
             <div class="relative w-full">
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-purple-800">
-                <i class="fa-solid fa-location-dot"></i>
+                <img src="/icons/location.svg" alt="">
               </div>
-              <input type="text" placeholder="Get Ride To" v-model="formData.toLocation"
+              <input type="text" placeholder="Ride Destination" v-model="formData.toLocation"
                 class="w-full bg-gray-100 rounded-xl p-3 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300" />
             </div>
           </div>
         </div>
 
-        <button type="submit" class="w-full py-3 btn-g">Complete Your Booking</button>
+        <div class="w-full flex justify-center">
+          <button type="submit" class="max-w-full w-[300px] py-3 btn-g">Find Now</button>
+        </div>
       </form>
 
-      <p class="mt-10 text-sm text-center">
-        Have Issues Booking? Get In Touch With <router-link to="/support" class="text-g font-medium">Our
-          Support</router-link>
+      <p class="mt-10 text-sm text-center font-bold">
+        Have Issues Booking? Get In Touch With 
+        <router-link to="/support" class="text-[#5C58EB]">Our Support</router-link>
       </p>
     </div>
   </div>
@@ -376,18 +376,19 @@
     </button>
   </details-box>
   <!-- box ride view end -->
-
 </template>
 
 <!-- global google -->
 <script>
 import AlertBox from '@/components/AlertBox.vue';
 import DetailsBox from '@/components/DetailsBox.vue';
-// import MapComp from '@/components/MapComp.vue';
+import Datepicker from '@vuepic/vue-datepicker';
+
+import '@vuepic/vue-datepicker/dist/main.css';
 
 export default {
   name: 'BookingPage',
-  components: { AlertBox, DetailsBox },
+  components: { AlertBox, DetailsBox, Datepicker },
   data() {
     return {
       rideType: 'split',
@@ -442,3 +443,16 @@ export default {
   },
 };
 </script>
+
+<style>
+.dp__pointer {
+  cursor: pointer;
+  border: none;
+  background: rgb(243 244 246);
+  border-radius: 10px;
+  height: 46px;
+}
+.dp__input_icon {
+  color: blueviolet;
+}
+</style>

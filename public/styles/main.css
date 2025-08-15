@@ -21,6 +21,9 @@
 .bg-g {
     background: linear-gradient(to right, #56E1E8, #5C58EB, #BA63FF);
 }
+.bg-g-danger {
+    background: linear-gradient(to right, #ff8800, #ff3737, #d60000);
+}
 
 .bg-overlay {
     background: linear-gradient(to bottom, 
@@ -59,7 +62,7 @@
     padding: 10px 20px;
     border-radius: 9999px;
     cursor: pointer;
-    font-weight: 700;
+    font-weight: 600;
 }
 
 .btn-g:hover {
