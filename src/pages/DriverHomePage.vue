@@ -10,7 +10,8 @@
           </div>
         </div> -->
         <div class="absolute inset-0 max-h-[100vh]">
-          <MapComp :locations="locations" icon="user" authIcon="car"/>
+          <!-- <MapComp :locations="locations" icon="user" authIcon="car"/> -->
+          <img src="images/map-placeholder.png" alt="Map" class="w-full h-full object-cover" />
         </div>
       </div>
     </div>
@@ -229,11 +230,10 @@
 <script>
 import AlertBox from '@/components/AlertBox.vue';
 import DetailsBox from '@/components/DetailsBox.vue';
-import MapComp from '@/components/MapComp.vue';
 
 export default {
   name: 'DriverHomePage',
-  components: { AlertBox, DetailsBox, MapComp },
+  components: { AlertBox, DetailsBox },
   data() {
     return {
       rideType: 'split',

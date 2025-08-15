@@ -21,6 +21,9 @@
 .bg-g {
     background: linear-gradient(to right, #56E1E8, #5C58EB, #BA63FF);
 }
+.bg-g-danger {
+    background: linear-gradient(to right, #ff8800, #ff3737, #d60000);
+}
 
 .bg-overlay {
     background: linear-gradient(to bottom, 
@@ -35,6 +38,10 @@
   -webkit-backdrop-filter: blur(10px); /* Safari support */
   border: 1px solid rgba(255, 255, 255, 0.1); /* subtle border */
   border-radius: 12px;                 /* optional: rounded corners */
+}
+
+.bg-glass {
+    background: white;
 }
 
 .text-1 {
@@ -55,7 +62,7 @@
     padding: 10px 20px;
     border-radius: 9999px;
     cursor: pointer;
-    font-weight: 700;
+    font-weight: 600;
 }
 
 .btn-g:hover {
