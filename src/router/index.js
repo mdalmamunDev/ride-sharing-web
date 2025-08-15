@@ -32,7 +32,7 @@ const routes = [
       // { path: "reset-password", component: ResetPasswordPage, meta: { title: "Reset Password", dataUrl: "auth/forgot/reset-password" } },
     ],
   },
-  { path: "/auth/complete", component: CompleteAccountPage, meta: { title: "Complete Account", dataUrl: "auth/complete" } },
+  { path: "/auth/complete", component: CompleteAccountPage, meta: { title: "Complete Account", dataUrl: "tow-truck/complete-profile" } },
 
 
   {

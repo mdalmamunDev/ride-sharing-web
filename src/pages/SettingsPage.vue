@@ -26,7 +26,7 @@
           <td class="px-4 py-2">
             <input v-if="['text', 'number'].includes(setting.type)" :type="setting.type" min="0" step="0.1" v-model="setting.value" class="w-full border rounded px-2 py-1 text-sm text-gray-700" />
             <file-uploader v-if="setting.type === 'file'" @uploaded="(data) => {setting.value = data.path}" accept="image/*">
-              <img class="bg-gray-200 cursor-pointer max-w-[100px]" :src="asset(setting.value)" @error="onImageError" />
+              <img class="bg-gray-200 cursor-pointer max-w-[100px]" :src="showImg(setting.value)" @error="onImageError" />
             </file-uploader>
           </td>
           <td class="px-4 py-2 text-center">

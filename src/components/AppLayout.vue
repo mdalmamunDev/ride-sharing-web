@@ -29,12 +29,11 @@
 
           <!-- User Profile -->
           <router-link to="/profile" class="flex items-center space-x-3">
-            <div class="w-10 h-10 rounded-full overflow-hidden">
-              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnnFf6DXcgRxe71BOQm1orHpnKjJloo9c2jg&s"
-                alt="Kimmy Natasa" class="w-full h-full object-cover" />
+            <div class="w-10 h-10 p-0.5 bg-g rounded-full overflow-hidden">
+              <img :src="showImg(auth?.profileImage)" alt="Kimmy Natasa" class="w-full h-full rounded-full bg-white object-cover" />
             </div>
             <div>
-              <span class="text-gray-800 font-medium">Kimmy Natasa</span>
+              <span class="text-gray-800 font-medium">{{ auth?.name }}</span>
               <p class="text-sm text-blue-400 -mt-1">Verified</p>
             </div>
           </router-link>

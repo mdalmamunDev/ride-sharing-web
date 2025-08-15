@@ -12,10 +12,9 @@
       <h1 class="hidden sm:block text-2xl font-bold text-gray-900 text-center mb-2">Complete Your Profile</h1>
       <p class="text-center text-sm text-gray-600 mb-8">Enter your information and create your new account</p>
 
-      <file-uploader>
-        <div class="w-36 h-36 my-10 mx-auto bg-glass bg-purple-800/10 rounded-full flex items-center justify-center">
-          <img src="/icons/add-image.svg" alt="">
-        </div>
+      <file-uploader v-model="formData.profileImage"
+        class="w-36 h-36 my-10 mx-auto bg-glass bg-purple-800/10 rounded-full flex items-center justify-center">
+        <img class="w-full h-full object-cover" :src="showImg(formData.profileImage)" alt="">
       </file-uploader>
 
       <!-- Form -->
@@ -87,14 +86,15 @@
                   <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-1">
                     <img src="/icons/docs-2.svg">
                   </span>
-                  <input type="text" v-model="vehicle.number" placeholder="Vehicle number"
+                  <input type="text" v-model="vehicle.licenseNo" placeholder="Vehicle number"
                     class="pl-12 pr-4 py-4 w-full rounded-full bg-[#F3F3F3] text-sm outline-none" required />
                 </div>
                 <div class="relative">
                   <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-1">
                     <img src="/icons/calender-2.svg">
                   </span>
-                  <input type="number" min="1900" :max="new Date().getFullYear()" v-model="vehicle.year" placeholder="Manufacturing year"
+                  <input type="number" min="1900" :max="new Date().getFullYear()" v-model="vehicle.year"
+                    placeholder="Manufacturing year"
                     class="pl-12 pr-4 py-4 w-full rounded-full bg-[#F3F3F3] text-sm outline-none" required />
                 </div>
               </div>
@@ -110,20 +110,24 @@
               <label class="block text-sm font-medium text-gray-700 mb-2">Upload CNIC</label>
               <div class="grid grid-cols-2 gap-2">
                 <!-- Front Side -->
-                <file-uploader>
-                  <div
-                    class="bg-purple-50 border-2 border-dashed border-purple-300 rounded-lg p-3 text-center cursor-pointer hover:border-purple-400 hover:bg-purple-50/20 transition-all duration-200 min-h-[100px] flex flex-col items-center justify-center">
+                <file-uploader v-model="formData.cnicFront"
+                  class="h-full bg-purple-50 border-2 border-dashed border-purple-300 rounded-lg text-center cursor-pointer hover:border-purple-400 hover:bg-purple-50/20 transition-all duration-200 h-[100px] flex flex-col items-center justify-center">
+                  <img v-if="formData.cnicFront" class="w-full h-full object-cover" :src="showImg(formData.cnicFront)"
+                    alt="">
+                  <div class="p-3" v-else>
                     <i class="fa-solid fa-plus text-purple-400 text-xl mb-2"></i>
-                    <p class="text-xs text-gray-500">Upload image of CNIC (front side)</p>
+                    <p class="text-[10px] text-gray-400">Upload image of CNIC (front side)</p>
                   </div>
                 </file-uploader>
 
                 <!-- Back Side -->
-                <file-uploader>
-                  <div
-                    class="bg-purple-50 border-2 border-dashed border-purple-300 rounded-lg p-3 text-center cursor-pointer hover:border-purple-400 hover:bg-purple-50/20 transition-all duration-200 min-h-[100px] flex flex-col items-center justify-center">
+                <file-uploader v-model="formData.cnicBack"
+                  class="h-full bg-purple-50 border-2 border-dashed border-purple-300 rounded-lg text-center cursor-pointer hover:border-purple-400 hover:bg-purple-50/20 transition-all duration-200 h-[100px] flex flex-col items-center justify-center">
+                  <img v-if="formData.cnicBack" class="w-full h-full object-cover" :src="showImg(formData.cnicBack)"
+                    alt="">
+                  <div class="p-3" v-else>
                     <i class="fa-solid fa-plus text-purple-400 text-xl mb-2"></i>
-                    <p class="text-xs text-gray-500">Upload image of CNIC (back side)</p>
+                    <p class="text-[10px] text-gray-400">Upload image of CNIC (back side)</p>
                   </div>
                 </file-uploader>
               </div>
@@ -132,11 +136,12 @@
             <!-- Upload Driving License -->
             <div class="col-span-1 lg:col-span-2">
               <label class="block text-sm font-medium text-gray-700 mb-2">Upload Driving License</label>
-              <file-uploader>
-                <div
-                  class="bg-purple-50 border-2 border-dashed border-purple-300 rounded-lg p-4 text-center cursor-pointer hover:border-purple-400 hover:bg-purple-50/20 transition-all duration-200 min-h-[100px] flex flex-col items-center justify-center">
+              <file-uploader v-model="formData.license"
+                class="bg-purple-50 border-2 border-dashed border-purple-300 rounded-lg text-center cursor-pointer hover:border-purple-400 hover:bg-purple-50/20 transition-all duration-200 h-[100px] flex flex-col items-center justify-center">
+                <img v-if="formData.license" class="w-full h-full object-cover" :src="showImg(formData.license)" alt="">
+                <div class="p-3" v-else>
                   <i class="fa-solid fa-plus text-purple-400 text-2xl mb-2"></i>
-                  <p class="text-xs text-gray-500">Upload image of your driving license</p>
+                  <p class="text-[10px] text-gray-400">Upload image of your driving license</p>
                 </div>
               </file-uploader>
             </div>
@@ -144,13 +149,13 @@
             <!-- Upload Car Papers -->
             <div class="col-span-1 lg:col-span-2">
               <label class="block text-sm font-medium text-gray-700 mb-2">Upload Car Papers</label>
-              <file-uploader>
-                <div
-                  class="bg-purple-50 border-2 border-dashed border-purple-300 rounded-lg p-4 text-center cursor-pointer hover:border-purple-400 hover:bg-purple-50/20 transition-all duration-200 min-h-[100px] flex flex-col items-center justify-center">
+              <file-uploader-multiple v-model="formData.carPapers"
+                class="bg-purple-50 border-2 border-dashed border-purple-300 rounded-lg p-4 text-center cursor-pointer hover:border-purple-400 hover:bg-purple-50/20 transition-all duration-200 h-[100px] flex flex-col items-center justify-center">
+                <div class="p-3" v-if="!formData.carPapers?.length">
                   <i class="fa-solid fa-plus text-purple-400 text-2xl mb-2"></i>
-                  <p class="text-xs text-gray-500">Upload image of your car papers</p>
+                  <p class="text-[10px] text-gray-400">Upload image of your car papers</p>
                 </div>
-              </file-uploader>
+              </file-uploader-multiple>
             </div>
           </div>
 
@@ -172,36 +177,41 @@
 <script>
 import AlertBox from '@/components/AlertBox.vue';
 import FileUploader from '@/components/FileUploader.vue';
+import FileUploaderMultiple from '@/components/FileUploaderMultiple.vue';
 
 export default {
   name: "VehicleRegistrationPage",
-  components: { FileUploader, AlertBox },
+  components: { FileUploader, FileUploaderMultiple, AlertBox },
   data() {
     return {
       //
     };
   },
   mounted() {
-    this.$store.commit('setFormData',
-      {
-        dateOfBirth: '',
-        phoneNumber: '',
-        address: '',
-        vehicles: [
-          {
-            model: '',
-            number: '',
-            year: ''
-          }
-        ]
+    this.httpReq({
+      customUrl: 'user/me', method: 'get', callback: ({ role, step, profileImage, dateOfBirth, phone, address }) => {
+        if (role !== 'provider' || step !== 1) {
+          this.$router.back();
+          return;
+        }
+
+        this.$store.commit('setFormData', {
+          profileImage,
+          dateOfBirth,
+          phone,
+          address,
+          vehicles: [{ model: '', licenseNo: '', year: '' }],
+        }
+        )
       }
-    )
+    })
+
   },
   methods: {
     addVehicle() {
       this.formData.vehicles.push({
         model: '',
-        number: '',
+        licenseNo: '',
         year: ''
       });
     },
@@ -209,24 +219,10 @@ export default {
       this.formData.vehicles.splice(index, 1);
     },
     submitForm() {
-      console.log('Form submitted:', this.form);
 
-      // // Basic validation
-      // if (!this.formData.dateOfBirth || !this.formData.phoneNumber || !this.formData.address) {
-      //   alert('Please fill in all personal information fields');
-      //   return;
-      // }
-
-      // // Validate vehicles
-      // for (let i = 0; i < this.formData.vehicles.length; i++) {
-      //   const vehicle = this.formData.vehicles[i];
-      //   if (!vehicle.model || !vehicle.number || !vehicle.year) {
-      //     alert(`Please fill in all vehicle information for vehicle ${i + 1}`);
-      //     return;
-      //   }
-      // }
-
-      this.openAlert();
+      this.httpReq({callback: () => {
+        this.openAlert();
+      }})
     }
   }
 };

@@ -13,7 +13,7 @@
       </div>
 
       <img class="bg-white p-0.5 w-12 h-12 rounded-full"
-        src="https://www.eviemagazine.com/_next/image?url=https%3A%2F%2Fwww.datocms-assets.com%2F109366%2F1698864667-how-to-stop-being-a-nice-girl.jpeg%3Far64%3DNTo2%26crop%3Dfaces%26fit%3Dcrop%26fm%3Dwebp&w=1920&q=75"
+        src="https://www.eviemagazine.com/_next/image?url=https%3A%2F%2Fwww.datocms-showImgs.com%2F109366%2F1698864667-how-to-stop-being-a-nice-girl.jpeg%3Far64%3DNTo2%26crop%3Dfaces%26fit%3Dcrop%26fm%3Dwebp&w=1920&q=75"
         alt=""
       />
     </div>

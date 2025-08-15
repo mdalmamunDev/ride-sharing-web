@@ -1,12 +1,12 @@
 import ActionButton from "@/components/ActionButton.vue";
 
 export default {
-  components: {ActionButton},
+  components: { ActionButton },
   data() {
     return {
-      conditionColorMap : {
+      conditionColorMap: {
         GOOD: "#28a745", // Green
-        BLOWTHROUGH:"#dc3545", // Red
+        BLOWTHROUGH: "#dc3545", // Red
         LEAKING: "#17a2b8", // Teal 
         RAPID_CYCLING: "#fd7e14", // Orange
         PLUGGED: "#6f42c1", // Purple
@@ -28,31 +28,33 @@ export default {
         NO_DATE_AVAILABLE: "#9e9e9e", // Neutral gray
         FAULT: "#b00020", // Strong red
       },
-      
-      eqTypes: [ 'TRAP', 'VALVE', 'PUMP', 'REGULATOR', 'FLOW_METER', 'SIGHT_GLASS', 'OTHER' ],
-      eqConnectionType : [ 'FLANGE', 'THREADED', 'WELD', 'SOCKET_WELD', 'BUTT_WELD', 'UNION', 'OTHER' ],
-      eqStandard : ['ASME', 'DIN', 'JIS', 'ISO', 'OTHER'],
+
+      eqTypes: ['TRAP', 'VALVE', 'PUMP', 'REGULATOR', 'FLOW_METER', 'SIGHT_GLASS', 'OTHER'],
+      eqConnectionType: ['FLANGE', 'THREADED', 'WELD', 'SOCKET_WELD', 'BUTT_WELD', 'UNION', 'OTHER'],
+      eqStandard: ['ASME', 'DIN', 'JIS', 'ISO', 'OTHER'],
       eqApplication: ['PROCESS', 'HEATING', 'COOLING', 'VENT', 'DRAIN', 'OTHER'],
-      eqServices: [ 'CONTINUOUS', 'INTERMITTENT', 'SEASONAL', 'STANDBY', 'OTHER' ],
-      eqSupply: [ 'HIGH_PRESSURE', 'MEDIUM_PRESSURE', 'LOW_PRESSURE', 'OTHER' ],
-      eqDischarge: [ 'ATMOSPHERE', 'CLOSED', 'FLASH_TANK', 'OTHER' ],
-      eqLineSize: [ 'SIZE_0_5', 'SIZE_0_75', 'SIZE_1', 'SIZE_1_25', 'SIZE_1_5', 'SIZE_2', 'SIZE_2_5', 'SIZE_3', 'SIZE_4', 'SIZE_6', 'OTHER' ],
+      eqServices: ['CONTINUOUS', 'INTERMITTENT', 'SEASONAL', 'STANDBY', 'OTHER'],
+      eqSupply: ['HIGH_PRESSURE', 'MEDIUM_PRESSURE', 'LOW_PRESSURE', 'OTHER'],
+      eqDischarge: ['ATMOSPHERE', 'CLOSED', 'FLASH_TANK', 'OTHER'],
+      eqLineSize: ['SIZE_0_5', 'SIZE_0_75', 'SIZE_1', 'SIZE_1_25', 'SIZE_1_5', 'SIZE_2', 'SIZE_2_5', 'SIZE_3', 'SIZE_4', 'SIZE_6', 'OTHER'],
       eqPipeOrientation: ['HORIZONTAL', 'VERTICAL', 'ANGLED'],
-      eqInsulationTypes:  [ 'ALUMINUM_SILICATE', 'ASBESTOS', 'CALCIUM_SILICATE', 'FIBER_GLASS', 'FOAM_GLASS', 'MINERAL_WOOL', 'NONE', 'UNKNOWN'],
+      eqInsulationTypes: ['ALUMINUM_SILICATE', 'ASBESTOS', 'CALCIUM_SILICATE', 'FIBER_GLASS', 'FOAM_GLASS', 'MINERAL_WOOL', 'NONE', 'UNKNOWN'],
     };
   },
   computed: {
     auth() {
       const existAuth = this.$store.getters.auth;
-      if(existAuth) return existAuth;
+      if (existAuth) return existAuth;
 
       this.$store.commit('setAuth', {});
-      this.httpReq({customUrl: 'user/me', method: 'get', callback: (data) => {
-        this.$store.commit('setAuth', data);
-        
-        if(data.role === 'provider' && data.step === 1) 
-          this.$router.push('/auth/complete');
-      }});
+      this.httpReq({
+        customUrl: 'user/me', method: 'get', callback: (data) => {
+          this.$store.commit('setAuth', data);
+
+          if (data.role === 'provider' && data.step === 1)
+            this.$router.push('/auth/complete');
+        }
+      });
       return this.$store.getters.auth
     },
     /**
@@ -92,12 +94,14 @@ export default {
      */
     Config() {
       const exist = this.$store.getters.Config;
-      if(exist) return exist;
+      if (exist) return exist;
 
       this.$store.commit('setConfig', {});
-      this.httpReq({customUrl: 'settings/config', method: 'get', callback: (data) => {
-        this.$store.commit('setConfig', data);
-      }});
+      this.httpReq({
+        customUrl: 'settings/config', method: 'get', callback: (data) => {
+          this.$store.commit('setConfig', data);
+        }
+      });
       return this.$store.getters.Config
     },
 
@@ -142,6 +146,23 @@ export default {
       const baseFilePath = process.env.VUE_APP_BASE_FILE_PATH || '';
       return `${baseFilePath}/${path}`;
     },
+    showImg(path) {
+      if (!path) return;
+
+      const baseFilePath = process.env.VUE_APP_BASE_FILE_PATH || '';
+
+      // Extract file extension
+      const ext = path.split('.').pop()?.toLowerCase();
+
+      // List of image extensions
+      const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+      if (imageExtensions.includes(ext)) {
+        return `${baseFilePath}/${path}`;
+      } else {
+        return '/icons/file.png';
+      }
+    },
     isRoute(route) {
       return this.$route && this.$route.fullPath && this.$route.fullPath.includes(route);
     },
@@ -153,8 +174,8 @@ export default {
       });
     },
     printStr(str, len = 20) {
-      if(!str || typeof str !== 'string') return str;
-      return  str.length > len ? str.substring(0, len) + '...' : str;
+      if (!str || typeof str !== 'string') return str;
+      return str.length > len ? str.substring(0, len) + '...' : str;
     },
 
     removeItem(arr, index) {

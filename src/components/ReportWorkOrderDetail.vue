@@ -4,7 +4,7 @@
     <div v-for="(data, i) in report?.result" :key="i" class="flex flex-col md:flex-row gap-6 my-2 border-y-2 print:break-after-page">
       <!-- Left: Image -->
       <div class="w-full lg:w-1/2 ">
-        <img :src="asset(data.images[0])" @error="onImageError" alt="Trap Image" class="w-full h-auto object-cover" />
+        <img :src="showImg(data.images[0])" @error="onImageError" alt="Trap Image" class="w-full h-auto object-cover" />
          <!-- Comments Section -->
         <div class="mt-4">
           <div class="bg-gray-200 p-2 font-bold border-b">Comments</div>

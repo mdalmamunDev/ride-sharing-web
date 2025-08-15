@@ -1,9 +1,9 @@
 <template>
-  <div class="cursor-pointer">
-    <div @click="triggerFileInput">
-      <slot></slot>
-    </div>
+  <div class="cursor-pointer overflow-hidden" @click="triggerFileInput">
+    <slot></slot>
     <input ref="fileInput" type="file" :accept="accept" style="display:none" @change="handleFileChange" />
+    <!-- No direct mutation, bind to prop and emit update -->
+    <input class="hidden" :value="modelValue" type="text" @input="$emit('update:modelValue', $event.target.value)" />
   </div>
 </template>
 
@@ -14,6 +14,10 @@ export default {
     accept: {
       type: String,
       default: '*/*'
+    },
+    modelValue: {
+      type: String,
+      default: ''
     }
   },
   methods: {
@@ -23,13 +27,21 @@ export default {
     async handleFileChange(event) {
       const file = event.target.files[0];
       if (!file) return;
+
       const formObj = new FormData();
       formObj.append('file', file);
-      this.httpReq({customUrl: 'upload', data: formObj, callback: (data) => {
-        this.$emit('uploaded', data);
-      }})
+
+      this.httpReq({
+        customUrl: 'upload',
+        data: formObj,
+        callback: (data) => {
+          this.$emit('uploaded', data); // keep uploaded event
+          this.$emit('update:modelValue', data.path || ''); // also update v-model
+        }
+      });
+
       event.target.value = '';
     }
   }
-}
+};
 </script>

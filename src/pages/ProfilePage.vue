@@ -2,9 +2,9 @@
   <div class="max-w-xl mx-auto">
     <div class="flex items-center gap-6 mb-6">
       <FileUploader v-if="!noEdit" :accept="'image/*'" @uploaded="(data) => {formData.profileImage = data?.path}">
-        <img :src="asset(formData?.profileImage)" @error="onImageError" alt="Avatar" class="w-20 h-20 rounded-full object-cover" />
+        <img :src="showImg(formData?.profileImage)" @error="onImageError" alt="Avatar" class="w-20 h-20 rounded-full object-cover" />
       </FileUploader>
-      <img v-else :src="asset(formData?.profileImage)" @error="onImageError" alt="Avatar" class="w-20 h-20 rounded-full object-cover" />
+      <img v-else :src="showImg(formData?.profileImage)" @error="onImageError" alt="Avatar" class="w-20 h-20 rounded-full object-cover" />
       <div>
         <h2 class="text-2xl font-bold">{{ auth?.name }}</h2>
         <span class="text-sm text-gray-600">Admin</span>
