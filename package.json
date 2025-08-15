@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@vercel/speed-insights": "^1.2.0",
+    "@vuepic/vue-datepicker": "^11.0.2",
     "ant-design-vue": "^4.2.6",
     "axios": "^1.10.0",
     "core-js": "^3.8.3",
