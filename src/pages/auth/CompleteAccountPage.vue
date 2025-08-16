@@ -4,7 +4,7 @@
           background-position: left bottom, right top;
           background-repeat: no-repeat, no-repeat;
        ">
-    <div class="max-w-4xl mx-auto">
+    <div class="max-w-7xl mx-auto">
       <!-- Header -->
       <div class="w-full flex justify-center my-10">
         <img src="/logo.svg" alt="Logo">
@@ -21,7 +21,7 @@
       <div class="bg-glass rounded-xl p-6">
         <form @submit.prevent="submitForm">
           <!-- Personal Information Row -->
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
 
             <div>
               <label class="block text-sm font-medium  text-gray-700 mb-2">Date of Birth</label>
@@ -53,6 +53,21 @@
                   class="pl-12 pr-4 py-4 w-full rounded-full bg-[#F3F3F3] text-sm outline-none" required />
               </div>
             </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Gender</label>
+              <div class="relative">
+                <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-1">
+                  <img class="w-[24px]" src="/icons/gender.svg">
+                </span>
+                <select type="address" v-model="formData.gender" placeholder="Enter your address" required
+                  class="pl-12 pr-4 py-4 w-full rounded-full bg-[#F3F3F3] text-sm outline-none">
+                  <option value="" disabled>Select</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+            </div>
           </div>
 
           <template v-for="(vehicle, index) in formData.vehicles" :key="index">
@@ -74,13 +89,26 @@
               <!-- <div class="border-t border-gray-200 pt-6 mb-6"></div> -->
 
               <!-- Vehicle Information Row -->
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                 <div class="relative">
                   <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-1">
                     <img src="/icons/car-2.svg">
                   </span>
-                  <input type="text" v-model="vehicle.model" placeholder="Vehicle model"
-                    class="pl-12 pr-4 py-4 w-full rounded-full bg-[#F3F3F3] text-sm outline-none" required />
+                  <select v-model="selectedCarModel" @change="changeCarModel(vehicle)" placeholder="Vehicle model"
+                    required class="pl-12 pr-4 py-4 w-full rounded-full bg-[#F3F3F3] text-sm outline-none">
+                    <option :value="{}" disabled>Select Car Model</option>
+                    <option v-for="(item, index) in carModels" :key="index" :value="item">{{ item.name }}</option>
+                  </select>
+                </div>
+                <div class="relative">
+                  <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-1">
+                    <img class="w-[24px]" src="/icons/seat-2.svg">
+                  </span>
+                  <select type="text" v-model="vehicle.seat" required
+                    class="pl-12 pr-4 py-4 w-full rounded-full bg-[#F3F3F3] text-sm outline-none">
+                    <option value="" disabled>Select Car Option</option>
+                    <option v-for="(item, index) in seatList" :key="index" :value="item">{{ item }} Seater</option>
+                  </select>
                 </div>
                 <div class="relative">
                   <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-1">
@@ -104,37 +132,37 @@
 
 
           <!-- Document Upload Section -->
-          <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <!-- Upload CNIC -->
-            <div class="col-span-1 lg:col-span-2">
-              <label class="block text-sm font-medium text-gray-700 mb-2">Upload CNIC</label>
-              <div class="grid grid-cols-2 gap-2">
-                <!-- Front Side -->
-                <file-uploader v-model="formData.cnicFront"
-                  class="h-full bg-purple-50 border-2 border-dashed border-purple-300 rounded-lg text-center cursor-pointer hover:border-purple-400 hover:bg-purple-50/20 transition-all duration-200 h-[100px] flex flex-col items-center justify-center">
-                  <img v-if="formData.cnicFront" class="w-full h-full object-cover" :src="showImg(formData.cnicFront)"
-                    alt="">
-                  <div class="p-3" v-else>
-                    <i class="fa-solid fa-plus text-purple-400 text-xl mb-2"></i>
-                    <p class="text-[10px] text-gray-400">Upload image of CNIC (front side)</p>
-                  </div>
-                </file-uploader>
-
-                <!-- Back Side -->
-                <file-uploader v-model="formData.cnicBack"
-                  class="h-full bg-purple-50 border-2 border-dashed border-purple-300 rounded-lg text-center cursor-pointer hover:border-purple-400 hover:bg-purple-50/20 transition-all duration-200 h-[100px] flex flex-col items-center justify-center">
-                  <img v-if="formData.cnicBack" class="w-full h-full object-cover" :src="showImg(formData.cnicBack)"
-                    alt="">
-                  <div class="p-3" v-else>
-                    <i class="fa-solid fa-plus text-purple-400 text-xl mb-2"></i>
-                    <p class="text-[10px] text-gray-400">Upload image of CNIC (back side)</p>
-                  </div>
-                </file-uploader>
-              </div>
+            <div class="col-span-1">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Upload CNIC (Front)</label>
+              <!-- Front Side -->
+              <file-uploader v-model="formData.cnicFront"
+                class="bg-purple-50 border-2 border-dashed border-purple-300 rounded-lg text-center cursor-pointer hover:border-purple-400 hover:bg-purple-50/20 transition-all duration-200 h-[100px] flex flex-col items-center justify-center">
+                <img v-if="formData.cnicFront" class="w-full h-full object-cover" :src="showImg(formData.cnicFront)"
+                  alt="">
+                <div class="p-3" v-else>
+                  <i class="fa-solid fa-plus text-purple-400 text-xl mb-2"></i>
+                  <p class="text-[10px] text-gray-400">Upload image of CNIC (front side)</p>
+                </div>
+              </file-uploader>
+            </div>
+            <div class="col-span-1">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Upload CNIC (Back)</label>
+              <!-- Back Side -->
+              <file-uploader v-model="formData.cnicBack"
+                class="bg-purple-50 border-2 border-dashed border-purple-300 rounded-lg text-center cursor-pointer hover:border-purple-400 hover:bg-purple-50/20 transition-all duration-200 h-[100px] flex flex-col items-center justify-center">
+                <img v-if="formData.cnicBack" class="w-full h-full object-cover" :src="showImg(formData.cnicBack)"
+                  alt="">
+                <div class="p-3" v-else>
+                  <i class="fa-solid fa-plus text-purple-400 text-xl mb-2"></i>
+                  <p class="text-[10px] text-gray-400">Upload image of CNIC (back side)</p>
+                </div>
+              </file-uploader>
             </div>
 
             <!-- Upload Driving License -->
-            <div class="col-span-1 lg:col-span-2">
+            <div class="col-span-1">
               <label class="block text-sm font-medium text-gray-700 mb-2">Upload Driving License</label>
               <file-uploader v-model="formData.license"
                 class="bg-purple-50 border-2 border-dashed border-purple-300 rounded-lg text-center cursor-pointer hover:border-purple-400 hover:bg-purple-50/20 transition-all duration-200 h-[100px] flex flex-col items-center justify-center">
@@ -147,7 +175,7 @@
             </div>
 
             <!-- Upload Car Papers -->
-            <div class="col-span-1 lg:col-span-2">
+            <div class="col-span-1">
               <label class="block text-sm font-medium text-gray-700 mb-2">Upload Car Papers</label>
               <file-uploader-multiple v-model="formData.carPapers"
                 class="bg-purple-50 border-2 border-dashed border-purple-300 rounded-lg p-4 text-center cursor-pointer hover:border-purple-400 hover:bg-purple-50/20 transition-all duration-200 h-[100px] flex flex-col items-center justify-center">
@@ -160,7 +188,7 @@
           </div>
 
           <!-- Submit Button -->
-          <div class="w-full flex justify-center">
+          <div class="w-full mt-14 flex justify-center">
             <button type="submit" class="btn-g px-28">Submit</button>
           </div>
         </form>
@@ -171,6 +199,8 @@
     <alert-box title="Driver Registration Received"
       message="We will review the provided information and get back to you after verification"
       ok-btn-text="Go Back To Home Screen" @ok="$router.push('/d-home')" />
+
+    <pre>{{ formData }}</pre>
   </div>
 </template>
 
@@ -184,7 +214,10 @@ export default {
   components: { FileUploader, FileUploaderMultiple, AlertBox },
   data() {
     return {
-      //
+      vehicle: { carModelId: "", seat: "", licenseNo: "", year: "" },
+      carModels: [],
+      selectedCarModel: {},
+      seatList: [],
     };
   },
   mounted() {
@@ -200,29 +233,44 @@ export default {
           dateOfBirth,
           phone,
           address,
-          vehicles: [{ model: '', licenseNo: '', year: '' }],
+          gender: "",
+          vehicles: [this.vehicle],
         }
         )
+      }
+    });
+    this.httpReq({
+      customUrl: 'car-model/all', method: 'get', callback: (list) => {
+        this.carModels = list;
       }
     })
 
   },
   methods: {
     addVehicle() {
-      this.formData.vehicles.push({
-        model: '',
-        licenseNo: '',
-        year: ''
-      });
+      this.formData.vehicles.push(this.vehicle);
     },
     removeVehicle(index) {
       this.formData.vehicles.splice(index, 1);
     },
     submitForm() {
+      const { cnicFront, cnicBack, license, carPapers } = this.formData;
+      if (!cnicFront || !cnicBack || !license || !carPapers) {
+        this.showToast("Please fill the required documents first.", 'error');
+        return;
+      }
 
-      this.httpReq({callback: () => {
-        this.openAlert();
-      }})
+      this.httpReq({
+        callback: () => {
+          this.openAlert();
+        }
+      })
+    },
+
+    changeCarModel(vehicle) {
+      vehicle.carModelId = this.selectedCarModel?._id || "";
+      vehicle.seat = "";
+      this.seatList = this.selectedCarModel?.seats || [];
     }
   }
 };
