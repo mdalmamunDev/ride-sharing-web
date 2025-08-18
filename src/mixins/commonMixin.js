@@ -163,6 +163,18 @@ export default {
         arr.push(item);
       }
     },
+    getTime(dateTime) {
+      if (!dateTime) return "";
+      return new Date(dateTime).toLocaleTimeString({
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      });
+    },
+    getDate(dateTime) {
+      if (!dateTime) return "";
+      return new Date(dateTime).toLocaleDateTime();
+    },
     printArea(title, ref = 'printArea') {
       const content = this.$refs[ref].innerHTML;
 

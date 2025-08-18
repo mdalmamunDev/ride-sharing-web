@@ -39,7 +39,7 @@ const routes = [
     path: "/",
     component: AppLayout,
     children: [
-      { path: "", component: BookingPage, meta: { title: "Book Ride", dataUrl: "booking" } },
+      { path: "", component: BookingPage, meta: { title: "Book Ride", dataUrl: "job" } },
       { path: "d-home", component: DriverHomePage, meta: { title: "Home", dataUrl: "driver-home" } },
       { path: "navigate", component: NavigatePage, meta: { title: "Navigate", dataUrl: "navigate" } },
       { path: "my-rides", component: MyRidesPage, meta: { title: "My Rides", dataUrl: "clients" } },

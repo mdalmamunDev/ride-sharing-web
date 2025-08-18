@@ -71,7 +71,7 @@
 
               <!-- Vue Datepicker -->
               <Datepicker placeholder="Date & Time" v-model="formData.dateTime" :enable-time-picker="true"
-                :minute-increment="5"
+                :required="true" :minute-increment="5"
                 class="w-full bg-gray-100 rounded-xl border-none focus:outline-none focus:ring-2 focus:ring-purple-300" />
             </div>
           </div>
@@ -85,7 +85,7 @@
               </div>
               <select v-model="selectedCarModel" @change="changeCarModel" required
                 class="w-full bg-gray-100 rounded-xl p-3 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300">
-                <option :value="{}" disabled>Select Car Model</option>
+                <option value="" disabled>Select Car Model</option>
                 <option v-for="(item, index) in carModels" :key="index" :value="item">{{ item.name }}</option>
               </select>
             </div>
@@ -100,7 +100,7 @@
               </div>
               <select v-model="formData.seat" required
                 class="w-full bg-gray-100 rounded-xl p-3 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300">
-                <option :value="undefined" disabled>Select Car Option</option>
+                <option value="" disabled>Select Car Option</option>
                 <option v-for="(item, index) in seatList" :key="index" :value="item">{{ item }} Seater</option>
               </select>
             </div>
@@ -116,7 +116,6 @@
                 </div>
                 <select v-model="luggage.type" required
                   class="w-full bg-gray-100 rounded-xl p-3 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300">
-                  <option :value="undefined">Suitcase</option>
                   <option v-for="(label, key) in JobLuggageTypes" :key="key" :value="key">
                     {{ label }}
                   </option>
@@ -134,19 +133,20 @@
                 <div class="flex">
                   <select v-model="luggage.weight"
                     class="w-full bg-gray-100 rounded-xl rounded-e-none p-3 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300">
-                    <option :value="undefined">10 kg</option>
-                    <option value="15">15 kg</option>
-                    <option value="20">20 kg</option>
-                    <option value="25">25 kg</option>
-                    <option value="30">30 kg</option>
-                    <option value="35">35 kg</option>
-                    <option value="40">40+ kg</option>
+                    <option :value="10">10 kg</option>
+                    <option :value="15">15 kg</option>
+                    <option :value="20">20 kg</option>
+                    <option :value="25">25 kg</option>
+                    <option :value="30">30 kg</option>
+                    <option :value="35">35 kg</option>
+                    <option :value="40">40+ kg</option>
                   </select>
-                  <button v-if="i === formData.luggages?.length - 1" @click="addItem(formData.luggages, {})"
+                  <button type="button" v-if="i === formData.luggages?.length - 1"
+                    @click="addItem(formData.luggages, { ...defLuggage })"
                     class="p-2 text-lg rounded-e-xl text-white bg-g">
                     <i class="fa-solid fa-plus"></i>
                   </button>
-                  <button v-else @click="removeItem(formData.luggages, i)"
+                  <button type="button" v-else @click="removeItem(formData.luggages, i)"
                     class="p-2 text-lg rounded-e-xl text-white bg-g-danger">
                     <i class="fa-solid fa-minus"></i>
                   </button>
@@ -162,7 +162,7 @@
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-purple-800">
                 <img src="/icons/location.svg" alt="">
               </div>
-              <input ref="streetRef" type="text" placeholder="Get Ride From" v-model="formData.fromLocation"
+              <input ref="mapAddressInput1" type="text" placeholder="Get Ride From"
                 class="w-full bg-gray-100 rounded-xl p-3 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300" />
             </div>
           </div>
@@ -174,7 +174,7 @@
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-purple-800">
                 <img src="/icons/location.svg" alt="">
               </div>
-              <input type="text" placeholder="Ride Destination" v-model="formData.toLocation"
+              <input ref="mapAddressInput2" type="text" placeholder="Ride Destination"
                 class="w-full bg-gray-100 rounded-xl p-3 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300" />
             </div>
           </div>
@@ -192,50 +192,74 @@
     </div>
   </div>
 
-  <details-box :is-open="isOpenOverview" title="Overview" @close="isOpenOverview = false">
+  <details-box :is-open="true" title="Overview" @close="isOpenOverview = false">
     <!-- <h3 class="text-lg font-semibold text-gray-800 mb-6 text-start">Overview</h3> -->
+    <div className="rounded-xl mb-3">
+      <div className="flex">
+        <svg width="24" height="76" viewBox="0 0 24 76" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M19.2901 9.17005L7.70015 3.07005C4.95015 1.62005 1.96015 4.55005 3.35015 7.33005L4.97015 10.57C5.42015 11.47 5.42015 12.53 4.97015 13.43L3.35015 16.67C1.96015 19.45 4.95015 22.37 7.70015 20.93L19.2901 14.83C21.5701 13.63 21.5701 10.37 19.2901 9.17005Z"
+            stroke="#333333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M12 24L12 52" stroke="#858585" stroke-linecap="round" stroke-dasharray="4 4" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M4.23926 62.3912C4.25367 58.1506 7.70302 54.7247 11.9436 54.7391C16.1842 54.7535 19.6102 58.2028 19.5958 62.4434V62.5304C19.5436 65.2869 18.0045 67.8347 16.1175 69.826C15.0384 70.9466 13.8333 71.9387 12.5262 72.7825C12.1767 73.0848 11.6583 73.0848 11.3088 72.7825C9.36033 71.5143 7.65019 69.9131 6.25665 68.0521C5.01461 66.4293 4.30942 64.4597 4.23926 62.4173L4.23926 62.3912Z"
+            stroke="#333333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          <circle cx="11.9179" cy="62.539" r="2.46087" stroke="#333333" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
 
-    <div class="space-y-4">
+        <!-- Address Text -->
+        <div className="relative h-[70px] w-full ms-2 overflow-hidden">
+          <p className="text-gray-800 absolute top-0 truncate whitespace-nowrap">1901 Thornridge Cir, Shiloh</p>
+          <p className="text-gray-800 absolute bottom-0 truncate whitespace-nowrap">4140 Parker Rd, Allentown, New
+            Mexico
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="space-y-2 text-sm">
       <div class="flex justify-between items-center">
         <span class="text-gray-600">Ride Price</span>
-        <span class="text-blue-500 font-semibold">$40</span>
+        <span class="text-blue-500 font-semibold">${{ overview?.fare?.toFixed(2) }}</span>
+      </div>
+
+      <div class="flex justify-between items-center">
+        <span class="text-gray-600">Charge</span>
+        <span class="text-blue-500 font-semibold">${{ overview?.charge?.toFixed(2) }}</span>
       </div>
 
       <div class="flex justify-between items-center">
         <span class="text-gray-600">Car Type</span>
-        <span class="text-gray-800 font-medium">Sedan (4 Seater)</span>
+        <span class="text-gray-800 font-medium">{{ overview?.carModelId?.name }} ({{ overview?.seat }} Seater)</span>
       </div>
 
       <div class="flex justify-between items-center">
-        <span class="text-gray-600">Luggage Type</span>
-        <span class="text-gray-800 font-medium">Type</span>
+        <span class="text-gray-600">Luggages</span>
+        <span class="text-gray-800 font-medium">{{ overview?.luggages?.length }} ({{overview?.luggages?.reduce((sum,
+          item) => sum + item.weight, 0) }})Kg</span>
       </div>
 
       <div class="flex justify-between items-center">
-        <span class="text-gray-600">Weight</span>
-        <span class="text-gray-800 font-medium">10 Kg</span>
+        <span class="text-gray-600">Passengers</span>
+        <span class="text-gray-800 font-medium">{{ overview?.passengers }}</span>
       </div>
 
       <div class="flex justify-between items-center">
         <span class="text-gray-600">Pickup time</span>
-        <span class="text-gray-800 font-medium">30 Min</span>
+        <span class="text-gray-800 font-medium">{{ getTime(overview.dateTime) }}</span>
       </div>
 
       <div class="flex justify-between items-center">
-        <span class="text-gray-600">Car Seats</span>
-        <span class="text-gray-800 font-medium">4</span>
-      </div>
-
-      <div class="flex justify-between items-center pt-2">
-        <span class="text-gray-600">Your Pickup time</span>
-        <span class="text-gray-800 font-medium">10:30 PM</span>
+        <span class="text-gray-600">Pickup Date</span>
+        <span class="text-gray-800 font-medium">{{ getDate(overview.dateTime) }}</span>
       </div>
 
       <hr class="my-4">
 
       <div class="flex justify-between items-center text-lg font-semibold">
         <span class="text-gray-800">Total Amount</span>
-        <span class="text-blue-500">$40</span>
+        <span class="text-blue-500">${{ overview?.totalFare?.toFixed(2) }}</span>
       </div>
     </div>
 
@@ -383,11 +407,13 @@ export default {
       isOpenRideViewBox: false,
 
       carModels: [],
-      selectedCarModel: {},
+      selectedCarModel: "",
       seatList: [],
 
-      selectedAddress: '',
+      overview: {},
 
+      defLuggage: { type: "suitcase", weight: 10 },
+      defForm: {},
       locations: [
         { lat: 23.797309, lng: 90.393681, title: "Driver 1" },
         { lat: 23.796512, lng: 90.395500, title: "Driver 2" },
@@ -401,11 +427,15 @@ export default {
     };
   },
   mounted() {
-    this.$store.commit('setFormData', {
+    this.defForm = {
       type: 'split',
       passengers: 1,
-      luggages: [{}]
-    });
+      luggages: [{ ...this.defLuggage }],
+      seat: "",
+
+    };
+
+    this.$store.commit('setFormData', this.defForm);
     this.httpReq({
       customUrl: 'car-model/all', method: 'get', callback: (list) => {
         this.carModels = list;
@@ -415,66 +445,92 @@ export default {
     if (!window.google) {
       const script = document.createElement("script");
       const key = process.env.VUE_APP_GOOGLE_API_KEY;
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${key}&libraries=places&callback=initMap`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${key}&libraries=places&callback=setAutoComplete`;
       script.async = true;
-      window.initMap = this.initMap;
+      window.setAutoComplete = this.setAutoComplete;
       document.head.appendChild(script);
     } else {
-      this.initMap();
+      this.setAutoComplete();
     }
   },
   methods: {
-    initMap() {
-      // const input = this.$refs.fromInput;
-      // const autocomplete = new google.maps.places.Autocomplete(input, {
-      //   types: ['geocode'], // or ['establishment']
-      //   componentRestrictions: { country: "bd" } // restrict to Bangladesh if needed
-      // });
+    setAutoComplete() {
+      const initAutocomplete = (ref, coordinates) => {
+        const el = ref.$el || ref;
+        if (!el) return;
 
-      // autocomplete.addListener("place_changed", () => {
-      //   const place = autocomplete.getPlace();
-      //   this.formData.fromLocation = place.formatted_address;
-
-      //   if (place.geometry && place.geometry.location) {
-      //     this.formData.fromCoordinates = {
-      //       lat: place.geometry.location.lat(),
-      //       lng: place.geometry.location.lng()
-      //     };
-      //   }
-      // });
-      // const autocomplete = new google.maps.places.Autocomplete(this.$refs.streetRef.value, {
-      //   types: ["address"],
-      //   fields: ["address_components"],
-      // });
-      const autocomplete = new google.maps.places.Autocomplete(
-        this.$refs.streetRef.$el || this.$refs.streetRef,
-        {
+        const autocomplete = new google.maps.places.Autocomplete(el, {
           types: ["address"],
           fields: ["address_components", "formatted_address", "geometry"],
-        }
-      );
+        });
 
-      autocomplete.addListener('place_changed', () => {
-        const place = autocomplete.getPlace();
+        autocomplete.addListener("place_changed", () => {
+          const place = autocomplete.getPlace();
 
-        if (place.geometry && place.geometry.location) {
-          const lat = place.geometry.location.lat();  // Latitude
-          const lng = place.geometry.location.lng();  // Longitude
+          if (place.geometry && place.geometry.location) {
+            const lat = place.geometry.location.lat();
+            const lng = place.geometry.location.lng();
+            this.formData[coordinates] = [lng, lat];
+          } else {
+            console.error("No geometry data found for this place.");
+          }
+        });
+      };
 
-          console.log("Latitude:", lat);
-          console.log("Longitude:", lng);
-
-          // Use them in your app (e.g., store in Vue data)
-          // this.latitude = lat;
-          // this.longitude = lng;
-        } else {
-          console.error("No geometry data found for this place.");
-        }
-      });
+      // Initialize both inputs
+      initAutocomplete(this.$refs.mapAddressInput1, 'coordinates');
+      initAutocomplete(this.$refs.mapAddressInput2, 'destCoordinates');
 
     },
+    calculateRoadDistance(originArr, destArr) {
+      if (!originArr || originArr.length !== 2 || !destArr || destArr.length !== 2) return 0;
+      // originArr = [lng, lat], destArr = [lng, lat]
+      if (!window.google) return;
+
+      const originLatLng = new google.maps.LatLng(originArr[1], originArr[0]);
+      const destLatLng = new google.maps.LatLng(destArr[1], destArr[0]);
+
+      const directionsService = new google.maps.DirectionsService();
+
+      directionsService.route(
+        {
+          origin: originLatLng,
+          destination: destLatLng,
+          travelMode: google.maps.TravelMode.DRIVING,
+        },
+        (result, status) => {
+          if (status === "OK" && result.routes.length > 0) {
+            const route = result.routes[0];
+            const distanceMeters = route.legs[0].distance.value;
+            const distanceText = route.legs[0].distance.text;
+            const durationText = route.legs[0].duration.text;
+
+            console.log("Distance (m):", distanceMeters);
+            console.log("Distance:", distanceText);
+            console.log("Duration:", durationText);
+
+            // Optional: store in Vue data
+            // this.distance = distanceText;
+            // this.duration = durationText;
+          } else {
+            console.error("Directions request failed:", status);
+          }
+        }
+      );
+    },
     submitBooking() {
-      this.isOpenOverview = true;
+      if (!this.formData.coordinates || !this.formData.destCoordinates) {
+        this.showToast('Please select your locations', 'error');
+        return;
+      }
+
+      this.httpReq({
+        callback: (data) => {
+          this.isOpenOverview = true;
+          this.overview = data;
+          this.$store.commit('setFormData', this.defForm);
+        }
+      })
     },
     increasePassengers() {
       this.formData.passengers++;
@@ -493,7 +549,7 @@ export default {
 
     changeCarModel() {
       this.formData.carModelId = this.selectedCarModel?._id || "";
-      this.formData.seat = undefined;
+      this.formData.seat = "";
       this.seatList = this.selectedCarModel?.seats || [];
     }
   },
@@ -512,4 +568,14 @@ export default {
 .dp__input_icon {
   color: blueviolet;
 }
+
+.dp__active_date {
+  /* color: #5C58EB; */
+  background: #5C58EB;
+  font-weight: 700;
+}
+
+/* .dp__calendar_row {
+  gap: 0 10px;
+} */
 </style>
