@@ -203,14 +203,11 @@ export default {
         data: {
           otp: codeStr,
         },
-        callback: ({ token }) => {
-          if (token) {
-            localStorage.setItem('resetToken', token);
-            this.isOpenReset = true
-          }
-          
+        callback: () => {
           this.isOpenVerify = false;
           this.code = "";
+
+          this.$router.push('login');
         },
       });
 

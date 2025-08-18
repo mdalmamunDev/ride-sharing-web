@@ -4,41 +4,16 @@ export default {
   components: { ActionButton },
   data() {
     return {
-      conditionColorMap: {
-        GOOD: "#28a745", // Green
-        BLOWTHROUGH: "#dc3545", // Red
-        LEAKING: "#17a2b8", // Teal 
-        RAPID_CYCLING: "#fd7e14", // Orange
-        PLUGGED: "#6f42c1", // Purple
-        COLD: "#20c997", // Light teal
-        FLOODED: "#007bff", // Blue
-        OUT_OF_SERVICE: "#6c757d", // Gray
-        NOT_TESTED: "#adb5bd", // Light gray
-        REMOVED: "#343a40", // Dark gray
-        ABANDONED: "#795548", // Brown
-        NOT_FOUND: "#ffc107", // Amber
-        UNKNOWN: "#6c757d", // Muted gray
-        LOSS_OF_SIGNAL: "#ff6f61", // Coral
-        DEVICE_NOT_CONFIGURED: "#ffb74d", // Soft orange
-        ALARM: "#e53935", // Bright red
-        RELIEF_ALARM: "#d81b60", // Pink
-        OVER_TEMPERATURE: "#ff5722", // Deep orange
-        OVER_PRESSURE: "#f44336", // Red
-        STATUS_ALERT: "#ff9800", // Alert yellow
-        NO_DATE_AVAILABLE: "#9e9e9e", // Neutral gray
-        FAULT: "#b00020", // Strong red
-      },
-
-      eqTypes: ['TRAP', 'VALVE', 'PUMP', 'REGULATOR', 'FLOW_METER', 'SIGHT_GLASS', 'OTHER'],
-      eqConnectionType: ['FLANGE', 'THREADED', 'WELD', 'SOCKET_WELD', 'BUTT_WELD', 'UNION', 'OTHER'],
-      eqStandard: ['ASME', 'DIN', 'JIS', 'ISO', 'OTHER'],
-      eqApplication: ['PROCESS', 'HEATING', 'COOLING', 'VENT', 'DRAIN', 'OTHER'],
-      eqServices: ['CONTINUOUS', 'INTERMITTENT', 'SEASONAL', 'STANDBY', 'OTHER'],
-      eqSupply: ['HIGH_PRESSURE', 'MEDIUM_PRESSURE', 'LOW_PRESSURE', 'OTHER'],
-      eqDischarge: ['ATMOSPHERE', 'CLOSED', 'FLASH_TANK', 'OTHER'],
-      eqLineSize: ['SIZE_0_5', 'SIZE_0_75', 'SIZE_1', 'SIZE_1_25', 'SIZE_1_5', 'SIZE_2', 'SIZE_2_5', 'SIZE_3', 'SIZE_4', 'SIZE_6', 'OTHER'],
-      eqPipeOrientation: ['HORIZONTAL', 'VERTICAL', 'ANGLED'],
-      eqInsulationTypes: ['ALUMINUM_SILICATE', 'ASBESTOS', 'CALCIUM_SILICATE', 'FIBER_GLASS', 'FOAM_GLASS', 'MINERAL_WOOL', 'NONE', 'UNKNOWN'],
+      JobLuggageTypes: {
+        suitcase: 'Suitcase',
+        duffel_bag: 'Duffel Bag',
+        backpack: 'Backpack',
+        trolley: 'Trolley',
+        handbag: 'Handbag',
+        sports_bag: 'Sports Bag',
+        box: 'Box',
+        golf_bag: 'Golf Bag'
+      }
     };
   },
   computed: {
@@ -110,9 +85,9 @@ export default {
       return settings && settings.items_per_page ? +settings.items_per_page : 10;
     },
 
-    filters() {
-      return this.$store.getters.filters;
-    }
+    // filters() {
+    //   return this.$store.getters.filters;
+    // }
   },
   methods: {
     openModal() {

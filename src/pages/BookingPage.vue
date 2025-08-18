@@ -11,7 +11,10 @@
         </div> -->
         <div class="absolute inset-0 h-full max-h-[100vh]">
           <!-- <MapComp :locations="locations" icon="car" authIcon="user" /> -->
-          <img src="images/map-placeholder.png" alt="Map" class="w-full h-full object-cover" />
+          <!-- <img src="images/map-placeholder.png" alt="Map" class="w-full h-full object-cover" /> -->
+
+
+          <pre>{{ formData }}</pre>
         </div>
       </div>
     </div>
@@ -24,18 +27,18 @@
       <div class="flex mb-6 bg-purple-100 rounded-full">
         <button :class="[
           'flex-1 py-2 font-bold rounded-full transition',
-          rideType === 'split'
+          formData.type === 'split'
             ? 'bg-g text-white'
             : 'text-1 hover:bg-gray-100'
-        ]" @click="rideType = 'split'">
+        ]" @click="formData.type = 'split'">
           Split Your Ride
         </button>
         <button :class="[
           'flex-1 py-2 font-bold rounded-full ml-2 transition',
-          rideType === 'private'
+          formData.type === 'private'
             ? 'bg-g text-white'
             : 'text-1 hover:bg-gray-100'
-        ]" @click="rideType = 'private'">
+        ]" @click="formData.type = 'private'">
           Private Ride
         </button>
       </div>
@@ -67,7 +70,8 @@
               </div>
 
               <!-- Vue Datepicker -->
-              <Datepicker placeholder="Date & Time" v-model="formData.dateTime" :enable-time-picker="true" :minute-increment="5"
+              <Datepicker placeholder="Date & Time" v-model="formData.dateTime" :enable-time-picker="true"
+                :minute-increment="5"
                 class="w-full bg-gray-100 rounded-xl border-none focus:outline-none focus:ring-2 focus:ring-purple-300" />
             </div>
           </div>
@@ -79,16 +83,10 @@
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-purple-800">
                 <img src="/icons/car.svg" alt="">
               </div>
-              <select v-model="formData.carType"
+              <select v-model="selectedCarModel" @change="changeCarModel" required
                 class="w-full bg-gray-100 rounded-xl p-3 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300">
-                <option :value="undefined">Sedon</option>
-                <option value="comfort">Comfort</option>
-                <option value="premium">Premium</option>
-                <option value="luxury">Luxury</option>
-                <option value="suv">SUV</option>
-                <option value="van">Van</option>
-                <option value="minibus">Minibus</option>
-                <option value="executive">Executive</option>
+                <option :value="{}" disabled>Select Car Model</option>
+                <option v-for="(item, index) in carModels" :key="index" :value="item">{{ item.name }}</option>
               </select>
             </div>
           </div>
@@ -100,16 +98,10 @@
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-purple-800">
                 <img src="/icons/car.svg" alt="">
               </div>
-              <select v-model="formData.options"
+              <select v-model="formData.seat" required
                 class="w-full bg-gray-100 rounded-xl p-3 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300">
-                <option :value="undefined">4 Seater</option>
-                <option value="wifi">WiFi</option>
-                <option value="child-seat">Child Seat</option>
-                <option value="wheelchair">Wheelchair Accessible</option>
-                <option value="pet-friendly">Pet Friendly</option>
-                <option value="extra-space">Extra Space</option>
-                <option value="phone-charger">Phone Charger</option>
-                <option value="refreshments">Refreshments</option>
+                <option :value="undefined" disabled>Select Car Option</option>
+                <option v-for="(item, index) in seatList" :key="index" :value="item">{{ item }} Seater</option>
               </select>
             </div>
           </div>
@@ -122,16 +114,12 @@
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-purple-800">
                   <img src="/icons/luggage.svg" alt="">
                 </div>
-                <select v-model="luggage.type"
+                <select v-model="luggage.type" required
                   class="w-full bg-gray-100 rounded-xl p-3 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300">
                   <option :value="undefined">Suitcase</option>
-                  <option value="small">Small Bag</option>
-                  <option value="medium">Medium Suitcase</option>
-                  <option value="large">Large Suitcase</option>
-                  <option value="extra-large">Extra Large</option>
-                  <option value="sports">Sports Equipment</option>
-                  <option value="fragile">Fragile Items</option>
-                  <option value="multiple">Multiple Bags</option>
+                  <option v-for="(label, key) in JobLuggageTypes" :key="key" :value="key">
+                    {{ label }}
+                  </option>
                 </select>
               </div>
             </div>
@@ -174,7 +162,7 @@
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-purple-800">
                 <img src="/icons/location.svg" alt="">
               </div>
-              <input type="text" placeholder="Get Ride From" v-model="formData.fromLocation"
+              <input ref="streetRef" type="text" placeholder="Get Ride From" v-model="formData.fromLocation"
                 class="w-full bg-gray-100 rounded-xl p-3 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300" />
             </div>
           </div>
@@ -198,7 +186,7 @@
       </form>
 
       <p class="mt-10 text-sm text-center font-bold">
-        Have Issues Booking? Get In Touch With 
+        Have Issues Booking? Get In Touch With
         <router-link to="/support" class="text-[#5C58EB]">Our Support</router-link>
       </p>
     </div>
@@ -391,9 +379,14 @@ export default {
   components: { AlertBox, DetailsBox, Datepicker },
   data() {
     return {
-      rideType: 'split',
       isOpenOverview: false,
       isOpenRideViewBox: false,
+
+      carModels: [],
+      selectedCarModel: {},
+      seatList: [],
+
+      selectedAddress: '',
 
       locations: [
         { lat: 23.797309, lng: 90.393681, title: "Driver 1" },
@@ -409,16 +402,78 @@ export default {
   },
   mounted() {
     this.$store.commit('setFormData', {
+      type: 'split',
       passengers: 1,
       luggages: [{}]
     });
+    this.httpReq({
+      customUrl: 'car-model/all', method: 'get', callback: (list) => {
+        this.carModels = list;
+      }
+    });
+
+    if (!window.google) {
+      const script = document.createElement("script");
+      const key = process.env.VUE_APP_GOOGLE_API_KEY;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${key}&libraries=places&callback=initMap`;
+      script.async = true;
+      window.initMap = this.initMap;
+      document.head.appendChild(script);
+    } else {
+      this.initMap();
+    }
   },
   methods: {
-    submitBooking() {
-      console.log('Booking Submitted:', {
-        rideType: this.rideType,
-        ...this.form,
+    initMap() {
+      // const input = this.$refs.fromInput;
+      // const autocomplete = new google.maps.places.Autocomplete(input, {
+      //   types: ['geocode'], // or ['establishment']
+      //   componentRestrictions: { country: "bd" } // restrict to Bangladesh if needed
+      // });
+
+      // autocomplete.addListener("place_changed", () => {
+      //   const place = autocomplete.getPlace();
+      //   this.formData.fromLocation = place.formatted_address;
+
+      //   if (place.geometry && place.geometry.location) {
+      //     this.formData.fromCoordinates = {
+      //       lat: place.geometry.location.lat(),
+      //       lng: place.geometry.location.lng()
+      //     };
+      //   }
+      // });
+      // const autocomplete = new google.maps.places.Autocomplete(this.$refs.streetRef.value, {
+      //   types: ["address"],
+      //   fields: ["address_components"],
+      // });
+      const autocomplete = new google.maps.places.Autocomplete(
+        this.$refs.streetRef.$el || this.$refs.streetRef,
+        {
+          types: ["address"],
+          fields: ["address_components", "formatted_address", "geometry"],
+        }
+      );
+
+      autocomplete.addListener('place_changed', () => {
+        const place = autocomplete.getPlace();
+
+        if (place.geometry && place.geometry.location) {
+          const lat = place.geometry.location.lat();  // Latitude
+          const lng = place.geometry.location.lng();  // Longitude
+
+          console.log("Latitude:", lat);
+          console.log("Longitude:", lng);
+
+          // Use them in your app (e.g., store in Vue data)
+          // this.latitude = lat;
+          // this.longitude = lng;
+        } else {
+          console.error("No geometry data found for this place.");
+        }
       });
+
+    },
+    submitBooking() {
       this.isOpenOverview = true;
     },
     increasePassengers() {
@@ -434,12 +489,13 @@ export default {
     },
     handleViewRideOk() {
       this.isOpenRideViewBox = false;
+    },
+
+    changeCarModel() {
+      this.formData.carModelId = this.selectedCarModel?._id || "";
+      this.formData.seat = undefined;
+      this.seatList = this.selectedCarModel?.seats || [];
     }
-  },
-  watch: {
-    // rideType(newVal, oldVal) {
-    //   console.log(`Switched from ${oldVal} to ${newVal} ride`);
-    // },
   },
 };
 </script>
@@ -452,6 +508,7 @@ export default {
   border-radius: 10px;
   height: 46px;
 }
+
 .dp__input_icon {
   color: blueviolet;
 }
