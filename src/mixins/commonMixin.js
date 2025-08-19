@@ -93,6 +93,16 @@ export default {
     // }
   },
   methods: {
+    pay(jobId) {
+      // if(!jobId)
+      this.httpReq({
+        customUrl: 'job/pay', urlSuffix: jobId, callback: ({ url }) => {
+          if (url && typeof url === 'string') {
+            window.location.href = url;
+          }
+        }
+      })
+    },
     openModal() {
       this.$store.commit('setIsModalOpen', true);
     },

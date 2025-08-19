@@ -16,53 +16,39 @@ export default {
       return url;
     },
 
-    async fetchData({ customUrl = false, url = false, page = false, append = false, callback = false, errorCallback = false } = {}) {
-      if (!callback && !append) {
-        this.$store.commit('setDataList', null);
-      }
+    async fetchData({ customUrl, url = false, page = false, callback = false, errorCallback = false } = {}) {
+      if (!callback) this.$store.commit("setDataList", null);
+
 
       try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
         const headers = token ? { Authorization: `Bearer ${token}` } : {};
         const apiUrl = url || this.urlGenerate(customUrl);
-
-        // Add filters if present
-        if (page) this.filters.page = page;
-        let params = {};
-        if (this.filters) params = { ...this.filters };
-
+        const params = { ...(this.filters || {}) };
+        if (page) params.page = page;
+        // hit get api
         const response = await Axios.get(apiUrl, { headers, params });
+        const { data, status } = response;
 
-        const data = response.data;
+        if (!data) return;
 
-        if (typeof callback === 'function') {
-          if (!data) return;
+        // handle success (callback or store)
+        if (typeof callback === "function") callback(data, response);
+        else this.$store.commit("setDataList", data);
 
-          callback(data, response);
-
-          if (response.status && data.message) {
-            let type = 'info';
-            if (response.status >= 200 && response.status < 300) type = 'success';
-            else if (response.status >= 400) type = 'error';
-            this.showToast(data.message, type);
-          }
-        } else {
-          if (append) data.data?.unshift(...this.dataList.data || {})
-          
-          this.$store.commit('setDataList', data);
-          if (response.status && data.message) {
-            let type = 'info';
-            if (response.status >= 200 && response.status < 300) type = 'success';
-            else if (response.status >= 400) type = 'error';
-            this.showToast(data.message, type);
-          }
+        // show toast if message exists
+        if (data.message) {
+          const type = status >= 200 && status < 300 ? "success" :
+            status >= 400 ? "error" : "info";
+          this.showToast(data.message, type);
         }
       } catch (error) {
-        if (typeof errorCallback === 'function') {
-          errorCallback(error.response?.data, error.response);
-        }
-        const message = error.response?.data?.message || error.message || 'Something went wrong!';
-        this.showToast(message, 'error');
+        const errData = error.response?.data;
+        // call errorCallback if provided
+        if (typeof errorCallback === "function") errorCallback(errData, error.response);
+        // show error toast
+        const message = errData?.message || error.message || "Something went wrong!";
+        this.showToast(message, "error");
       }
     },
 

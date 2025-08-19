@@ -30,7 +30,8 @@
 
       <!-- Rides Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <router-link to="navigate" v-for="ride in dataList?.data" :key="ride.bookingId"
+        <div v-for="ride in dataList?.data" :key="ride.jobId" @click="goNavigate(ride)"
+          :class="ride.status !== 'completed' ? 'cursor-pointer text-blue-600' : ''"
           class="bg-glass bg-gray-100 rounded-2xl p-3 shadow-sm border border-gray-100">
           <!-- Map Placeholder -->
           <div class="flex gap-2 items-center mb-6">
@@ -74,11 +75,66 @@
               </div>
             </div>
           </div>
-        </router-link>
+        </div>
       </div>
 
       <!-- fetch more data -->
       <pagination-comp />
+
+
+      <details-box :is-open="isOpenOverview" title="Pay Now" @close="isOpenOverview = false" container-class="px-0">
+        <!-- <h3 class="text-lg font-semibold text-gray-800 mb-6 text-start">Overview</h3> -->
+        <AddressComp class="px-6 py-4 rounded-xl mb-3 bg-blue-50" :from-address="overview?.fromAddress"
+          :to-address="overview.toAddress" :height="56" :distance="overview?.distance"></AddressComp>
+
+
+        <div class="px-6 space-y-2 text-sm my-4">
+          <div class="flex justify-between items-center">
+            <span class="text-gray-600">Ride Price</span>
+            <span class="text-blue-500 font-semibold">${{ overview?.fare?.toFixed(2) }}</span>
+          </div>
+
+          <div class="flex justify-between items-center">
+            <span class="text-gray-600">Charge</span>
+            <span class="text-blue-500 font-semibold">${{ overview?.charge?.toFixed(2) }}</span>
+          </div>
+
+          <div class="flex justify-between items-center">
+            <span class="text-gray-600">Pickup time</span>
+            <span class="text-gray-800 font-medium">{{ getTime(overview.dateTime) }}</span>
+          </div>
+
+          <div class="flex justify-between items-center">
+            <span class="text-gray-600">Pickup Date</span>
+            <span class="text-gray-800 font-medium">{{ getDate(overview.dateTime) }}</span>
+          </div>
+
+          <hr class="my-4">
+
+          <div class="flex justify-between items-center text-lg font-semibold">
+            <span class="text-gray-800">Total Amount</span>
+            <span class="text-blue-500">${{ overview?.totalFare?.toFixed(2) }}</span>
+          </div>
+        </div>
+
+        <!-- Disclaimer -->
+        <div class="mt-8 p-4 bg-blue-50 rounded-xl">
+          <h4 class="font-semibold text-gray-800 mb-2 text-start">Disclaimer:</h4>
+          <p class="text-xs font-bold leading-relaxed text-start">
+            Payment must be made at least 2 hours in advance.
+            Cancellation is allowed up to 1 hour before the scheduled
+            pickup. Within 5-24 hours get 50% and you will Get driver is
+            on the way or not message.
+          </p>
+        </div>
+
+
+        <div class="px-6 w-full">
+          <button class="btn-g w-full mt-3" @click="pay(overview.jobId); isOpenOverview = false">
+            Pay Now
+          </button>
+        </div>
+      </details-box>
 
 
       <div class="sm:hidden h-[86px] w-full fixed top-0 left-0 bg-glass shadow-lg rounded-b-lg"></div>
@@ -88,14 +144,18 @@
 
 <script>
 import AddressComp from '@/components/AddressComp.vue';
+import DetailsBox from '@/components/DetailsBox.vue';
 import PaginationComp from '@/components/PaginationComp.vue';
 
 export default {
   name: "MyRidesPage",
-  components: { AddressComp, PaginationComp },
+  components: { AddressComp, PaginationComp, DetailsBox },
   data() {
     return {
       activeTab: 'scheduled',
+      isOpenOverview: false,
+
+      overview: {},
     };
   },
   computed: {
@@ -107,15 +167,22 @@ export default {
     activeTab(val) {
       if (val === 'scheduled') this.$route.meta.dataUrl = 'job/user/ongoing';
       else this.$route.meta.dataUrl = 'job/user/history';
-
-
-      this.$store.commit('setFilters', { limit: 9 });
       this.fetchData();
     }
   },
   mounted() {
-    this.$store.commit('setFilters', { limit: 9 });
     this.fetchData();
-  }
+  },
+  methods: {
+    goNavigate(ride) {
+      if (ride.status === 'completed') return;
+      if (ride.status === 'created') {
+        this.isOpenOverview = true;
+        this.overview = ride;
+        return;
+      }
+      this.$router.push('navigate');
+    },
+  },
 };
 </script>

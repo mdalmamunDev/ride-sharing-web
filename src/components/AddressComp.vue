@@ -14,7 +14,7 @@
 			</svg>
 
 			<!-- Address Text -->
-			<div class="relative w-full ms-2 overflow-hidden text-sm" :class="`h-[${height}px]`">
+			<div class="relative w-full ms-2 overflow-hidden text-sm" :class="`h-[${height-2}px]`">
 				<p class="text-gray-800 absolute top-0 truncate whitespace-nowrap">{{ fromAddress }}</p>
 				<p class="text-gray-800 absolute bottom-0 truncate whitespace-nowrap">{{ toAddress }}</p>
 			</div>
@@ -30,7 +30,7 @@ export default {
 		fromAddress: String,
 		toAddress: String,
 		height: {type: Number, default: 70},
-		stroke: {type: String, default: '333333'},
+		stroke: {type: String, default: '#333333'},
 	},
 };
 </script>

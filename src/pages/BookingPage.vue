@@ -21,7 +21,9 @@
 
     <!-- Form Panel - Shows second on mobile, first on desktop -->
     <div class="w-full my-auto sm:max-h-full sm:overflow-auto md:w-1/2 p-2 sm:p-8 md:p-16 order-2 md:order-1">
-      <h1 class="hidden sm:block text-3xl md:text-4xl font-bold mb-4 text-center">{{ formData._id ? 'Update' : "Let's Book" }} Your Ride</h1>
+      <h1 class="hidden sm:block text-3xl md:text-4xl font-bold mb-4 text-center">
+        {{ formData._id ? 'Update' : "Let'sBook" }} Your Ride
+      </h1>
 
       <!-- Tabs -->
       <div class="flex mb-6 bg-purple-100 rounded-full">
@@ -70,15 +72,9 @@
               </div>
 
               <!-- Vue Datepicker -->
-              <Datepicker
-                placeholder="Date & Time"
-                v-model="formData.dateTime"
-                :enable-time-picker="true"
-                :required="true"
-                :minute-increment="5"
-                :disabled-dates="disablePastAndNearDates"
-                class="w-full bg-gray-100 rounded-xl border-none focus:outline-none focus:ring-2 focus:ring-purple-300"
-              />
+              <Datepicker placeholder="Date & Time" v-model="formData.dateTime" :enable-time-picker="true"
+                :required="true" :minute-increment="5" :disabled-dates="disablePastAndNearDates"
+                class="w-full bg-gray-100 rounded-xl border-none focus:outline-none focus:ring-2 focus:ring-purple-300" />
             </div>
           </div>
 
@@ -187,7 +183,9 @@
         </div>
 
         <div class="w-full flex justify-center">
-          <button type="submit" class="max-w-full w-[300px] py-3 btn-g">{{ formData._id ? 'Update Trip' : 'Find Now' }}</button>
+          <button type="submit" class="max-w-full w-[300px] py-3 btn-g">
+            {{ formData._id ? 'Update Trip' : 'Find Now'}}
+          </button>
         </div>
       </form>
 
@@ -200,10 +198,9 @@
 
   <details-box :is-open="isOpenOverview" title="Overview" @close="isOpenOverview = false" container-class="px-0">
     <!-- <h3 class="text-lg font-semibold text-gray-800 mb-6 text-start">Overview</h3> -->
-    <AddressComp class="px-6 py-4 rounded-xl mb-3 bg-blue-50" 
-      :from-address="overview.fromAddress" :to-address="overview.toAddress" :height="56" :distance="overview.distance"
-    ></AddressComp>
-    
+    <AddressComp class="px-6 py-4 rounded-xl mb-3 bg-blue-50" :from-address="overview.fromAddress"
+      :to-address="overview.toAddress" :height="56" :distance="overview.distance"></AddressComp>
+
 
     <div class="px-6 space-y-2 text-sm my-4">
       <div class="flex justify-between items-center">
@@ -223,7 +220,9 @@
 
       <div class="flex justify-between items-center">
         <span class="text-gray-600">Car Type</span>
-        <span class="text-gray-800 font-medium">{{ findObj(carModels, overview?.carModelId)?.name }} ({{ overview?.seat }} Seater)</span>
+        <span class="text-gray-800 font-medium">{{ findObj(carModels, overview?.carModelId)?.name }} ({{ overview?.seat
+        }}
+          Seater)</span>
       </div>
 
       <div class="flex justify-between items-center">
@@ -268,11 +267,12 @@
 
 
     <div class="px-6 w-full">
-      <button class="btn-g w-full mt-3" @click="openAlert(); isOpenOverview = false">
+      <button class="btn-g w-full mt-3" @click="pay(formData._id); isOpenOverview = false">
         Pay Now
       </button>
 
-      <button class="w-full mt-3 border rounded-full p-2 bg-purple-50 hover:bg-purple-100 duration-300" @click="isOpenOverview = false">
+      <button class="w-full mt-3 border rounded-full p-2 bg-purple-50 hover:bg-purple-100 duration-300"
+        @click="isOpenOverview = false">
         Update
       </button>
     </div>
@@ -287,95 +287,70 @@
     <!-- Booking ID -->
     <div class="mb-8 flex gap-2 justify-center text-sm">
       <span class="font-bold">Booking ID:</span>
-      <span class="text-g">#123456</span>
+      <span class="text-g">{{ successOverview._id }}</span>
     </div>
   </AlertBox>
 
   <!-- box ride view -->
   <details-box :is-open="isOpenRideViewBox" :show-close-btn="false">
     <!-- Header -->
-    <div className="px-6 py-4">
-      <div className="flex justify-between items-center">
+    <div class="px-6 py-4">
+      <div class="flex justify-between items-center">
         <div>
-          <span className="text-sm font-bold">Status:</span>
-          <span className="ml-2 text-g font-medium">Pending Confirmation</span>
+          <span class="text-sm font-bold">Status:</span>
+          <span class="ml-2 text-g font-medium">Pending</span>
         </div>
-        <div className="text-right">
-          <span className="text-sm font-bold">Booking ID:</span>
-          <span className="ml-2 font-mono text-sm text-g">SR128656</span>
+        <div class="text-right">
+          {{ successOverview?._id || 'N/A' }}
         </div>
       </div>
     </div>
 
     <!-- Route Information -->
-    <div className="px-6 py-4 bg-blue-50 rounded-xl mb-3 bg-blue-50">
-      <div className="flex">
-        <svg width="24" height="76" viewBox="0 0 24 76" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M19.2901 9.17005L7.70015 3.07005C4.95015 1.62005 1.96015 4.55005 3.35015 7.33005L4.97015 10.57C5.42015 11.47 5.42015 12.53 4.97015 13.43L3.35015 16.67C1.96015 19.45 4.95015 22.37 7.70015 20.93L19.2901 14.83C21.5701 13.63 21.5701 10.37 19.2901 9.17005Z"
-            stroke="#333333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-          <path d="M12 24L12 52" stroke="#858585" stroke-linecap="round" stroke-dasharray="4 4" />
-          <path fill-rule="evenodd" clip-rule="evenodd"
-            d="M4.23926 62.3912C4.25367 58.1506 7.70302 54.7247 11.9436 54.7391C16.1842 54.7535 19.6102 58.2028 19.5958 62.4434V62.5304C19.5436 65.2869 18.0045 67.8347 16.1175 69.826C15.0384 70.9466 13.8333 71.9387 12.5262 72.7825C12.1767 73.0848 11.6583 73.0848 11.3088 72.7825C9.36033 71.5143 7.65019 69.9131 6.25665 68.0521C5.01461 66.4293 4.30942 64.4597 4.23926 62.4173L4.23926 62.3912Z"
-            stroke="#333333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-          <circle cx="11.9179" cy="62.539" r="2.46087" stroke="#333333" stroke-width="1.5" stroke-linecap="round"
-            stroke-linejoin="round" />
-        </svg>
-
-        <!-- Address Text -->
-        <div className="relative h-[86px] w-full ms-2 overflow-hidden">
-          <p className="text-gray-800 absolute top-0 truncate whitespace-nowrap">1901 Thornridge Cir, Shiloh</p>
-          <p className="text-gray-800 absolute bottom-0 truncate whitespace-nowrap">4140 Parker Rd, Allentown, New
-            Mexico
-          </p>
-        </div>
-      </div>
-    </div>
+    <address-comp :to-address="successOverview?.toAddress" :from-address="successOverview?.fromAddress"
+      class="px-6 py-4 bg-blue-50 rounded-xl mb-3 bg-blue-50">
+    </address-comp>
 
     <!-- Trip Details -->
-    <div className="px-6 py-4 bg-blue-50 rounded-xl mb-3">
-      <div className="space-y-3">
-        <div className="flex justify-between">
-          <span className="text-sm font-bold">Date</span>
-          <span className="text-sm text-gray-800">25 May 2025</span>
+    <div class="px-6 py-4 bg-blue-50 rounded-xl mb-3">
+      <div class="space-y-3">
+        <div class="flex justify-between">
+          <span class="text-sm font-bold">Date</span>
+          <span class="text-sm text-gray-800">{{ getDate(successOverview?.dateTime) }}</span>
         </div>
-        <div className="flex justify-between">
-          <span className="text-sm font-bold">Time</span>
-          <span className="text-sm text-gray-800">11:00 AM</span>
+        <div class="flex justify-between">
+          <span class="text-sm font-bold">Time</span>
+          <span class="text-sm text-gray-800">{{ getTime(successOverview?.dateTime) }}</span>
         </div>
-        <div className="flex justify-between">
-          <span className="text-sm font-bold">Passenger</span>
-          <span className="text-sm text-gray-800">2</span>
+        <div class="flex justify-between">
+          <span class="text-sm font-bold">Passenger</span>
+          <span class="text-sm text-gray-800">{{ successOverview?.passengers }}</span>
         </div>
-        <div className="flex justify-between">
-          <span className="text-sm font-bold">Luggages</span>
-          <span className="text-sm text-gray-800">1 Bag (10kg)</span>
+        <div class="flex justify-between">
+          <span class="text-sm font-bold">Luggages</span>
+          <span class="text-sm text-gray-800">
+            {{ successOverview?.luggages?.length }} ({{successOverview?.luggages?.reduce((sum, item) => sum +
+              item.weight,
+              0)}})Kg
+          </span>
         </div>
       </div>
     </div>
 
     <!-- Pricing Breakdown -->
-    <div className="px-6 py-4 bg-blue-50 rounded-xl mb-3">
-      <div className="space-y-3">
-        <div className="flex justify-between">
-          <span className="text-sm font-bold">Base Fare</span>
-          <span className="text-sm text-gray-800">$6.99</span>
+    <div class="px-6 py-4 bg-blue-50 rounded-xl mb-3">
+      <div class="space-y-3">
+        <div class="flex justify-between">
+          <span class="text-sm font-bold">Fare</span>
+          <span class="text-sm text-gray-800">{{ successOverview?.fare?.toFixed(2) }}</span>
         </div>
-        <div className="flex justify-between">
-          <span className="text-sm font-bold">Booking Fee</span>
-          <span className="text-sm text-gray-800">$2.13</span>
+        <div class="flex justify-between">
+          <span class="text-sm font-bold">Charge</span>
+          <span class="text-sm text-gray-800">{{ successOverview?.charge?.toFixed(2) }}</span>
         </div>
-        <div className="flex justify-between">
-          <span className="text-sm font-bold">Minimum Fare</span>
-          <span className="text-sm text-gray-800">$7.00</span>
-        </div>
-        <div className="flex justify-between">
-          <span className="text-sm font-bold">Cancellation Fee</span>
-          <span className="text-sm text-gray-800">$6.00</span>
-        </div>
-        <div className="border-t pt-3 flex justify-between">
-          <span className="font-semibold text-gray-800">Total Fare</span>
-          <span className="font-semibold text-blue-600 text-lg">$65.90</span>
+        <div class="border-t pt-3 flex justify-between">
+          <span class="font-semibold text-gray-800">Total Fare</span>
+          <span class="font-semibold text-blue-600 text-lg">{{ successOverview?.totalFare?.toFixed(2) }}</span>
         </div>
       </div>
     </div>
@@ -410,6 +385,7 @@ export default {
       seatList: [],
 
       overview: {},
+      successOverview: {},
 
       defLuggage: { type: "suitcase", weight: 10 },
       defForm: {},
@@ -451,6 +427,21 @@ export default {
     } else {
       this.setAutoComplete();
     }
+
+
+    const { session_id } = this.$route.query;
+    if (session_id) {
+      this.httpReq({
+        customUrl: 'payment/check', urlSuffix: session_id, callback: (data) => {
+          if (data) {
+            this.openAlert();
+            // this.$router.replace({ query: {} });
+            this.successOverview = data;
+          }
+        }
+      })
+    }
+
   },
   methods: {
     submitBooking() {
@@ -458,7 +449,7 @@ export default {
         this.showToast('Please select your locations', 'error');
         return;
       }
-      if(this.formData.seat < this.formData.passengers ) {
+      if (this.formData.seat < this.formData.passengers) {
         this.showToast(`The selected car cannot accommodate ${this.formData.passengers} passenger(s). Maximum seats available: ${this.formData.seat}.`, 'error');
         return;
       }
@@ -471,8 +462,8 @@ export default {
         urlSuffix,
         callback: (data, extra) => {
           this.isOpenOverview = true;
-          this.overview = {...data, ...extra};
-          this.$store.commit('setFormData', {...data});
+          this.overview = { ...data, ...extra };
+          this.$store.commit('setFormData', { ...data });
         }
       })
     },
