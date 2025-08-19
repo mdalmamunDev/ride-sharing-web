@@ -45,7 +45,7 @@ const routes = [
       { path: "my-rides", component: MyRidesPage, meta: { title: "My Rides", dataUrl: "job/user/ongoing" } },
       { path: "support", component: SupportPage, meta: { title: "Help & Support", dataUrl: "support" } },
       { path: "messages", component: MessagePage, meta: { title: "Chat", dataUrl: "messages" } },
-      { path: "payments", component: MyPaymentsPage, meta: { title: "Payments", dataUrl: "payments" } },
+      { path: "payments", component: MyPaymentsPage, meta: { title: "Payments", dataUrl: "payment/history" } },
       { path: "user-details", component: UserDetailsPage, meta: { title: "User Details", dataUrl: "users" } },
       {
         path: "/",

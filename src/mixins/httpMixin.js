@@ -43,6 +43,8 @@ export default {
           this.showToast(data.message, type);
         }
       } catch (error) {
+        console.log(error);
+        
         const errData = error.response?.data;
         // call errorCallback if provided
         if (typeof errorCallback === "function") errorCallback(errData, error.response);
