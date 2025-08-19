@@ -47,6 +47,9 @@ export default {
     formData() {
       return this.$store.getters.formData;
     },
+    filters() {
+      return this.$store.getters.filters;
+    },
 
     isModalOpen() {
       return this.$store.getters.isModalOpen;
@@ -169,11 +172,17 @@ export default {
     },
     getTime(dateTime) {
       if (!dateTime) return "";
-      return new Date(dateTime).toLocaleTimeString({
-        hour: "numeric",
-        minute: "2-digit",
-        hour12: true,
-      });
+
+      const date = new Date(dateTime);
+      let hours = date.getHours();
+      const minutes = date.getMinutes().toString().padStart(2, "0");
+      const ampm = hours >= 12 ? "PM" : "AM";
+
+      // Convert 24h to 12h
+      hours = hours % 12;
+      if (hours === 0) hours = 12;
+
+      return `${hours}:${minutes} ${ampm}`;
     },
     getDate(dateTime) {
       if (!dateTime) return "";

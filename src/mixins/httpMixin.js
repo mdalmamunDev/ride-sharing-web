@@ -16,15 +16,15 @@ export default {
       return url;
     },
 
-    async fetchData({ url = false, page = false, callback = false, errorCallback = false } = {}) {
-      if (!callback) {
+    async fetchData({ customUrl = false, url = false, page = false, append = false, callback = false, errorCallback = false } = {}) {
+      if (!callback && !append) {
         this.$store.commit('setDataList', null);
       }
 
       try {
         const token = localStorage.getItem('token');
         const headers = token ? { Authorization: `Bearer ${token}` } : {};
-        const apiUrl = url || this.urlGenerate();
+        const apiUrl = url || this.urlGenerate(customUrl);
 
         // Add filters if present
         if (page) this.filters.page = page;
@@ -47,6 +47,8 @@ export default {
             this.showToast(data.message, type);
           }
         } else {
+          if (append) data.data?.unshift(...this.dataList.data || {})
+          
           this.$store.commit('setDataList', data);
           if (response.status && data.message) {
             let type = 'info';

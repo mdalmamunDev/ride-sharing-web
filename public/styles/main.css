@@ -37,18 +37,13 @@
             rgba(186, 99, 255, 0.6));
 }
 
-.bg-glass {
+/* .bg-glass {
     background: rgba(255, 255, 255, 0.2);
-    /* semi-transparent white */
     backdrop-filter: blur(10px);
-    /* blur background behind */
     -webkit-backdrop-filter: blur(10px);
-    /* Safari support */
     border: 1px solid rgba(255, 255, 255, 0.1);
-    /* subtle border */
     border-radius: 12px;
-    /* optional: rounded corners */
-}
+} */
 
 .bg-glass {
     background: white;
@@ -60,6 +55,11 @@
 
 .text-g {
     background: linear-gradient(to right, #5C58EB, #BA63FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.text-g-danger {
+    background: linear-gradient(to right, #ff4e4e, #ff9463);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
