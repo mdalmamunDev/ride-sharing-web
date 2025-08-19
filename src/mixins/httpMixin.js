@@ -87,7 +87,7 @@ export default {
         .then(function (response) {
           if (!response.data) return;
           if (typeof callback === 'function') {
-            callback(response.data.data, response);  // Execute the callback with the response
+            callback(response.data.data, response.data.extra, response);  // Execute the callback with the response
           }
           if (response.status && response.data.message) {
             let type = 'info';

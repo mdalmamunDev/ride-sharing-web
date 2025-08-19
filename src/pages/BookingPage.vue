@@ -11,17 +11,17 @@
         </div> -->
         <div class="absolute inset-0 h-full max-h-[100vh]">
           <!-- <MapComp :locations="locations" icon="car" authIcon="user" /> -->
-          <!-- <img src="images/map-placeholder.png" alt="Map" class="w-full h-full object-cover" /> -->
+          <img src="images/map-placeholder.png" alt="Map" class="w-full h-full object-cover" />
 
 
-          <pre>{{ formData }}</pre>
+          <!-- <pre>{{ formData }}</pre> -->
         </div>
       </div>
     </div>
 
     <!-- Form Panel - Shows second on mobile, first on desktop -->
     <div class="w-full my-auto sm:max-h-full sm:overflow-auto md:w-1/2 p-2 sm:p-8 md:p-16 order-2 md:order-1">
-      <h1 class="hidden sm:block text-3xl md:text-4xl font-bold mb-4 text-center">Let's Book Your Ride</h1>
+      <h1 class="hidden sm:block text-3xl md:text-4xl font-bold mb-4 text-center">{{ formData._id ? 'Update' : "Let's Book" }} Your Ride</h1>
 
       <!-- Tabs -->
       <div class="flex mb-6 bg-purple-100 rounded-full">
@@ -70,9 +70,15 @@
               </div>
 
               <!-- Vue Datepicker -->
-              <Datepicker placeholder="Date & Time" v-model="formData.dateTime" :enable-time-picker="true"
-                :required="true" :minute-increment="5"
-                class="w-full bg-gray-100 rounded-xl border-none focus:outline-none focus:ring-2 focus:ring-purple-300" />
+              <Datepicker
+                placeholder="Date & Time"
+                v-model="formData.dateTime"
+                :enable-time-picker="true"
+                :required="true"
+                :minute-increment="5"
+                :disabled-dates="disablePastAndNearDates"
+                class="w-full bg-gray-100 rounded-xl border-none focus:outline-none focus:ring-2 focus:ring-purple-300"
+              />
             </div>
           </div>
 
@@ -181,7 +187,7 @@
         </div>
 
         <div class="w-full flex justify-center">
-          <button type="submit" class="max-w-full w-[300px] py-3 btn-g">Find Now</button>
+          <button type="submit" class="max-w-full w-[300px] py-3 btn-g">{{ formData._id ? 'Update Trip' : 'Find Now' }}</button>
         </div>
       </form>
 
@@ -192,33 +198,14 @@
     </div>
   </div>
 
-  <details-box :is-open="true" title="Overview" @close="isOpenOverview = false">
+  <details-box :is-open="isOpenOverview" title="Overview" @close="isOpenOverview = false" container-class="px-0">
     <!-- <h3 class="text-lg font-semibold text-gray-800 mb-6 text-start">Overview</h3> -->
-    <div className="rounded-xl mb-3">
-      <div className="flex">
-        <svg width="24" height="76" viewBox="0 0 24 76" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M19.2901 9.17005L7.70015 3.07005C4.95015 1.62005 1.96015 4.55005 3.35015 7.33005L4.97015 10.57C5.42015 11.47 5.42015 12.53 4.97015 13.43L3.35015 16.67C1.96015 19.45 4.95015 22.37 7.70015 20.93L19.2901 14.83C21.5701 13.63 21.5701 10.37 19.2901 9.17005Z"
-            stroke="#333333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-          <path d="M12 24L12 52" stroke="#858585" stroke-linecap="round" stroke-dasharray="4 4" />
-          <path fill-rule="evenodd" clip-rule="evenodd"
-            d="M4.23926 62.3912C4.25367 58.1506 7.70302 54.7247 11.9436 54.7391C16.1842 54.7535 19.6102 58.2028 19.5958 62.4434V62.5304C19.5436 65.2869 18.0045 67.8347 16.1175 69.826C15.0384 70.9466 13.8333 71.9387 12.5262 72.7825C12.1767 73.0848 11.6583 73.0848 11.3088 72.7825C9.36033 71.5143 7.65019 69.9131 6.25665 68.0521C5.01461 66.4293 4.30942 64.4597 4.23926 62.4173L4.23926 62.3912Z"
-            stroke="#333333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-          <circle cx="11.9179" cy="62.539" r="2.46087" stroke="#333333" stroke-width="1.5" stroke-linecap="round"
-            stroke-linejoin="round" />
-        </svg>
+    <AddressComp class="px-6 py-4 rounded-xl mb-3 bg-blue-50" 
+      :from-address="overview.fromAddress" :to-address="overview.toAddress" :height="56" :distance="overview.distance"
+    ></AddressComp>
+    
 
-        <!-- Address Text -->
-        <div className="relative h-[70px] w-full ms-2 overflow-hidden">
-          <p className="text-gray-800 absolute top-0 truncate whitespace-nowrap">1901 Thornridge Cir, Shiloh</p>
-          <p className="text-gray-800 absolute bottom-0 truncate whitespace-nowrap">4140 Parker Rd, Allentown, New
-            Mexico
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <div class="space-y-2 text-sm">
+    <div class="px-6 space-y-2 text-sm my-4">
       <div class="flex justify-between items-center">
         <span class="text-gray-600">Ride Price</span>
         <span class="text-blue-500 font-semibold">${{ overview?.fare?.toFixed(2) }}</span>
@@ -230,14 +217,19 @@
       </div>
 
       <div class="flex justify-between items-center">
+        <span class="text-gray-600">Distance</span>
+        <span class="text-gray-800">${{ overview?.distance?.toFixed(2) }}km</span>
+      </div>
+
+      <div class="flex justify-between items-center">
         <span class="text-gray-600">Car Type</span>
-        <span class="text-gray-800 font-medium">{{ overview?.carModelId?.name }} ({{ overview?.seat }} Seater)</span>
+        <span class="text-gray-800 font-medium">{{ findObj(carModels, overview?.carModelId)?.name }} ({{ overview?.seat }} Seater)</span>
       </div>
 
       <div class="flex justify-between items-center">
         <span class="text-gray-600">Luggages</span>
         <span class="text-gray-800 font-medium">{{ overview?.luggages?.length }} ({{overview?.luggages?.reduce((sum,
-          item) => sum + item.weight, 0) }})Kg</span>
+          item) => sum + item.weight, 0)}})Kg</span>
       </div>
 
       <div class="flex justify-between items-center">
@@ -266,7 +258,7 @@
     <!-- Disclaimer -->
     <div class="mt-8 p-4 bg-blue-50 rounded-xl">
       <h4 class="font-semibold text-gray-800 mb-2 text-start">Disclaimer:</h4>
-      <p class="text-sm font-bold leading-relaxed">
+      <p class="text-xs font-bold leading-relaxed text-start">
         Payment must be made at least 2 hours in advance.
         Cancellation is allowed up to 1 hour before the scheduled
         pickup. Within 5-24 hours get 50% and you will Get driver is
@@ -275,9 +267,15 @@
     </div>
 
 
-    <button class="btn-g w-full mt-3" @click="openAlert(); isOpenOverview = false">
-      Pay Now
-    </button>
+    <div class="px-6 w-full">
+      <button class="btn-g w-full mt-3" @click="openAlert(); isOpenOverview = false">
+        Pay Now
+      </button>
+
+      <button class="w-full mt-3 border rounded-full p-2 bg-purple-50 hover:bg-purple-100 duration-300" @click="isOpenOverview = false">
+        Update
+      </button>
+    </div>
   </details-box>
 
   <AlertBox ok-btn-text="View Your Booking" @ok="handleBookingOk">
@@ -392,6 +390,7 @@
 
 <!-- global google -->
 <script>
+import AddressComp from '@/components/AddressComp.vue';
 import AlertBox from '@/components/AlertBox.vue';
 import DetailsBox from '@/components/DetailsBox.vue';
 import Datepicker from '@vuepic/vue-datepicker';
@@ -400,7 +399,7 @@ import '@vuepic/vue-datepicker/dist/main.css';
 
 export default {
   name: 'BookingPage',
-  components: { AlertBox, DetailsBox, Datepicker },
+  components: { AlertBox, DetailsBox, Datepicker, AddressComp },
   data() {
     return {
       isOpenOverview: false,
@@ -454,6 +453,29 @@ export default {
     }
   },
   methods: {
+    submitBooking() {
+      if (!this.formData.coordinates || !this.formData.destCoordinates) {
+        this.showToast('Please select your locations', 'error');
+        return;
+      }
+      if(this.formData.seat < this.formData.passengers ) {
+        this.showToast(`The selected car cannot accommodate ${this.formData.passengers} passenger(s). Maximum seats available: ${this.formData.seat}.`, 'error');
+        return;
+      }
+
+      const method = this.formData._id ? 'put' : 'post';
+      const urlSuffix = this.formData._id || '';
+
+      this.httpReq({
+        method,
+        urlSuffix,
+        callback: (data, extra) => {
+          this.isOpenOverview = true;
+          this.overview = {...data, ...extra};
+          this.$store.commit('setFormData', {...data});
+        }
+      })
+    },
     setAutoComplete() {
       const initAutocomplete = (ref, coordinates) => {
         const el = ref.$el || ref;
@@ -518,20 +540,6 @@ export default {
         }
       );
     },
-    submitBooking() {
-      if (!this.formData.coordinates || !this.formData.destCoordinates) {
-        this.showToast('Please select your locations', 'error');
-        return;
-      }
-
-      this.httpReq({
-        callback: (data) => {
-          this.isOpenOverview = true;
-          this.overview = data;
-          this.$store.commit('setFormData', this.defForm);
-        }
-      })
-    },
     increasePassengers() {
       this.formData.passengers++;
     },
@@ -551,7 +559,12 @@ export default {
       this.formData.carModelId = this.selectedCarModel?._id || "";
       this.formData.seat = "";
       this.seatList = this.selectedCarModel?.seats || [];
-    }
+    },
+
+    disablePastAndNearDates(date) {
+      const nowPlus2Hrs = new Date(Date.now() - 24 * 60 * 60 * 1000);
+      return date < nowPlus2Hrs;
+    },
   },
 };
 </script>

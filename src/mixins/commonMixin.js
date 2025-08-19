@@ -121,6 +121,10 @@ export default {
       const baseFilePath = process.env.VUE_APP_BASE_FILE_PATH || '';
       return `${baseFilePath}/${path}`;
     },
+    findObj(list, keyValue, key = '_id') {
+      if (!list || !keyValue || !key) return null;
+      return list.find(obj => obj[key] === keyValue);
+    },
     showImg(path) {
       if (!path) return;
 
@@ -173,7 +177,7 @@ export default {
     },
     getDate(dateTime) {
       if (!dateTime) return "";
-      return new Date(dateTime).toLocaleDateTime();
+      return new Date(dateTime).toLocaleDateString();
     },
     printArea(title, ref = 'printArea') {
       const content = this.$refs[ref].innerHTML;
