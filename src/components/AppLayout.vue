@@ -35,8 +35,11 @@
             </div>
             <div class="hidden md:block">
               <span class="text-gray-800 font-bold">{{ auth?.name || 'Unknown User' }}</span>
-              <p v-if="auth?.role === 'user' || auth?.approvalStatus === 'verified'" class="text-sm text-g-2 font-bold mt-0.5">Verified</p>
-              <p v-else-if="auth?.approvalStatus" class="text-sm text-g-danger font-bold mt-0.5 capitalize">Unverified</p>
+              <p v-if="auth?.role === 'user' || auth?.approvalStatus === 'verified'"
+                class="text-sm text-g-2 font-bold mt-0.5">
+                Verified</p>
+              <p v-else-if="auth?.approvalStatus" class="text-sm text-g-danger font-bold mt-0.5 capitalize">Unverified
+              </p>
             </div>
           </router-link>
         </div>
@@ -82,8 +85,10 @@
                 </div>
                 <div>
                   <span class="text-gray-800 font-bold">{{ auth?.name || 'Unknown User' }}</span>
-                  <p v-if="auth?.role === 'user' || auth?.approvalStatus === 'verified'" class="text-sm text-g-2 font-bold mt-0.5">Verified</p>
-                  <p v-else-if="auth?.approvalStatus" class="text-sm text-g-danger font-bold mt-0.5 capitalize">Unverified</p>
+                  <p v-if="auth?.role === 'user' || auth?.approvalStatus === 'verified'"
+                    class="text-sm text-g-2 font-bold mt-0.5">Verified</p>
+                  <p v-else-if="auth?.approvalStatus" class="text-sm text-g-danger font-bold mt-0.5 capitalize">
+                    Unverified</p>
                 </div>
               </div>
             </router-link>
@@ -128,6 +133,7 @@
 </template>
 
 <script>
+import socket from '@/plugins/socket';
 import Swal from 'sweetalert2';
 export default {
   name: "AppLayout",
@@ -185,6 +191,21 @@ export default {
   computed: {
     navLinks() {
       return this.links.filter(link => link.roles.includes(this.auth?.role)) || [];
+    }
+  },
+  mounted() {
+    const existAuth = this.$store.getters.auth;
+    if (existAuth) {
+      socket.emit("user-connected", { userId: existAuth?._id });
+
+    } else {
+      this.httpReq({
+        customUrl: 'user/me', method: 'get', callback: (data) => {
+          socket.emit("user-connected", { userId: data?._id });
+          console.log(8888888);
+
+        }
+      });
     }
   },
   methods: {

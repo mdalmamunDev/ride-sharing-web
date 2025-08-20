@@ -1,23 +1,24 @@
 <template>
-  <div class="h-full relative">
+  <div class="h-full w-[400px] relative">
     <!-- Chat Messages Container -->
     <div ref="chatContainer"
       class="overflow-y-auto flex flex-col-reverse p-4 space-y-reverse space-y-3 h-full pb-[95px]">
-      <div v-for="(msg, index) in messages" :key="index" class="flex"
-        :class="msg.isIncoming ? 'justify-start' : 'justify-end'">
+      <div v-for="(msg, index) in messageList" :key="index" class="flex"
+        :class="msg.senderId !== auth?._id ? 'justify-start' : 'justify-end'">
         <div :class="[
           'px-6 py-3 max-w-xs shadow-sm rounded-xl',
-          msg.isIncoming
+          msg.senderId !== auth?._id
             ? 'bg-blue-100 text-gray-800 rounded-bl-none'
             : 'bg-purple-500 text-white rounded-br-none'
         ]">
-          <p class="text-sm">{{ msg.text }}</p>
+          <p class="text-sm">{{ msg.content }}</p>
         </div>
       </div>
     </div>
 
     <!-- Input Area -->
-    <div class="absolute bottom-0 right-0 w-full h-[80px] p-4 border-t border-gray-200 bg-white/30 backdrop-blur-md rounded-lg shadow-lg">
+    <div
+      class="absolute bottom-0 right-0 w-full h-[80px] p-4 border-t border-gray-200 bg-white/30 backdrop-blur-md rounded-lg shadow-lg">
       <div class="flex items-center space-x-3">
         <!-- Text Input -->
         <div class="flex-1 relative">
@@ -41,6 +42,7 @@
 
 <script>
 import FileUploader from './FileUploader.vue';
+import socket from '@/plugins/socket';
 
 export default {
   name: "MessagesCom",
@@ -48,40 +50,46 @@ export default {
   data() {
     return {
       newMessage: '',
-      messages: [
-        { text: "Ok, no problem. We are waiting", isIncoming: true },
-        { text: "I need 10 mins", isIncoming: false },
-        { text: "How long do you need to arrive at location", isIncoming: true },
-        { text: "Ohh, great.", isIncoming: true },
-        { text: "I am good. And I'm from United State", isIncoming: false },
-        { text: "How are you? And where are you from?", isIncoming: true },
-        { text: "Hi Jane Cooper", isIncoming: true },
-        { text: "Ok, no problem. We are waiting", isIncoming: true },
-        { text: "I need 10 mins", isIncoming: false },
-        { text: "How long do you need to arrive at location", isIncoming: true },
-        { text: "Ohh, great.", isIncoming: true },
-        { text: "I am good. And I'm from United State", isIncoming: false },
-        { text: "How are you? And where are you from?", isIncoming: true },
-        { text: "Hi Jane Cooper", isIncoming: true },
-        { text: "Ok, no problem. We are waiting", isIncoming: true },
-        { text: "I need 10 mins", isIncoming: false },
-        { text: "How long do you need to arrive at location", isIncoming: true },
-        { text: "Ohh, great.", isIncoming: true },
-        { text: "I am good. And I'm from United State", isIncoming: false },
-        { text: "How are you? And where are you from?", isIncoming: true },
-        { text: "Hi Jane Cooper", isIncoming: false },
-      ],
+      threadId: null,
+      messageList: [],
+      messagePagination: {}
     };
+  },
+  mounted() {
+    this.httpReq({
+      customUrl: 'message', urlSuffix: '68a2b88242c17ad1d05d920d', method: 'get', callback: (data, extra, response) => {
+        this.threadId = extra?.threadId;
+        this.messageList = data;
+        this.messagePagination = response?.data?.pagination;
+
+      }
+    })
+    // Listen for messages from server
+    socket.on("message-receive", (msg) => {
+      this.messageList.unshift(msg);
+    });
   },
   methods: {
     sendMessage() {
-      if (this.newMessage.trim()) {
-        this.messages.unshift({
-          text: this.newMessage.trim(),
-          isIncoming: false,
-        });
-        this.newMessage = '';
+      let authUser = this.$store.getters.auth;
+      if (!authUser || !this.threadId) {
+        this.showToast('Something went wrong', 'error')
+        return;
       }
+      if (!this.newMessage?.trim()) return;
+
+
+      //{ senderId: string, threadId: string, content: string, attachments: string[] }
+      const msg = {
+        senderId: authUser._id,
+        threadId: this.threadId,
+        content: this.newMessage,
+        // attachments: []
+      };
+      socket.emit("message-send", msg);
+
+      this.messageList.unshift(msg);
+      this.newMessage = '';
     },
   },
 };

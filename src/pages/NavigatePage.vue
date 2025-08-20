@@ -14,55 +14,46 @@
       class=" bg-glass sm:absolute bottom-10 left-10  w-[100%] sm:w-[90%] max-w-5xl sm:shadow-xl rounded-2xl p-6 grid grid-cols-1 sm:grid-cols-9 gap-0 sm:gap-4">
       <!-- Left Section -->
       <div class="sm:col-span-2 flex sm:flex-col justify-between mb-8 sm:mb-0 border-b sm:border-none pb-3 sm:pb-0">
-        <p class="text-lg text-gray-500 font-bold ">Arriving in <span class="text-g">10 Mins</span></p>
-        <p class="text-lg flex gap-1 items-center">10:30 PM |
-          <button @click="isShowComplete = true"
-            class="bg-green-100/50 rounded border border-green-500 px-1 text-green-600 font-bold hover:bg-green-200 duration-200">
-            Complete
-          </button>
+        <p class="text-lg text-gray-500 font-bold ">
+          <template v-if="auth?.role === 'user'">Arriving</template>
+          <template v-else-if="auth?.role === 'provider'">Pickup</template>
+          in <span class="text-g">10 Mins</span>
         </p>
-        <div class="p-2 rounded-2xl bg-purple-100/50 hidden sm:block">
+        <p class="text-lg flex gap-1 items-center">10:30 PM
+          <!-- <template v-if="auth?.role === 'user'"> -->
+            |
+            <button @click="isShowComplete = true"
+              class="bg-green-100/50 rounded border border-green-500 px-1 text-green-600 font-bold hover:bg-green-200 duration-200">
+              Complete
+            </button>
+          <!-- </template> -->
+        </p>
+        <div class="p-2 rounded-2xl bg-purple-100 hidden sm:block">
           <p class="text-gray-500 text-xs mb-2"><i class="fa-regular fa-envelope text-g"></i> janecooper@email.com</p>
           <p class="text-gray-500 text-xs"><i class="fa-solid fa-phone-volume text-g"></i> +1 234 567 8901</p>
         </div>
       </div>
 
       <!-- Middle Section -->
-      <div class="sm:col-span-3 p-6 rounded-2xl bg-purple-100/50 flex items-center justify-between">
+      <div class="sm:col-span-3 p-3  rounded-2xl bg-purple-100 flex items-center"
+        :class="auth?.role === 'user' ? 'justify-between' : 'justify-center'">
         <button @click="isShowUser = true" class="hidden sm:flex items-center justify-center flex-col">
           <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Jane Cooper"
-            class="w-16 h-16 rounded-full object-cover bg-g p-0.5" />
-          <h3 class="text-sm font-semibold mt-1">Jane Cooper</h3>
+            class="w-24 h-24 rounded-full object-cover bg-g p-0.5" />
+          <h3 class="text-md font-bold mt-2">Jane Cooper</h3>
         </button>
         <router-link to="/user-details" class="flex sm:hidden items-center justify-center flex-col">
           <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Jane Cooper"
             class="w-16 h-16 rounded-full object-cover bg-g p-0.5" />
-          <h3 class="text-sm font-semibold mt-1">Jane Cooper</h3>
+          <h3 class="text-md font-bold mt-2">Jane Cooper</h3>
         </router-link>
-        <img src="/images/car.png" alt="Car" class="w-28 mt-1" />
+        <img v-if="auth?.role === 'user'" src="/images/car.png" alt="Car" class="w-28 mt-1" />
       </div>
 
       <!-- Right Section -->
-      <div className="flex sm:col-span-4 p-6 rounded-2xl sm:bg-blue-100/50">
-        <svg width="24" height="76" viewBox="0 0 24 76" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M19.2901 9.17005L7.70015 3.07005C4.95015 1.62005 1.96015 4.55005 3.35015 7.33005L4.97015 10.57C5.42015 11.47 5.42015 12.53 4.97015 13.43L3.35015 16.67C1.96015 19.45 4.95015 22.37 7.70015 20.93L19.2901 14.83C21.5701 13.63 21.5701 10.37 19.2901 9.17005Z"
-            stroke="#333333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-          <path d="M12 24L12 52" stroke="#858585" stroke-linecap="round" stroke-dasharray="4 4" />
-          <path fill-rule="evenodd" clip-rule="evenodd"
-            d="M4.23926 62.3912C4.25367 58.1506 7.70302 54.7247 11.9436 54.7391C16.1842 54.7535 19.6102 58.2028 19.5958 62.4434V62.5304C19.5436 65.2869 18.0045 67.8347 16.1175 69.826C15.0384 70.9466 13.8333 71.9387 12.5262 72.7825C12.1767 73.0848 11.6583 73.0848 11.3088 72.7825C9.36033 71.5143 7.65019 69.9131 6.25665 68.0521C5.01461 66.4293 4.30942 64.4597 4.23926 62.4173L4.23926 62.3912Z"
-            stroke="#333333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-          <circle cx="11.9179" cy="62.539" r="2.46087" stroke="#333333" stroke-width="1.5" stroke-linecap="round"
-            stroke-linejoin="round" />
-        </svg>
-
-        <!-- Address Text -->
-        <div className="relative h-[70px] w-full ms-2 overflow-hidden">
-          <p className="text-gray-800 absolute top-0 truncate whitespace-nowrap">1901 Thornridge Cir, Shiloh</p>
-          <p className="text-gray-800 absolute bottom-0 truncate whitespace-nowrap">4140 Parker Rd, Allentown, New
-            Mexico</p>
-        </div>
-      </div>
+      <address-comp :height="80" :width="30" from-address="From Address here" to-address="Address here asj asldfj"
+        text-size="md" class="sm:col-span-4 p-6 rounded-2xl sm:bg-blue-100/50 flex items-center">
+      </address-comp>
 
       <!-- Chat Mobile -->
       <router-link to="/messages" class="btn-g sm:hidden w-full p-3 flex items-center justify-center gap-4">
@@ -168,11 +159,12 @@ import DetailsBox from '@/components/DetailsBox.vue';
 import UserDetails from '@/components/UserDetails.vue';
 import MessagesCom from '@/components/MessagesCom.vue';
 import MapComp from '@/components/MapComp.vue';
+import AddressComp from '@/components/AddressComp.vue';
 
 
 export default {
   name: 'NavigatePage',
-  components: { MessagesCom, DetailsBox, UserDetails, MapComp },
+  components: { MessagesCom, DetailsBox, UserDetails, MapComp, AddressComp },
   data() {
     return {
       rideType: 'split',
@@ -236,8 +228,8 @@ export default {
 
         // this.location.lat += latStep;
         // this.location.lng += lngStep;
-        this.location = {lat: this.location.lat + latStep, lng: this.location.lng + lngStep}
-        
+        this.location = { lat: this.location.lat + latStep, lng: this.location.lng + lngStep }
+
 
         // console.log(`Current position: ${this.location.lat.toFixed(6)}, ${this.location.lng.toFixed(6)}`);
 
