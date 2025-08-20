@@ -43,7 +43,7 @@
 
             </div>
 
-            <div class="bg-white/50 px-3 rounded-2xl">
+            <div class="bg-white px-3 rounded-2xl">
               <!-- Ride Details -->
               <div class="">
                 <div class="flex justify-between items-center py-3 border-b">
@@ -58,9 +58,14 @@
                   </span>
                 </div>
 
-                <div class="flex justify-between items-center py-3 border-b">
+                <div v-if="auth?.role === 'user'" class="flex justify-between items-center py-3 border-b">
                   <span class="text-xs text-gray-500">Driver</span>
                   <span class="text-xs font-medium text-gray-700">{{ ride.providerName || 'N/A' }}</span>
+                </div>
+
+                <div v-else-if="auth?.role === 'provider'" class="flex justify-between items-center py-3 border-b">
+                  <span class="text-xs text-gray-500">Passenger</span>
+                  <span class="text-xs font-medium text-gray-700">{{ ride.userName || 'N/A' }}</span>
                 </div>
 
                 <div class="flex justify-between items-center py-3 border-b">
@@ -167,8 +172,8 @@ export default {
   },
   watch: {
     activeTab(val) {
-      if (val === 'scheduled') this.$route.meta.dataUrl = 'job/user/ongoing';
-      else this.$route.meta.dataUrl = 'job/user/history';
+      if (val === 'scheduled') this.$route.meta.dataUrl = 'job/ongoing';
+      else this.$route.meta.dataUrl = 'job/history';
       this.fetchData();
     }
   },

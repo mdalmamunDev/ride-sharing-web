@@ -435,7 +435,7 @@ export default {
         customUrl: 'payment/check', urlSuffix: session_id, callback: (data) => {
           if (data) {
             this.openAlert();
-            // this.$router.replace({ query: {} });
+            this.$router.replace({ query: {} });
             this.successOverview = data;
           }
         }

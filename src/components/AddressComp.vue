@@ -15,8 +15,8 @@
 
 			<!-- Address Text -->
 			<div class="relative w-full ms-2 overflow-hidden text-sm" :class="`h-[${height-2}px]`">
-				<p class="text-gray-800 absolute top-0 truncate whitespace-nowrap">{{ fromAddress }}</p>
-				<p class="text-gray-800 absolute bottom-0 truncate whitespace-nowrap">{{ toAddress }}</p>
+				<p class="text-gray-800 absolute top-0 truncate whitespace-nowrap">{{ fromAddress || 'N/A' }}</p>
+				<p class="text-gray-800 absolute bottom-0 truncate whitespace-nowrap">{{ toAddress || 'N/A' }}</p>
 			</div>
 		</div>
 	</div>

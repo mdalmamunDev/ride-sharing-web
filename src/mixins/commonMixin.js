@@ -155,6 +155,10 @@ export default {
         return '/icons/file.png';
       }
     },
+    printText(text, max) {
+      if (!text) return '';
+      return text.length > max ? text.slice(0, max) + '...' : text;
+    },
     isRoute(route) {
       return this.$route && this.$route.fullPath && this.$route.fullPath.includes(route);
     },

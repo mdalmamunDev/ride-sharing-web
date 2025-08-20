@@ -39,9 +39,9 @@ const routes = [
     component: AppLayout,
     children: [
       { path: "", component: BookingPage, meta: { title: "Book Ride", dataUrl: "job" } },
-      { path: "d-home", component: DriverHomePage, meta: { title: "Home", dataUrl: "driver-home" } },
+      { path: "d-home", component: DriverHomePage, meta: { title: "Home", dataUrl: "job/provider/requested" } },
       { path: "navigate", component: NavigatePage, meta: { title: "Navigate", dataUrl: "navigate" } },
-      { path: "my-rides", component: MyRidesPage, meta: { title: "My Rides", dataUrl: "job/user/ongoing" } },
+      { path: "my-rides", component: MyRidesPage, meta: { title: "My Rides", dataUrl: "job/ongoing" } },
       { path: "support", component: SupportPage, meta: { title: "Help & Support", dataUrl: "support" } },
       { path: "messages", component: MessagePage, meta: { title: "Chat", dataUrl: "messages" } },
       { path: "payments", component: MyPaymentsPage, meta: { title: "Payments", dataUrl: "payment/history" } },

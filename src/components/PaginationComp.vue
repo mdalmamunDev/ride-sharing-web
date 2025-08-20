@@ -1,7 +1,7 @@
 <template>
   <div class="w-full">
-    <div class="w-full min-h-[70vh] flex items-center justify-center">
-      <span v-if="!dataList" class="w-full flex justify-center items-center">
+    <div v-if="!dataList" class="w-full min-h-[70vh] flex flex-col items-center justify-center">
+      <span class="w-full flex justify-center items-center">
         <div role="status">
           <svg aria-hidden="true" class="w-16 h-16 text-blue-400 animate-spin  fill-gray-300" viewBox="0 0 100 101"
             fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -15,13 +15,13 @@
           <span class="sr-only">Loading...</span>
         </div>
       </span>
-
-      <slot class="w-full" v-else>
-        <!--  -->
-      </slot>
-
-
     </div>
+
+    <slot class="w-full" v-else>
+      <!--  -->
+    </slot>
+
+
     <div v-show="dataList?.pagination?.currentPage < dataList?.pagination?.totalPages"
       class="w-full h-48 flex items-center justify-center">
       <span class="flex justify-center items-center" ref="loading">
