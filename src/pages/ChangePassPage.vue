@@ -1,84 +1,82 @@
 <template>
   <div class="max-w-xl mx-auto">
     <h3 class="text-2xl font-semibold text-center">Reset Password</h3>
-    <form class="space-y-6 mt-12" @submit.prevent="resetPass">
-      <div>
-        <label class="block text-sm font-semibold mb-1">Enter old password</label>
-        <a-input-password v-model:value="formData.password" minlength="8" :type="showPassword ? 'text' : 'password'" placeholder="Enter old password" class=" py-2 border rounded" >
-          <!-- Left icon -->
-          <template #prefix>
-            <i class="fa fa-lock me-3"></i>
-          </template>
 
-          <!-- Right toggle icon -->
-          <template #suffix>
-            <span @click="togglePasswordVisibility" class="cursor-pointer text-gray-500">
-              <component :is="showPassword ? EyeInvisibleOutlined : EyeOutlined" />
-            </span>
-          </template>
-        </a-input-password>
+    <form class="space-y-6 mt-12" @submit.prevent="httpReq">
+
+      <!-- Current Password -->
+      <div class="w-full">
+        <label class="text-sm font-semibold">Enter old password</label>
+        <div class="relative w-full mt-1">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-purple-800">
+            <img src="/icons/lock.svg" alt="lock">
+          </div>
+
+          <input :type="showPassword ? 'text' : 'password'" v-model="formData.currentPassword" minlength="8"
+            placeholder="Enter old password" class="w-full bg-gray-100 rounded-xl p-4 pl-10 pr-10 focus:outline-none" />
+
+          <span @click="togglePasswordVisibility"
+            class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-gray-500">
+            <component :is="showPassword ? EyeInvisibleOutlined : EyeOutlined" />
+          </span>
+        </div>
       </div>
 
-      <div>
-        <label class="block text-sm font-semibold mb-1">New password</label>
-        <a-input-password v-model:value="formData.newPassword" minlength="8" :type="showPassword ? 'text' : 'password'" placeholder="Enter new password" class=" py-2 border rounded" >
-          <!-- Left icon -->
-          <template #prefix>
-            <i class="fa fa-lock me-3"></i>
-          </template>
+      <!-- New Password -->
+      <div class="w-full">
+        <label class="text-sm font-semibold">New password</label>
+        <div class="relative w-full mt-1">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-purple-800">
+            <img src="/icons/lock.svg" alt="lock">
+          </div>
 
-          <!-- Right toggle icon -->
-          <template #suffix>
-            <span @click="togglePasswordVisibility" class="cursor-pointer text-gray-500">
-              <component :is="showPassword ? EyeInvisibleOutlined : EyeOutlined" />
-            </span>
-          </template>
-        </a-input-password>
+          <input :type="showPassword ? 'text' : 'password'" v-model="formData.password" minlength="8"
+            placeholder="Enter new password" class="w-full bg-gray-100 rounded-xl p-4 pl-10 pr-10 focus:outline-none" />
+
+          <span @click="togglePasswordVisibility"
+            class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-gray-500">
+            <component :is="showPassword ? EyeInvisibleOutlined : EyeOutlined" />
+          </span>
+        </div>
       </div>
 
-      
-      <div>
-        <label class="block text-sm font-semibold mb-1">Confirm password</label>
-        <a-input-password v-model:value="formData.confirmNewPassword" minlength="8" :type="showPassword ? 'text' : 'password'" placeholder="Confirm new password" class=" py-2 border rounded" >
-          <!-- Left icon -->
-          <template #prefix>
-            <i class="fa fa-lock me-3"></i>
-          </template>
+      <!-- Confirm Password -->
+      <div class="w-full">
+        <label class="text-sm font-semibold">Confirm password</label>
+        <div class="relative w-full mt-1">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-purple-800">
+            <img src="/icons/lock.svg" alt="lock">
+          </div>
 
-          <!-- Right toggle icon -->
-          <template #suffix>
-            <span @click="togglePasswordVisibility" class="cursor-pointer text-gray-500">
-              <component :is="showPassword ? EyeInvisibleOutlined : EyeOutlined" />
-            </span>
-          </template>
-        </a-input-password>
+          <input :type="showPassword ? 'text' : 'password'" v-model="formData.confirmPassword" minlength="8"
+            placeholder="Confirm new password"
+            class="w-full bg-gray-100 rounded-xl p-4 pl-10 pr-10 focus:outline-none" />
+
+          <span @click="togglePasswordVisibility"
+            class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-gray-500">
+            <component :is="showPassword ? EyeInvisibleOutlined : EyeOutlined" />
+          </span>
+        </div>
       </div>
 
-      <div>
-        <!-- <span class="text-red-500 cursor-pointer">Forgot password?</span> --> <!-- TODO -->
-      </div>
-      <button type="submit" class="w-full bg-[#5B84D7] text-white py-3 rounded text-lg font-medium hover:bg-blue-700" >
+      <button type="submit" class="w-full bg-[#5B84D7] text-white py-3 rounded text-lg font-medium hover:bg-blue-700">
         Update Password
       </button>
     </form>
   </div>
 </template>
 
+
 <script>
 export default {
   name: "ChangePassPage",
   data() {
-  return {
-    showPassword: false
-  };
-},
+    return {
+      showPassword: false
+    };
+  },
   mounted() {
     this.$store.commit('setFormData', {});
   },
-  methods: {
-    resetPass(){
-      this.httpReq({})
-    }
-  }
 };
 </script>

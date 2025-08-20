@@ -7,7 +7,6 @@ import LoginPage from "../pages/auth/LoginPage.vue";
 import ProfilePage from "@/pages/ProfilePage.vue";
 import UserLayout from "@/components/UserLayout.vue";
 import ChangePassPage from "@/pages/ChangePassPage.vue";
-import SettingsPage from "@/pages/SettingsPage.vue";
 import SignupPage from "@/pages/auth/SignupPage.vue";
 import BookingPage from "@/pages/BookingPage.vue";
 import NavigatePage from "@/pages/NavigatePage.vue";
@@ -51,9 +50,9 @@ const routes = [
         path: "/",
         component: UserLayout,
         children: [
-          { path: "profile", component: ProfilePage, meta: { title: "Profile", dataUrl: "user/profile" } },
-          { path: "reset-pass", component: ChangePassPage, meta: { title: "Reset Password", dataUrl: "auth/reset-password" } },
-          { path: "settings", component: SettingsPage, meta: { title: "Settings", dataUrl: "settings" } },
+          { path: "profile", component: ProfilePage, meta: { title: "Profile", dataUrl: "user/me" } },
+          { path: "reset-pass", component: ChangePassPage, meta: { title: "Reset Password", dataUrl: "auth/change-password" } },
+          // { path: "settings", component: SettingsPage, meta: { title: "Settings", dataUrl: "settings" } },
         ],
       },
     ]

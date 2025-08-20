@@ -57,7 +57,18 @@
     background: linear-gradient(to right, #5C58EB, #BA63FF);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
 }
+
+.text-g-2 {
+    background: linear-gradient(to right, #56E1E8, #5C58EB, #BA63FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
 .text-g-danger {
     background: linear-gradient(to right, #ff4e4e, #ff9463);
     -webkit-background-clip: text;

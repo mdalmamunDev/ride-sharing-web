@@ -200,7 +200,6 @@
       message="We will review the provided information and get back to you after verification"
       ok-btn-text="Go Back To Home Screen" @ok="$router.push('/d-home')" />
 
-    <pre>{{ formData }}</pre>
   </div>
 </template>
 

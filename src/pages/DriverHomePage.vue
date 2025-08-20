@@ -11,7 +11,7 @@
         </div> -->
         <div class="absolute inset-0 max-h-[100vh]">
           <!-- <MapComp :locations="locations" icon="user" authIcon="car"/> -->
-          <img src="images/map-placeholder.png" alt="Map" class="w-full h-full object-cover" />
+          <img src="images/map-placeholder-d.png" alt="Map" class="w-full h-full object-cover" />
         </div>
       </div>
     </div>
@@ -29,7 +29,7 @@
             'flex-1 py-2 font-bold rounded-full transition',
             rideType === 'split'
               ? 'bg-g text-white'
-              : 'text-1 hover:bg-gray-100'
+              : 'text-1 hover:bg-purple-200 duration-300'
           ]" @click="rideType = 'split'">
             Split Your Ride
           </button>
@@ -37,7 +37,7 @@
             'flex-1 py-2 font-bold rounded-full ml-2 transition',
             rideType === 'private'
               ? 'bg-g text-white'
-              : 'text-1 hover:bg-gray-100'
+              : 'text-1 hover:bg-purple-200 duration-300'
           ]" @click="rideType = 'private'">
             Private Ride
           </button>
@@ -123,7 +123,7 @@
 
         </div>
 
-        <p class="mt-10 text-sm text-center">
+        <p class="mt-10 pb-10 text-sm text-center">
           Have Issues Booking? Get In Touch With <a href="#" class="text-g font-medium">Our Support</a>
         </p>
       </div>

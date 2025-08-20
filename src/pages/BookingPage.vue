@@ -31,7 +31,7 @@
           'flex-1 py-2 font-bold rounded-full transition',
           formData.type === 'split'
             ? 'bg-g text-white'
-            : 'text-1 hover:bg-gray-100'
+            : 'text-1 hover:bg-purple-200 duration-300'
         ]" @click="formData.type = 'split'">
           Split Your Ride
         </button>
@@ -39,7 +39,7 @@
           'flex-1 py-2 font-bold rounded-full ml-2 transition',
           formData.type === 'private'
             ? 'bg-g text-white'
-            : 'text-1 hover:bg-gray-100'
+            : 'text-1 hover:bg-purple-200 duration-300'
         ]" @click="formData.type = 'private'">
           Private Ride
         </button>

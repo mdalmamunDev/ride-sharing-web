@@ -207,6 +207,8 @@ export default {
           if (!tokens || !tokens.accessToken) return;
           localStorage.setItem('token', tokens.accessToken);
 
+          this.$store.commit('setAuth', user);
+
           let des = '/';
           if (user.role === 'provider') des = user.step === 1 ? '/auth/complete' : '/d-home';
           this.$router.push(des);

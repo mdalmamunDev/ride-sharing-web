@@ -12,11 +12,11 @@
         <div class="flex items-center justify-between h-full">
           <!-- Logo -->
           <router-link to="/">
-            <img src="/logo.svg" class="w-40" alt="Logo" />
+            <img src="/logo.svg" class="w-32 md:w-40" alt="Logo" />
           </router-link>
 
           <!-- Navigation -->
-          <nav class="flex space-x-8 items-center h-full relative font-bold">
+          <nav class="flex space-x-4 md:space-x-8 text-sm md:text-md items-center h-full relative font-bold">
             <template v-for="link in navLinks" :key="link.to">
               <router-link :to="link.to" class="relative h-full flex items-center"
                 :class="{ 'text-g': link.activePaths.includes($route.path) }">
@@ -30,11 +30,13 @@
           <!-- User Profile -->
           <router-link to="/profile" class="flex items-center space-x-3">
             <div class="w-10 h-10 p-0.5 bg-g rounded-full overflow-hidden">
-              <img :src="showImg(auth?.profileImage)" alt="Kimmy Natasa" class="w-full h-full rounded-full bg-white object-cover" />
+              <img :src="showImg(auth?.profileImage)" alt="Kimmy Natasa"
+                class="w-full h-full rounded-full bg-white object-cover" />
             </div>
-            <div>
-              <span class="text-gray-800 font-medium">{{ auth?.name }}</span>
-              <p class="text-sm text-blue-400 -mt-1">Verified</p>
+            <div class="hidden md:block">
+              <span class="text-gray-800 font-bold">{{ auth?.name || 'Unknown User' }}</span>
+              <p v-if="auth?.role === 'user' || auth?.approvalStatus === 'verified'" class="text-sm text-g-2 font-bold mt-0.5">Verified</p>
+              <p v-else-if="auth?.approvalStatus" class="text-sm text-g-danger font-bold mt-0.5 capitalize">Unverified</p>
             </div>
           </router-link>
         </div>
@@ -71,16 +73,20 @@
 
           <!-- User Profile -->
           <div class="p-6 border-b border-gray-100">
-            <div class="flex items-center space-x-3">
-              <div class="w-12 h-12 rounded-full overflow-hidden">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnnFf6DXcgRxe71BOQm1orHpnKjJloo9c2jg&s"
-                  alt="Kimmy Natasa" class="w-full h-full object-cover" />
+            <router-link to="/profile" @click="closeSideNav">
+              <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 rounded-full overflow-hidden">
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnnFf6DXcgRxe71BOQm1orHpnKjJloo9c2jg&s"
+                    alt="Kimmy Natasa" class="w-full h-full object-cover" />
+                </div>
+                <div>
+                  <span class="text-gray-800 font-bold">{{ auth?.name || 'Unknown User' }}</span>
+                  <p v-if="auth?.role === 'user' || auth?.approvalStatus === 'verified'" class="text-sm text-g-2 font-bold mt-0.5">Verified</p>
+                  <p v-else-if="auth?.approvalStatus" class="text-sm text-g-danger font-bold mt-0.5 capitalize">Unverified</p>
+                </div>
               </div>
-              <div>
-                <div class="text-gray-800 font-medium">Kimmy Natasa</div>
-                <p class="text-sm text-blue-400">Verified</p>
-              </div>
-            </div>
+            </router-link>
           </div>
 
           <!-- Navigation Menu -->
@@ -96,15 +102,18 @@
 
             <!-- Extra menu items -->
             <div class="border-t border-gray-100 mt-4 pt-4">
-              <a href="#" class="flex items-center px-6 py-4 text-gray-700 hover:bg-gray-50 font-medium">
-                <i class="fa-solid fa-user text-lg me-4 w-5"></i> Profile
-              </a>
-              <a href="#" class="flex items-center px-6 py-4 text-gray-700 hover:bg-gray-50 font-medium">
-                <i class="fa-solid fa-cog text-lg me-4 w-5"></i> Settings
-              </a>
-              <a href="#" class="flex items-center px-6 py-4 text-gray-700 hover:bg-gray-50 font-medium">
+              <template v-for="link in extraLinks" :key="link.to">
+                <router-link :to="link.to" @click="closeSideNav"
+                  class="flex items-center px-6 py-4 text-gray-700 hover:bg-gray-50 font-medium"
+                  :class="{ 'text-g bg-gray-50': link.activePaths.includes($route.path) }">
+                  <i :class="link.icon + ' text-lg me-4 w-5'"></i>
+                  {{ link.label }}
+                </router-link>
+              </template>
+              <button @click="showAlert(); closeSideNav()"
+                class="flex items-center px-6 py-4 text-gray-700 hover:bg-gray-50 font-medium">
                 <i class="fa-solid fa-sign-out-alt text-lg me-4 w-5"></i> Logout
-              </a>
+              </button>
             </div>
           </nav>
         </div>
@@ -119,6 +128,7 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
 export default {
   name: "AppLayout",
   data() {
@@ -148,7 +158,7 @@ export default {
         },
         {
           label: "My Payments",
-          roles: ['user', 'provider'],
+          roles: ['provider'],
           to: "/payments",
           icon: "fa-solid fa-list",
           activePaths: ["/payments"]
@@ -160,6 +170,15 @@ export default {
           icon: "fa-solid fa-headset",
           activePaths: ["/support"]
         },
+      ],
+      extraLinks: [
+        {
+          label: "Reset Password",
+          roles: ['user', 'provider'],
+          to: "/reset-pass",
+          icon: "fa-solid fa-cog",
+          activePaths: ["/reset-pass"]
+        }
       ],
     };
   },
@@ -174,13 +193,25 @@ export default {
     },
     closeSideNav() {
       this.isSideNavOpen = false;
+    },
+    showAlert() {
+      Swal.fire({
+        title: 'Do you want to Logout?',
+        text: 'You won’t be able to revert this!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Cancel',
+        cancelButtonText: 'Logout',
+      }).then((result) => {
+        if (!result.isConfirmed) {
+          localStorage.removeItem('token');
+          this.$store.commit('setAuth', null);
+          this.$router.push('/auth/login');
+        }
+      });
     }
   }
 };
 </script>
-
-<style>
-body {
-  /* font-family: "Outfit", sans-serif; */
-}
-</style>
