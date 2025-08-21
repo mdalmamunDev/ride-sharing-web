@@ -159,6 +159,15 @@ export default {
       if (!text) return '';
       return text.length > max ? text.slice(0, max) + '...' : text;
     },
+    copyToClipboard(text) {
+      navigator.clipboard.writeText(text)
+        .then(() => {
+          this.showToast('Booking ID Copied')
+        })
+        .catch(() => {
+          this.showToast("Failed to copy", "error")
+        })
+    },
     isRoute(route) {
       return this.$route && this.$route.fullPath && this.$route.fullPath.includes(route);
     },
@@ -172,6 +181,11 @@ export default {
     printStr(str, len = 20) {
       if (!str || typeof str !== 'string') return str;
       return str.length > len ? str.substring(0, len) + '...' : str;
+    },
+
+    bookingId(text, front = 4, back = 4) {
+      if (text.length <= front + back) return text;
+      return text.slice(0, front) + "..." + text.slice(-back);
     },
 
     removeItem(arr, index) {

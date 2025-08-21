@@ -32,45 +32,54 @@
         <pagination-comp>
           <div class="grid gap-4 w-full">
             <!-- Transaction Row -->
-            <div v-for="(item, index) in dataList?.data" :key="index"
-              class="flex items-center justify-between border rounded-md border-gray-100 py-4 px-0 px-2 sm:px-6 ">
+            <template v-for="(item, index) in 10" :key="index">
+              <div v-for="(item, index) in dataList?.data" :key="index"
+                class="flex items-center justify-between border rounded-md border-gray-100 py-4 px-0 px-2 sm:px-6 ">
 
-              <!-- User -->
-              <div class="row-span-1 flex items-center gap-4 min-w-0">
-                <div class="w-14 h-14 rounded-full overflow-hidden">
-                  <img :src="showImg(item.userId?.profileImage)" :alt="item.userId?.name"
-                    class="w-full h-full object-cover">
+                <!-- User -->
+                <div class="row-span-1 flex items-center gap-4 min-w-0">
+                  <div class="w-14 h-14 rounded-full overflow-hidden">
+                    <img :src="showImg(item.userId?.profileImage)" :alt="item.userId?.name"
+                      class="w-full h-full object-cover">
+                  </div>
+                  <div>
+                    <p class="font-semibold text-gray-900 text-lg truncate">{{ item.userId?.name }}</p>
+                    <p class="text-xs block sm:hidden">
+                      <span class="text-[10px] text-gray-500">B. ID </span>
+                      <booking-id :value="item.jobId"></booking-id>
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p class="font-semibold text-gray-900 text-lg truncate">{{ item.userId?.name }}</p>
-                  <p class="text-xs block sm:hidden">
-                    <span class="text-[10px] text-gray-500">B. ID</span> <span class="font-bold">{{ item.jobId }}</span>
-                  </p>
+
+                <!-- Booking ID -->
+                <div class="hidden sm:block row-span-1 text-sm text-right">
+                  <span class="text-gray-500 ">B. ID </span>
+                  <booking-id :value="item.jobId" class="text-gray-800 font-bold"></booking-id>
+                </div>
+
+                <!-- Date -->
+                <div class="row-span-1 text-sm text-gray-500 text-right flex flex-col justify-center items-center">
+                  {{ getDate(item.createdAt) }}
+                  <br>
+                  <span class="block sm:hidden">{{ getTime(item.createdAt) }}</span>
+                </div>
+
+                <!-- Time -->
+                <div class="hidden sm:block row-span-1 text-sm text-gray-500 text-right">
+                  {{ getTime(item.createdAt) }}
+                </div>
+
+                <!-- Amount -->
+                <div class="row-span-1 text-right">
+                  ${{ item.amount?.toFixed(2) }}
+                </div>
+                <div class="row-span-1 text-sm text-gray-500 text-right flex flex-col justify-center items-center">
+                  <span class="font-bold text-purple-500 text-lg">${{ item.amount?.toFixed(2) }}</span>
+                  
+                  <span class="block sm:hidden"><br>{{ getTime(item.createdAt) }}</span>
                 </div>
               </div>
-
-              <!-- Booking ID -->
-              <div class="hidden sm:block row-span-1 text-sm text-right">
-                <span class="text-gray-500 ">B. ID</span> <span class="text-gray-800 font-bold">{{ item.jobId }}</span>
-              </div>
-
-              <!-- Date -->
-              <div class="row-span-1 text-sm text-gray-500 text-right flex flex-col justify-center items-center">
-                {{ getDate(item.createdAt) }}
-                <br>
-                <span class="block sm:hidden">{{ getTime(item.createdAt) }}</span>
-              </div>
-
-              <!-- Time -->
-              <div class="hidden sm:block row-span-1 text-sm text-gray-500 text-right">
-                {{ getTime(item.createdAt) }}
-              </div>
-
-              <!-- Amount -->
-              <div class="row-span-1 text-right font-bold text-purple-500 text-lg">
-                {{ item.amount?.toFixed(2) }}
-              </div>
-            </div>
+            </template>
           </div>
         </pagination-comp>
       </div>
@@ -81,18 +90,18 @@
 </template>
 
 <script>
+import BookingId from '@/components/BookingId.vue';
 import PaginationComp from '@/components/PaginationComp.vue';
 
 export default {
   name: "MyPaymentsPage",
-  components: { PaginationComp },
+  components: { PaginationComp, BookingId },
   data() {
     return {
       //
     };
   },
   mounted() {
-    // TODO: set provider id on payment model
     this.fetchData();
   },
 };
