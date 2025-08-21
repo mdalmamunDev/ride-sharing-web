@@ -41,7 +41,7 @@
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-purple-800">
             <img src="/icons/phone.svg" alt="">
           </div>
-          <input :value="formData.phone" required :readonly="noEdit"
+          <input v-model="formData.phone" required :readonly="noEdit"
             class="w-full bg-gray-100 rounded-xl p-4 pl-10 pr-6 focus:outline-none"
             :class="noEdit ? '' : 'focus:ring-2 focus:ring-purple-300'" />
         </div>

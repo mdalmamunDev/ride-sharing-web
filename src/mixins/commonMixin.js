@@ -18,18 +18,18 @@ export default {
   },
   computed: {
     auth() {
-      const existAuth = this.$store.getters.auth;
-      if (existAuth) return existAuth;
+      // const existAuth = this.$store.getters.auth;
+      // if (existAuth) return existAuth;
 
-      this.$store.commit('setAuth', {});
-      this.httpReq({
-        customUrl: 'user/me', method: 'get', callback: (data) => {
-          this.$store.commit('setAuth', data);
+      // this.$store.commit('setAuth', {});
+      // this.httpReq({
+      //   customUrl: 'user/me', method: 'get', callback: (data) => {
+      //     this.$store.commit('setAuth', data);
 
-          if (data.role === 'provider' && data.step === 1)
-            this.$router.push('/auth/complete');
-        }
-      });
+      //     if (data.role === 'provider' && data.step === 1)
+      //       this.$router.push('/auth/complete');
+      //   }
+      // });
       return this.$store.getters.auth
     },
     /**
