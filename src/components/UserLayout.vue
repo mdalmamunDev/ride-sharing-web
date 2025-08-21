@@ -36,8 +36,6 @@
       <div class="p-4 sm:p-20 mx-auto min-h-[80vh] pb-24">
         <router-view />
       </div>
-
-      <div class="sm:hidden h-[86px] w-full fixed top-0 left-0 bg-glass shadow-lg rounded-b-lg"></div>
     </div>
   </div>
 </template>

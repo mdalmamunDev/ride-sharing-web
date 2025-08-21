@@ -1,7 +1,7 @@
 <template>
   <div class="h-full overflow-y-auto bg-white flex flex-col md:flex-row text-gray-800">
     <!-- Map Panel - Shows first on mobile, second on desktop -->
-    <div class="w-full md:w-1/2 relative order-1 md:order-2">
+    <div class="w-full md:w-1/2 relative order-1 md:order-2 z-20">
       <div class="h-[60vh] md:h-full">
         <!-- <div class="w-full h-full bg-gray-200 flex items-center justify-center">
           <div class="text-center text-gray-500">
@@ -20,7 +20,7 @@
     </div>
 
     <!-- Form Panel - Shows second on mobile, first on desktop -->
-    <div class="w-full my-auto sm:max-h-full sm:overflow-auto md:w-1/2 p-2 sm:p-8 md:p-16 order-2 md:order-1">
+    <div class="w-full my-auto sm:max-h-full sm:overflow-auto md:w-1/2 p-4 sm:p-8 md:p-16 order-2 md:order-1">
       <h1 class="hidden sm:block text-3xl md:text-4xl font-bold mb-4 text-center">
         {{ formData._id ? 'Update' : "Let'sBook" }} Your Ride
       </h1>
@@ -28,15 +28,15 @@
       <!-- Tabs -->
       <div class="flex mb-6 bg-purple-100 rounded-full">
         <button :class="[
-          'flex-1 py-2 font-bold rounded-full transition',
+          'flex-1 py-3 font-bold rounded-full transition',
           formData.type === 'split'
             ? 'bg-g text-white'
             : 'text-1 hover:bg-purple-200 duration-300'
         ]" @click="formData.type = 'split'">
-          Split Your Ride
+          Split Ride
         </button>
         <button :class="[
-          'flex-1 py-2 font-bold rounded-full ml-2 transition',
+          'flex-1 py-3 font-bold rounded-full ml-2 transition',
           formData.type === 'private'
             ? 'bg-g text-white'
             : 'text-1 hover:bg-purple-200 duration-300'
@@ -158,7 +158,7 @@
           </template>
 
           <!-- From Location -->
-          <div class="w-full">
+          <div class="w-full col-span-2 sm:col-span-1">
             <label class="text-sm font-medium text-gray-600 mb-1">From</label>
             <div class="relative w-full">
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-purple-800">
@@ -170,7 +170,7 @@
           </div>
 
           <!-- To Location -->
-          <div class="w-full">
+          <div class="w-full col-span-2 sm:col-span-1">
             <label class="text-sm font-medium text-gray-600 mb-1">To</label>
             <div class="relative w-full">
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-purple-800">
@@ -184,7 +184,7 @@
 
         <div class="w-full flex justify-center">
           <button type="submit" class="max-w-full w-[300px] py-3 btn-g">
-            {{ formData._id ? 'Update Trip' : 'Find Now'}}
+            {{ formData._id ? 'Update Trip' : 'Find Now' }}
           </button>
         </div>
       </form>

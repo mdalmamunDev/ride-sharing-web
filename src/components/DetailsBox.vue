@@ -3,8 +3,8 @@
     <div class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-40" @click="$emit('clickOutside')"></div>
 
     <!-- Modal Container -->
-    <div class="relative z-50 w-full max-h-[100vh] overflow-y-auto mx-4" :class="`max-w-${maxW}`">
-      <div class="bg-white rounded-3xl p-8 shadow-2xl text-center transform transition-all duration-300 scale-100"
+    <div class="relative z-50 w-full max-h-[100vh] overflow-y-auto sm:mx-4" :class="`max-w-${maxW}`">
+      <div class="bg-white rounded-3xl p-3 sm:p-8 shadow-2xl text-center transform transition-all duration-300 scale-100"
         :class="containerClass">
         <button v-if="showCloseBtn" @click="$emit('close')" class="absolute right-3 top-2 text-2xl">
           <i class="fa-solid fa-xmark"></i>

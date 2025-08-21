@@ -49,18 +49,6 @@ export default {
       return this.$route.path.includes('/auth/login');
     }
   },
-  methods: {
-    handleSubmit() {
-      console.log("Email:", this.email);
-      console.log("Password:", this.password);
-      console.log("Remember Me:", this.rememberMe);
-      alert(
-        `Logging in with\nEmail: ${this.email}\nPassword: ${"*".repeat(
-          this.password.length
-        )}`
-      );
-    },
-  },
 };
 </script>
 

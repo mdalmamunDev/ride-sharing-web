@@ -1,6 +1,7 @@
 <template>
-  <div class="h-full overflow-y-scroll p-6 bg-no-repeat bg-left-bottom"
-    style="background-image: url('images/bottm-left-circles.svg');">
+  <div class="h-full overflow-y-scroll p-6 
+         bg-no-repeat bg-left-bottom 
+         sm:bg-[url('images/bottm-left-circles.svg')]">
 
     <div class="max-w-7xl h-full mx-auto">
       <!-- Header -->
@@ -30,7 +31,7 @@
 
       <!-- Rides Grid -->
       <pagination-comp>
-        <div class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
           <div v-for="ride in dataList?.data" :key="ride.jobId" @click="goNavigate(ride)"
             :class="ride.status !== 'completed' ? 'cursor-pointer text-blue-600' : ''"
             class="bg-glass bg-gray-100 rounded-2xl p-3 shadow-sm border border-gray-100">
@@ -142,9 +143,6 @@
           </button>
         </div>
       </details-box>
-
-
-      <div class="sm:hidden h-[86px] w-full fixed top-0 left-0 bg-glass shadow-lg rounded-b-lg"></div>
     </div>
   </div>
 </template>

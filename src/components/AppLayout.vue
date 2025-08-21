@@ -127,6 +127,7 @@
       <!-- Page Content -->
       <div class="h-screen sm:pt-20">
         <router-view />
+        <div v-if="$route.path !== '/navigate'" class="sm:hidden h-[86px] w-full fixed top-0 left-0 bg-glass shadow-lg rounded-b-lg z-10"></div>
       </div>
     </template>
   </div>

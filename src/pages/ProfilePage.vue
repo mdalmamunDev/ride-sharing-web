@@ -1,6 +1,6 @@
 <template>
   <div class="max-w-xl mx-auto">
-    <div class="flex items-center gap-6 pb-6">
+    <div class="flex items-center gap-6 p-6">
       <FileUploader v-if="!noEdit" :accept="'image/*'" @uploaded="(data) => { formData.profileImage = data?.path }">
         <img :src="showImg(formData?.profileImage)" @error="onImageError" alt="Avatar"
           class="w-20 h-20 rounded-full object-cover" />
@@ -46,6 +46,28 @@
             :class="noEdit ? '' : 'focus:ring-2 focus:ring-purple-300'" />
         </div>
       </div>
+      <div class="w-full">
+        <label class="text-sm font-semibold">Date Of Birth</label>
+        <div class="relative w-full mt-1">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-purple-800">
+            <img src="/icons/cake.svg" alt="">
+          </div>
+          <input type="date" v-model="formData.dateOfBirth" required :readonly="noEdit"
+            class="w-full bg-gray-100 rounded-xl p-4 pl-10 pr-6 focus:outline-none"
+            :class="noEdit ? '' : 'focus:ring-2 focus:ring-purple-300'" />
+        </div>
+      </div>
+      <div class="w-full">
+        <label class="text-sm font-semibold">Address</label>
+        <div class="relative w-full mt-1">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-purple-800">
+            <img src="/icons/location.svg" alt="">
+          </div>
+          <input type="text" v-model="formData.address" required :readonly="noEdit"
+            class="w-full bg-gray-100 rounded-xl p-4 pl-10 pr-6 focus:outline-none"
+            :class="noEdit ? '' : 'focus:ring-2 focus:ring-purple-300'" />
+        </div>
+      </div>
 
       <action-button type="submit" class="w-full py-4">
         {{ noEdit ? 'Edit' : 'Update' }} profile
@@ -68,8 +90,8 @@ export default {
   },
   mounted() {
     this.httpReq({
-      method: 'get', callback: ({ id, name, phone, profileImage }) => {
-        this.$store.commit('setFormData', { id, name, phone, profileImage });
+      method: 'get', callback: ({ id, name, phone, profileImage, dateOfBirth, address }) => {
+        this.$store.commit('setFormData', { id, name, phone, profileImage, dateOfBirth, address });
       }
     });
   },

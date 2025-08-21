@@ -67,11 +67,8 @@ export default {
 
     this.fetchData({
       customUrl: `message/${this.receiverId}`, callback: (data, response) => {
-        this.threadId = response.data?.extra?.threadId;
-        console.log(response);
-        
+        this.threadId = response.data?.extra?.threadId;        
         this.$store.commit('setDataList', data)
-
       }
     })
     // Listen for messages from server

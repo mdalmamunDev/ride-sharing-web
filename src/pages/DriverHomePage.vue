@@ -1,7 +1,7 @@
 <template>
   <div class="h-full overflow-y-auto md:overflow-y-none bg-white flex flex-col md:flex-row text-gray-800">
     <!-- Map Panel - Shows first on mobile, second on desktop -->
-    <div class="w-full md:w-1/2 relative order-1 md:order-2 z-10">
+    <div class="w-full md:w-1/2 relative order-1 md:order-2 z-20">
       <div class="h-[60vh] md:h-full">
         <!-- <div class="w-full h-full bg-gray-200 flex items-center justify-center">
           <div class="text-center text-gray-500">
@@ -16,8 +16,6 @@
       </div>
     </div>
 
-    <div class="sm:hidden h-[86px] w-full fixed top-0 left-0 bg-glass shadow-lg rounded-b-lg"></div>
-
     <!-- Form Panel - Shows second on mobile, first on desktop -->
     <div class="w-full h-full overflow-y-none md:overflow-y-auto md:w-1/2 p-8 px-1 xl:px-8 order-2 md:order-1">
       <div class="mx-auto w-full max-w-3xl">
@@ -26,7 +24,7 @@
         <!-- Tabs -->
         <div class="flex mb-6 bg-purple-100 rounded-full mx-1 sm:mx-0">
           <button :class="[
-            'flex-1 py-2 font-bold rounded-full transition',
+            'flex-1 py-3 font-bold rounded-full transition',
             rideType === 'split'
               ? 'bg-g text-white'
               : 'text-1 hover:bg-purple-200 duration-300'
@@ -34,7 +32,7 @@
             Split Your Ride
           </button>
           <button :class="[
-            'flex-1 py-2 font-bold rounded-full ml-2 transition',
+            'flex-1 py-3 font-bold rounded-full ml-2 transition',
             rideType === 'private'
               ? 'bg-g text-white'
               : 'text-1 hover:bg-purple-200 duration-300'
