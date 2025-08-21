@@ -17,20 +17,24 @@
         <p class="text-lg text-gray-500 font-bold ">
           <template v-if="auth?.role === 'user'">Arriving</template>
           <template v-else-if="auth?.role === 'provider'">Pickup</template>
-          in <span class="text-g">10 Mins</span>
+          in <span class="text-g">{{ timeLeft || 'N/A' }} Mins</span>
         </p>
-        <p class="text-lg flex gap-1 items-center">10:30 PM
+        <p class="text-lg flex gap-1 items-center">{{ getTime(details?.dateTime) || 'N/A' }}
           <!-- <template v-if="auth?.role === 'user'"> -->
-            |
-            <button @click="isShowComplete = true"
-              class="bg-green-100/50 rounded border border-green-500 px-1 text-green-600 font-bold hover:bg-green-200 duration-200">
-              Complete
-            </button>
+          |
+          <button @click="isShowComplete = true"
+            class="bg-green-100/50 rounded border border-green-500 px-1 text-green-600 font-bold hover:bg-green-200 duration-200">
+            Complete
+          </button>
           <!-- </template> -->
         </p>
         <div class="p-2 rounded-2xl bg-purple-100 hidden sm:block">
-          <p class="text-gray-500 text-xs mb-2"><i class="fa-regular fa-envelope text-g"></i> janecooper@email.com</p>
-          <p class="text-gray-500 text-xs"><i class="fa-solid fa-phone-volume text-g"></i> +1 234 567 8901</p>
+          <p class="text-gray-500 text-xs mb-2"><i class="fa-regular fa-envelope text-g"></i>
+            {{ details?.otherUser?.email || 'N/A' }}
+          </p>
+          <p class="text-gray-500 text-xs"><i class="fa-solid fa-phone-volume text-g"></i>
+            {{ details?.otherUser?.phone || 'N/A' }}
+          </p>
         </div>
       </div>
 
@@ -38,20 +42,20 @@
       <div class="sm:col-span-3 p-3  rounded-2xl bg-purple-100 flex items-center"
         :class="auth?.role === 'user' ? 'justify-between' : 'justify-center'">
         <button @click="isShowUser = true" class="hidden sm:flex items-center justify-center flex-col">
-          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Jane Cooper"
+          <img :src="showImg(details?.otherUser?.profileImage)" :alt="details?.otherUser?.name || 'Image'"
             class="w-24 h-24 rounded-full object-cover bg-g p-0.5" />
-          <h3 class="text-md font-bold mt-2">Jane Cooper</h3>
+          <h3 class="text-md font-bold mt-2">{{ details?.otherUser?.name || 'N/A' }}</h3>
         </button>
         <router-link to="/user-details" class="flex sm:hidden items-center justify-center flex-col">
-          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Jane Cooper"
+          <img :src="showImg(details?.otherUser?.profileImage)" :alt="details?.otherUser?.name || 'Image'"
             class="w-16 h-16 rounded-full object-cover bg-g p-0.5" />
-          <h3 class="text-md font-bold mt-2">Jane Cooper</h3>
+          <h3 class="text-md font-bold mt-2">{{ details?.otherUser?.name || 'N/A' }}</h3>
         </router-link>
         <img v-if="auth?.role === 'user'" src="/images/car.png" alt="Car" class="w-28 mt-1" />
       </div>
 
       <!-- Right Section -->
-      <address-comp :height="80" :width="30" from-address="From Address here" to-address="Address here asj asldfj"
+      <address-comp :height="80" :width="30" :from-address="details.fromAddress" :to-address="details.toAddress"
         text-size="md" class="sm:col-span-4 p-6 rounded-2xl sm:bg-blue-100/50 flex items-center">
       </address-comp>
 
@@ -69,7 +73,7 @@
     </button>
     <div v-if="showMsg"
       class="hidden sm:block absolute bottom-20 right-6 max-w-md mx-auto h-[70%] bg-white flex flex-col rounded-xl">
-      <messages-com />
+      <messages-com :receiver-id="details?.otherUser._id"/>
     </div>
 
     <!-- user details -->
@@ -167,6 +171,9 @@ export default {
   components: { MessagesCom, DetailsBox, UserDetails, MapComp, AddressComp },
   data() {
     return {
+      details: {},
+      timeLeft: 0,
+      timer: null,
       rideType: 'split',
       showMsg: false,
       isShowUser: false,
@@ -198,10 +205,28 @@ export default {
     };
   },
   mounted() {
-    this.$store.commit('setFormData', {
-      passengers: 1,
-      luggages: [{}]
-    });
+    function check(bool) {
+      if (bool) {
+        this.showToast('No ride found', 'error');
+        this.$router.back();
+      }
+      return bool;
+    }
+    // get job id
+    const jobId = this.$route.query.jobId;
+    if (check(!jobId)) return;
+
+    this.httpReq({
+      urlSuffix: jobId,
+      method: 'get',
+      callback: (data) => {
+        if (check(!data)) return;
+        this.details = data;
+
+        this.updateTimeLeft(); // initial calculation
+        this.timer = setInterval(this.updateTimeLeft, 60000); // update every 1 min
+      }
+    })
 
 
     // const destLoc = { lat: 23.795519, lng: 90.3936814 };
@@ -209,7 +234,17 @@ export default {
 
     this.simulateSimpleMove();
   },
+  beforeUnmount() {
+    clearInterval(this.timer); // cleanup
+  },
   methods: {
+    updateTimeLeft() {
+      const target = new Date(this.details?.dateTime).getTime();
+      const now = Date.now();
+      const diffMs = target - now;
+      this.timeLeft = Math.max(Math.floor(diffMs / 60000), 0);
+    },
+
     simulateSimpleMove() {
       const destination = { lat: 23.795519, lng: 90.3936814 };
 

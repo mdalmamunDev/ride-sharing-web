@@ -188,7 +188,7 @@ export default {
         this.overview = ride;
         return;
       }
-      this.$router.push('navigate');
+      this.$router.push(`navigate?jobId=${ride.jobId}`);
     },
   },
 };

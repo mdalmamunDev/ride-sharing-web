@@ -11,7 +11,7 @@
             ? 'bg-blue-100 text-gray-800 rounded-bl-none'
             : 'bg-purple-500 text-white rounded-br-none'
         ]">
-          <p class="text-sm">{{ msg.content }}</p>
+          <p class="text-sm break-all">{{ msg.content }}</p>
         </div>
       </div>
     </div>
@@ -22,7 +22,8 @@
       <div class="flex items-center space-x-3">
         <!-- Text Input -->
         <div class="flex-1 relative">
-          <input v-model="newMessage" type="text" placeholder="Chat with your driver"
+          <input v-model="newMessage" type="text"
+            :placeholder="`Chat with your ${auth?.role === 'provider' ? 'passenger' : 'driver'}`"
             class="w-full px-4 py-3 bg-gray-50 rounded-full text-sm text-gray-600 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent pr-12"
             @keydown.enter="sendMessage" />
           <!-- Attachment Icon -->
@@ -55,9 +56,17 @@ export default {
       messagePagination: {}
     };
   },
+  props: {
+    receiverId: String,
+  },
   mounted() {
+    if(!this.receiverId) {
+      this.showToast('Receiver not found', 'error');
+      return;
+    }
+
     this.httpReq({
-      customUrl: 'message', urlSuffix: '68a2b88242c17ad1d05d920d', method: 'get', callback: (data, extra, response) => {
+      customUrl: 'message', urlSuffix: this.receiverId, method: 'get', callback: (data, extra, response) => {
         this.threadId = extra?.threadId;
         this.messageList = data;
         this.messagePagination = response?.data?.pagination;
@@ -66,7 +75,7 @@ export default {
     })
     // Listen for messages from server
     socket.on("message-receive", (msg) => {
-      this.messageList.unshift(msg);
+      this.messageList.unshift(msg);      
     });
   },
   methods: {
@@ -87,8 +96,6 @@ export default {
         // attachments: []
       };
       socket.emit("message-send", msg);
-
-      this.messageList.unshift(msg);
       this.newMessage = '';
     },
   },

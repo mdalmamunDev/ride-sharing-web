@@ -195,15 +195,14 @@ export default {
   },
   mounted() {
     const existAuth = this.$store.getters.auth;
-    if (existAuth) {
+    if (existAuth?._id) {
       socket.emit("user-connected", { userId: existAuth?._id });
 
     } else {
       this.httpReq({
         customUrl: 'user/me', method: 'get', callback: (data) => {
           socket.emit("user-connected", { userId: data?._id });
-          console.log(8888888);
-
+          this.$store.commit('setAuth', data);
         }
       });
     }

@@ -139,7 +139,7 @@ export default {
       return list.find(obj => obj[key] === keyValue);
     },
     showImg(path) {
-      if (!path) return;
+      if (!path) return '/images/def.png';
 
       const baseFilePath = process.env.VUE_APP_BASE_FILE_PATH || '';
 
