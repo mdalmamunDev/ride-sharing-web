@@ -1,9 +1,9 @@
 <template>
   <div class="h-full w-[400px] relative">
     <!-- Chat Messages Container -->
-    <div ref="chatContainer"
-      class="overflow-y-auto flex flex-col-reverse p-4 space-y-reverse space-y-3 h-full pb-[95px]">
-      <div v-for="(msg, index) in messageList" :key="index" class="flex"
+
+    <pagination-comp :custom-url="`message/${receiverId}`" class="w-full overflow-y-auto flex flex-col-reverse p-4 space-y-reverse space-y-3 h-full pb-[95px]">
+      <div v-for="(msg, index) in dataList?.data" :key="index" class="flex"
         :class="msg.senderId !== auth?._id ? 'justify-start' : 'justify-end'">
         <div :class="[
           'px-6 py-3 max-w-xs shadow-sm rounded-xl',
@@ -14,7 +14,7 @@
           <p class="text-sm break-all">{{ msg.content }}</p>
         </div>
       </div>
-    </div>
+    </pagination-comp>
 
     <!-- Input Area -->
     <div
@@ -44,15 +44,15 @@
 <script>
 import FileUploader from './FileUploader.vue';
 import socket from '@/plugins/socket';
+import PaginationComp from './PaginationComp.vue';
 
 export default {
   name: "MessagesCom",
-  components: { FileUploader },
+  components: { FileUploader, PaginationComp },
   data() {
     return {
       newMessage: '',
       threadId: null,
-      messageList: [],
       messagePagination: {}
     };
   },
@@ -60,22 +60,23 @@ export default {
     receiverId: String,
   },
   mounted() {
-    if(!this.receiverId) {
+    if (!this.receiverId) {
       this.showToast('Receiver not found', 'error');
       return;
     }
 
-    this.httpReq({
-      customUrl: 'message', urlSuffix: this.receiverId, method: 'get', callback: (data, extra, response) => {
-        this.threadId = extra?.threadId;
-        this.messageList = data;
-        this.messagePagination = response?.data?.pagination;
+    this.fetchData({
+      customUrl: `message/${this.receiverId}`, callback: (data, response) => {
+        this.threadId = response.data?.extra?.threadId;
+        console.log(response);
+        
+        this.$store.commit('setDataList', data)
 
       }
     })
     // Listen for messages from server
     socket.on("message-receive", (msg) => {
-      this.messageList.unshift(msg);      
+      this.dataList?.data.unshift(msg);
     });
   },
   methods: {
@@ -88,7 +89,6 @@ export default {
       if (!this.newMessage?.trim()) return;
 
 
-      //{ senderId: string, threadId: string, content: string, attachments: string[] }
       const msg = {
         senderId: authUser._id,
         threadId: this.threadId,
