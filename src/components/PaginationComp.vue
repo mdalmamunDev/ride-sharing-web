@@ -50,6 +50,9 @@ export default {
       // current1: 1,
     };
   },
+  props: {
+    customUrl: String,
+  },
   mounted() {
     this.setupObserver();
   },
@@ -59,6 +62,7 @@ export default {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             this.fetchData({
+              customUrl: this.customUrl,
               page: this.dataList?.pagination?.currentPage + 1,
               callback: (data) => {
                 data.data?.unshift(...this.dataList.data || {})
