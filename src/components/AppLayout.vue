@@ -43,7 +43,7 @@
                 </p>
               </div>
             </router-link>
-            <button @click="showNotifications = !showNotifications">
+            <button @click="$router.push('/notifications')">
               <img class="w-8" src="/icons/bell.svg" alt="">
             </button>
           </div>
@@ -60,7 +60,8 @@
           </button>
           <span class="font-bold text-xl">{{ $route.meta.title }}</span>
         </div>
-        <router-link to="notifications" class="bg-white w-10 h-10 rounded-full flex items-center justify-center text-xl text-1">
+        <router-link to="notifications"
+          class="bg-white w-10 h-10 rounded-full flex items-center justify-center text-xl text-1">
           <img src="/icons/bell.svg" alt="">
         </router-link>
       </div>
@@ -131,12 +132,12 @@
       </transition>
 
       <!-- Notifications -->
-      <transition name="fade">
+      <!-- <transition name="fade">
         <div v-if="showNotifications"
           class="hidden sm:block max-w-sm max-h-[70vh] p-4 bg-white overflow-auto absolute top-20 right-2 z-50 border rounded-lg shadow-lg">
           <notifications-comp></notifications-comp>
         </div>
-      </transition>
+      </transition> -->
 
       <!-- Page Content -->
       <div class="h-screen sm:pt-20">
@@ -151,10 +152,8 @@
 <script>
 import socket from '@/plugins/socket';
 import Swal from 'sweetalert2';
-import NotificationsComp from './NotificationsComp.vue';
 export default {
   name: "AppLayout",
-  components: {NotificationsComp},
   data() {
     return {
       isSideNavOpen: false,

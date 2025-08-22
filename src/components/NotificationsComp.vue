@@ -1,9 +1,9 @@
 <template>
-  <div class="flex flex-col items-center gap-2 h-full w-full">
-    <!-- Notification Card -->
-    <pagination-comp custom-url="notification">
+  <!-- Notification Card -->
+  <pagination-comp custom-url="notification">
+    <div class="flex flex-col items-center gap-2 h-full w-full">
       <div v-for="(item, index) in dataList?.data" :key="index"
-        class=" bg-purple-100 border border-purple-200 rounded-lg p-4 max-w-md w-full shadow-sm">
+        class="max-w-xl bg-purple-100 sm:bg-white border border-purple-200 rounded-lg p-4 w-full shadow-sm">
         <div class="flex items-start space-x-3">
           <!-- User Icon -->
           <div class="flex-shrink-0">
@@ -27,8 +27,8 @@
           </div>
         </div>
       </div>
-    </pagination-comp>
-  </div>
+    </div>
+  </pagination-comp>
 </template>
 
 <script>

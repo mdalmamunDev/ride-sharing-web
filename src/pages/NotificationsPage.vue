@@ -16,7 +16,7 @@
     </div> -->
 
     <!-- Scrollable Messages Section -->
-    <div class="w-full flex-1 overflow-y-auto flex items-end pt-[95px]">
+    <div class="w-full flex-1 overflow-y-auto flex items-end">
       <notifications-comp  class="w-full"></notifications-comp>
     </div>
   </div>

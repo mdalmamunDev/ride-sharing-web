@@ -8,6 +8,11 @@
           <i class="fas fa-user"></i>
           <span>Profile</span>
         </router-link>
+        <router-link to="notifications" class="w-full flex items-center gap-2 border border-gray-300 px-4 py-2 rounded"
+          :class="isRoute('notifications') ? 'bg-g text-white' : ''">
+          <i class="fa-solid fa-bell"></i>
+          <span>Notifications</span>
+        </router-link>
         <router-link to="reset-pass" class="w-full flex items-center gap-2 border border-gray-300 px-4 py-2 rounded"
           :class="isRoute('reset-pass') ? 'bg-g text-white' : ''">
           <i class="fa-solid fa-key"></i>

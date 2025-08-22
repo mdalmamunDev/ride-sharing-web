@@ -45,7 +45,6 @@ const routes = [
       { path: "my-rides", component: MyRidesPage, meta: { title: "My Rides", dataUrl: "job/ongoing" } },
       { path: "support", component: SupportPage, meta: { title: "Help & Support", dataUrl: "support" } },
       { path: "messages", component: MessagePage, meta: { title: "Chat", dataUrl: "messages" } },
-      { path: "notifications", component: NotificationsPage, meta: { title: "Notifications", dataUrl: "notification" } },
       { path: "payments", component: MyPaymentsPage, meta: { title: "Payments", dataUrl: "payment/recent" } },
       { path: "user-details", component: UserDetailsPage, meta: { title: "User Details", dataUrl: "users" } },
       {
@@ -54,6 +53,8 @@ const routes = [
         children: [
           { path: "profile", component: ProfilePage, meta: { title: "Profile", dataUrl: "user/me" } },
           { path: "reset-pass", component: ChangePassPage, meta: { title: "Reset Password", dataUrl: "auth/change-password" } },
+          { path: "notifications", component: NotificationsPage, meta: { title: "Notifications", dataUrl: "notification" } },
+
           // { path: "settings", component: SettingsPage, meta: { title: "Settings", dataUrl: "settings" } },
         ],
       },
