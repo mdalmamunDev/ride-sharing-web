@@ -2,10 +2,20 @@
   <div class="h-full w-[400px] relative">
     <!-- Chat Messages Container -->
 
-    <pagination-comp :custom-url="`message/${receiverId}`" class="w-full overflow-y-auto flex flex-col-reverse p-4 space-y-reverse space-y-3 h-full pb-[95px]">
+    <pagination-comp :custom-url="`message/${receiverId}`"
+      class="w-full overflow-y-auto flex flex-col-reverse p-4 space-y-reverse space-y-3 h-full pb-[95px]">
       <div v-for="(msg, index) in dataList?.data" :key="index" class="flex"
         :class="msg.senderId !== auth?._id ? 'justify-start' : 'justify-end'">
-        <div :class="[
+        <div v-if="msg.attachments?.length" :class="[
+          'p-1 max-w-xs shadow-sm rounded-xl',
+          msg.senderId !== auth?._id
+            ? 'bg-blue-100 text-gray-800 rounded-bl-none'
+            : 'bg-purple-500 text-white rounded-br-none'
+        ]">
+        <img class="w-48 rounded-xl" :src="showImg(msg.attachments[0])" alt="">
+          <p class="text-sm break-all">{{ msg.content }}</p>
+        </div>
+        <div v-else :class="[
           'px-6 py-3 max-w-xs shadow-sm rounded-xl',
           msg.senderId !== auth?._id
             ? 'bg-blue-100 text-gray-800 rounded-bl-none'
@@ -18,7 +28,14 @@
 
     <!-- Input Area -->
     <div
-      class="absolute bottom-0 right-0 w-full h-[80px] p-4 border-t border-gray-200 bg-white/30 backdrop-blur-md rounded-lg shadow-lg">
+      class="absolute bottom-0 right-0 w-full p-4 border-t border-gray-200 bg-glass rounded-lg shadow-lg">
+
+      <!-- Image Preview -->
+      <div v-if="attachment" class="mb-3">
+        <img :src="showImg(attachment)" alt="Preview" class="w-24 h-24 object-cover rounded-lg shadow-md" />
+      </div>
+
+      <!-- Input Row -->
       <div class="flex items-center space-x-3">
         <!-- Text Input -->
         <div class="flex-1 relative">
@@ -27,7 +44,8 @@
             class="w-full px-4 py-3 bg-gray-50 rounded-full text-sm text-gray-600 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent pr-12"
             @keydown.enter="sendMessage" />
           <!-- Attachment Icon -->
-          <file-uploader class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
+          <file-uploader v-model="attachment"
+            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
             <i class="fas fa-paperclip text-lg"></i>
           </file-uploader>
         </div>
@@ -52,6 +70,7 @@ export default {
   data() {
     return {
       newMessage: '',
+      attachment: null,
       threadId: null,
       messagePagination: {}
     };
@@ -67,7 +86,7 @@ export default {
 
     this.fetchData({
       customUrl: `message/${this.receiverId}`, callback: (data, response) => {
-        this.threadId = response.data?.extra?.threadId;        
+        this.threadId = response.data?.extra?.threadId;
         this.$store.commit('setDataList', data)
       }
     })
@@ -83,17 +102,18 @@ export default {
         this.showToast('Something went wrong', 'error')
         return;
       }
-      if (!this.newMessage?.trim()) return;
+      if (!this.newMessage?.trim() && !this.attachment) return;
 
 
       const msg = {
         senderId: authUser._id,
         threadId: this.threadId,
         content: this.newMessage,
-        // attachments: []
       };
+      if (this.attachment) msg.attachments = [this.attachment]
       socket.emit("message-send", msg);
       this.newMessage = '';
+      this.attachment = null;
     },
   },
 };

@@ -28,20 +28,25 @@
           </nav>
 
           <!-- User Profile -->
-          <router-link to="/profile" class="flex items-center space-x-3">
-            <div class="w-10 h-10 p-0.5 bg-g rounded-full overflow-hidden">
-              <img :src="showImg(auth?.profileImage)" alt="Kimmy Natasa"
-                class="w-full h-full rounded-full bg-white object-cover" />
-            </div>
-            <div class="hidden md:block">
-              <span class="text-gray-800 font-bold">{{ auth?.name || 'Unknown User' }}</span>
-              <p v-if="auth?.role === 'user' || auth?.approvalStatus === 'verified'"
-                class="text-sm text-g-2 font-bold mt-0.5">
-                Verified</p>
-              <p v-else-if="auth?.approvalStatus" class="text-sm text-g-danger font-bold mt-0.5 capitalize">Unverified
-              </p>
-            </div>
-          </router-link>
+          <div class="flex items-center space-x-3">
+            <router-link to="/profile" class="flex items-center space-x-2">
+              <div class="w-10 h-10 p-0.5 bg-g rounded-full overflow-hidden">
+                <img :src="showImg(auth?.profileImage)" alt="Kimmy Natasa"
+                  class="w-full h-full rounded-full bg-white object-cover" />
+              </div>
+              <div class="hidden md:block pr-2">
+                <span class="text-gray-800 font-bold">{{ auth?.name || 'Unknown User' }}</span>
+                <p v-if="auth?.role === 'user' || auth?.approvalStatus === 'verified'"
+                  class="text-sm text-g-2 font-bold mt-0.5">
+                  Verified</p>
+                <p v-else-if="auth?.approvalStatus" class="text-sm text-g-danger font-bold mt-0.5 capitalize">Unverified
+                </p>
+              </div>
+            </router-link>
+            <button @click="showNotifications = !showNotifications">
+              <img class="w-8" src="/icons/bell.svg" alt="">
+            </button>
+          </div>
         </div>
       </header>
 
@@ -51,13 +56,13 @@
         <div class="flex items-center">
           <button @click="toggleSideNav"
             class="bg-g w-10 h-10 rounded-full flex items-center justify-center text-white me-4">
-            <i class="fa-solid fa-bars"></i>
+            <img src="/icons/bars.svg" alt="">
           </button>
           <span class="font-bold text-xl">{{ $route.meta.title }}</span>
         </div>
-        <div class="bg-white w-10 h-10 rounded-full flex items-center justify-center text-xl text-1">
-          <i class="fa-solid fa-bell"></i>
-        </div>
+        <router-link to="notifications" class="bg-white w-10 h-10 rounded-full flex items-center justify-center text-xl text-1">
+          <img src="/icons/bell.svg" alt="">
+        </router-link>
       </div>
 
       <transition name="fade">
@@ -80,9 +85,7 @@
                 <router-link to="/profile" @click="closeSideNav">
                   <div class="flex items-center space-x-3">
                     <div class="w-12 h-12 rounded-full overflow-hidden">
-                      <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnnFf6DXcgRxe71BOQm1orHpnKjJloo9c2jg&s"
-                        alt="Kimmy Natasa" class="w-full h-full object-cover" />
+                      <img :src="showImg(auth?.profileImage)" alt="Profile" class="w-full h-full object-cover" />
                     </div>
                     <div>
                       <span class="text-gray-800 font-bold">{{ auth?.name || 'Unknown User' }}</span>
@@ -127,6 +130,14 @@
         </div>
       </transition>
 
+      <!-- Notifications -->
+      <transition name="fade">
+        <div v-if="showNotifications"
+          class="hidden sm:block max-w-sm max-h-[70vh] p-4 bg-white overflow-auto absolute top-20 right-2 z-50 border rounded-lg shadow-lg">
+          <notifications-comp></notifications-comp>
+        </div>
+      </transition>
+
       <!-- Page Content -->
       <div class="h-screen sm:pt-20">
         <router-view />
@@ -140,11 +151,14 @@
 <script>
 import socket from '@/plugins/socket';
 import Swal from 'sweetalert2';
+import NotificationsComp from './NotificationsComp.vue';
 export default {
   name: "AppLayout",
+  components: {NotificationsComp},
   data() {
     return {
       isSideNavOpen: false,
+      showNotifications: false,
       links: [
         {
           label: "Home",

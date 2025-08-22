@@ -17,6 +17,7 @@ import SupportPage from "@/pages/SupportPage.vue";
 import CompleteAccountPage from "@/pages/auth/CompleteAccountPage.vue";
 import DriverHomePage from "@/pages/DriverHomePage.vue";
 import MyPaymentsPage from "@/pages/MyPaymentsPage.vue";
+import NotificationsPage from "@/pages/NotificationsPage.vue";
 
 const routes = [
   {
@@ -44,6 +45,7 @@ const routes = [
       { path: "my-rides", component: MyRidesPage, meta: { title: "My Rides", dataUrl: "job/ongoing" } },
       { path: "support", component: SupportPage, meta: { title: "Help & Support", dataUrl: "support" } },
       { path: "messages", component: MessagePage, meta: { title: "Chat", dataUrl: "messages" } },
+      { path: "notifications", component: NotificationsPage, meta: { title: "Notifications", dataUrl: "notification" } },
       { path: "payments", component: MyPaymentsPage, meta: { title: "Payments", dataUrl: "payment/recent" } },
       { path: "user-details", component: UserDetailsPage, meta: { title: "User Details", dataUrl: "users" } },
       {

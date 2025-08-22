@@ -1,5 +1,5 @@
 <template>
-  <div class="sm:relative h-full w-full overflow-y-auto">
+  <div v-if="!isLoading" class="sm:relative h-full w-full overflow-y-auto">
     <!-- Map Placeholder -->
     <div class="sm:absolute h-[50%] sm:h-full inset-0">
       <div class="w-full h-full bg-gray-300 flex items-center justify-center text-lg text-gray-500">
@@ -14,12 +14,12 @@
       class=" bg-glass sm:absolute bottom-10 left-10  w-[100%] sm:w-[90%] max-w-5xl sm:shadow-xl rounded-2xl p-6 grid grid-cols-1 sm:grid-cols-9 gap-0 sm:gap-4">
       <!-- Left Section -->
       <div class="sm:col-span-2 flex sm:flex-col justify-between mb-8 sm:mb-0 border-b sm:border-none pb-3 sm:pb-0">
-        <p class="text-lg text-gray-500 font-bold ">
+        <p class="lg:text-lg text-gray-500 font-bold ">
           <template v-if="auth?.role === 'user'">Arriving</template>
           <template v-else-if="auth?.role === 'provider'">Pickup</template>
-          in <span class="text-g">{{ timeLeft || 'N/A' }} Mins</span>
+          in <span class="text-g">{{ timeLeft || 'N/A' }}</span>
         </p>
-        <p class="text-lg flex gap-1 items-center">{{ getTime(details?.dateTime) || 'N/A' }}
+        <p class="text-xs lg:text-lg flex gap-1 items-center">{{ getTime(details?.dateTime) || 'N/A' }}
           <!-- <template v-if="auth?.role === 'user'"> -->
           |
           <button @click="isShowComplete = true"
@@ -46,7 +46,7 @@
             class="w-24 h-24 rounded-full object-cover bg-g p-0.5" />
           <h3 class="text-md font-bold mt-2">{{ details?.otherUser?.name || 'N/A' }}</h3>
         </button>
-        <router-link to="/user-details" class="flex sm:hidden items-center justify-center flex-col">
+        <router-link :to="`/user-details?userId=${details?.otherUser?._id}`" class="flex sm:hidden items-center justify-center flex-col">
           <img :src="showImg(details?.otherUser?.profileImage)" :alt="details?.otherUser?.name || 'Image'"
             class="w-16 h-16 rounded-full object-cover bg-g p-0.5" />
           <h3 class="text-md font-bold mt-2">{{ details?.otherUser?.name || 'N/A' }}</h3>
@@ -60,7 +60,7 @@
       </address-comp>
 
       <!-- Chat Mobile -->
-      <router-link to="/messages" class="btn-g sm:hidden w-full p-3 flex items-center justify-center gap-4">
+      <router-link :to="`/messages?receiverId=${details?.otherUser?._id}`" class="btn-g sm:hidden w-full p-3 flex items-center justify-center gap-4">
         <i class="fa-solid fa-comment-dots text-3xl"></i> Chat with your driver
       </router-link>
     </div>
@@ -73,7 +73,7 @@
     </button>
     <div v-if="showMsg"
       class="hidden sm:block absolute bottom-20 right-6 max-w-md mx-auto h-[70%] bg-white flex flex-col rounded-xl">
-      <messages-com :receiver-id="details?.otherUser._id"/>
+      <messages-com :receiver-id="details?.otherUser?._id" />
     </div>
 
     <!-- user details -->
@@ -242,7 +242,18 @@ export default {
       const target = new Date(this.details?.dateTime).getTime();
       const now = Date.now();
       const diffMs = target - now;
-      this.timeLeft = Math.max(Math.floor(diffMs / 60000), 0);
+
+      let minutes = Math.floor(diffMs / 60000);
+
+      if (minutes < 60) {
+        this.timeLeft = `${minutes} Min`;
+      } else if (minutes < 1440) { // 60 * 24
+        let hours = Math.floor(minutes / 60);
+        this.timeLeft = `${hours} Hr`;
+      } else {
+        let days = Math.floor(minutes / 1440);
+        this.timeLeft = `${days} Day`;
+      }
     },
 
     simulateSimpleMove() {

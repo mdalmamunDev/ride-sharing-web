@@ -1,6 +1,6 @@
 <template>
   <div class="max-w-xl mx-auto">
-    <h3 class="text-2xl font-semibold text-center">Reset Password</h3>
+    <h3 class="hidden sm:block text-2xl font-semibold text-center">Reset Password</h3>
 
     <form class="space-y-6 mt-12" @submit.prevent="httpReq">
 

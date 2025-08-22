@@ -1,7 +1,7 @@
 <template>
-  <div class="h-screen flex flex-col bg-white">
+  <div class="h-full w-full flex flex-col bg-white">
     <!-- Fixed Top Header -->
-    <div class="sm:hidden flex justify-between p-3 pt-7 bg-g text-white rounded-b-xl shadow-lg z-50">
+    <!-- <div class="sm:hidden flex justify-between p-3 pt-7 bg-g text-white rounded-b-xl shadow-lg z-50">
       <div class="flex items-center">
         <button @click="$router.back()" class="w-10 h-10 rounded-full flex items-center justify-center me-4">
           <i class="fas fa-chevron-left"></i>
@@ -13,11 +13,11 @@
       </div>
 
       <img class="bg-white p-0.5 w-12 h-12 rounded-full" :src="showImg(user.profileImage)"/>
-    </div>
+    </div> -->
 
     <!-- Scrollable Messages Section -->
-    <div class="flex-1 overflow-y-auto flex items-end">
-      <messages-com :receiver-id="$route.query.receiverId" class="w-full"></messages-com>
+    <div class="w-full flex-1 overflow-y-auto flex items-end pt-[95px]">
+      <notifications-comp  class="w-full"></notifications-comp>
     </div>
   </div>
 </template>
@@ -25,30 +25,18 @@
 
 
 <script>
-import MessagesCom from '@/components/MessagesCom.vue';
+import NotificationsComp from '@/components/NotificationsComp.vue';
 
 export default {
-  name: "MessagePage",
-  components: {MessagesCom},
+  name: "NotificationsPage",
+  components: {NotificationsComp},
   data() {
     return {
       user: {},
     };
   },
   mounted() {
-    const receiverId = this.$route.query.receiverId
-    if(!receiverId) {
-      this.showToast('No user found');
-      return;
-    }
-    this.httpReq({
-      customUrl: 'user/single', 
-      urlSuffix: receiverId,
-      method: 'get',
-      callback: (data) => {
-        this.user = data;
-      }
-    })
+    //
     
   },
   methods: {
