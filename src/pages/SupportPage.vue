@@ -1,31 +1,28 @@
 <template>
-<div class="h-full overflow-y-scroll p-6 bg-no-repeat bg-left-bottom"
-     style="
+  <div class="h-full overflow-y-scroll bg-no-repeat bg-left-bottom" style="
         background-image: url('images/bottm-left-circles.svg'), url('images/top-right-circles.svg');
         background-position: left bottom, right top;
         background-repeat: no-repeat, no-repeat;
      ">
-    <div class="max-w-2xl mx-auto">
+    <div class="max-w-2xl mx-auto sm:mt-10 p-6 bg-white rounded-lg">
       <!-- Header -->
-      <h1 class="hidden sm:block text-2xl font-semibold text-gray-900 text-center">Help & Support</h1>
+      <h1 class="hidden sm:block text-2xl font-bold text-gray-900 text-center">Help & Support</h1>
 
       <!-- Contact Info Section -->
-      <div class="bg-glass rounded-xl p-6 mb-6 shadow-md mt-20 sm:mt-8">
-        <div class="block sm:flex justify-between items-center space-y-2">
+      <div class="bg-gray-100 rounded-xl p-3 mb-6 mt-20 sm:mt-8">
+        <div class="block sm:flex justify-between items-center space-y-2 sm:space-y-0">
           <!-- Email -->
-          <div class="flex items-center space-x-2">
-            <div
-              class="h-6 w-6 flex justify-center items-center rounded-full bg-purple-100/70 text-purple-500 text-xs">
-              <i class="fa-solid fa-envelope"></i>
+          <div class="flex items-center space-x-2 sm-space-x-0">
+            <div class="h-6 w-6 flex justify-center items-center rounded-full bg-purple-100/70 text-purple-500 text-xs">
+              <img src="/icons/email-2.svg" alt="">
             </div>
             <span class="text-sm text-gray-600">info@etriride.com</span>
           </div>
 
           <!-- Phone -->
-          <div class="flex items-center space-x-2">
-            <div
-              class="h-6 w-6 flex justify-center items-center rounded-full bg-purple-100/70 text-purple-500 text-xs">
-              <i class="fa fa-phone"></i>
+          <div class="flex items-center space-x-2 sm-space-x-0">
+            <div class="h-6 w-6 flex justify-center items-center rounded-full bg-purple-100/70 text-purple-500 text-xs">
+              <img src="/icons/phone-2.svg" alt="">
 
             </div>
             <span class="text-sm text-gray-600">+1 234 567 8901</span>
@@ -34,49 +31,47 @@
       </div>
 
       <!-- Support Form -->
-      <div class="bg-glass rounded-xl p-6 shadow-lg">
-        <form @submit.prevent="submitForm">
-          <!-- Full Name and Phone Number Row -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-              <input v-model="form.fullName" type="text" placeholder="Enter your full name"
-                class="w-full px-4 py-3 bg-transparent border rounded-lg text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white/50 transition-colors" />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-              <input v-model="form.phoneNumber" type="tel" placeholder="Enter your phone number"
-                class="w-full px-4 py-3 bg-transparent border rounded-lg text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white/50 transition-colors" />
-            </div>
+      <form @submit.prevent="submitForm">
+        <!-- Full Name and Phone Number Row -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+            <input v-model="form.fullName" type="text" placeholder="Enter your full name"
+              class="w-full px-4 py-3 bg-gray-100 border rounded-2xl text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white/50 transition-colors" />
           </div>
-
-          <!-- Email and Booking ID Row -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-              <input v-model="form.email" type="email" placeholder="Enter your email"
-                class="w-full px-4 py-3 bg-transparent border rounded-lg text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white/50 transition-colors" />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Booking ID</label>
-              <input v-model="form.bookingId" type="text" placeholder="Enter your booking ID (Optional)"
-                class="w-full px-4 py-3 bg-transparent border rounded-lg text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white/50 transition-colors" />
-            </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+            <input v-model="form.phoneNumber" type="tel" placeholder="Enter your phone number"
+              class="w-full px-4 py-3 bg-gray-100 border rounded-2xl text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white/50 transition-colors" />
           </div>
+        </div>
 
-          <!-- Message -->
-          <div class="mb-6">
-            <label class="block text-sm font-medium text-gray-700 mb-2">Your Message</label>
-            <textarea v-model="form.message" rows="5" placeholder="Write your message..."
-              class="w-full px-4 py-3 bg-transparent border rounded-lg text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white/50 transition-colors resize-none"></textarea>
+        <!-- Email and Booking ID Row -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+            <input v-model="form.email" type="email" placeholder="Enter your email"
+              class="w-full px-4 py-3 bg-gray-100 border rounded-2xl text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white/50 transition-colors" />
           </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Booking ID</label>
+            <input v-model="form.bookingId" type="text" placeholder="Enter your booking ID (Optional)"
+              class="w-full px-4 py-3 bg-gray-100 border rounded-2xl text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white/50 transition-colors" />
+          </div>
+        </div>
 
-          <!-- Submit Button -->
-          <button type="submit" class="w-full btn-g">
-            Submit
-          </button>
-        </form>
-      </div>
+        <!-- Message -->
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Your Message</label>
+          <textarea v-model="form.message" rows="5" placeholder="Write your message..."
+            class="w-full px-4 py-3 bg-gray-100 border rounded-2xl text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white/50 transition-colors resize-none"></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="w-full btn-g">
+          Submit
+        </button>
+      </form>
     </div>
   </div>
 </template>

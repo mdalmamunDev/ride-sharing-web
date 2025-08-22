@@ -1,15 +1,16 @@
 <template>
   <div v-if="isOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-overlay">
-    <div class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-40" @click="$emit('clickOutside')"></div>
+    <div class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-40" @click="closeOut"></div>
 
     <!-- Modal Container -->
     <div class="relative z-50 w-full max-h-[100vh] overflow-y-auto sm:mx-4" :class="`max-w-${maxW}`">
-      <div class="bg-white rounded-3xl p-3 sm:p-8 shadow-2xl text-center transform transition-all duration-300 scale-100"
+      <div
+        class="bg-white rounded-3xl p-4 sm:p-8 shadow-2xl text-center transform transition-all duration-300 scale-100"
         :class="containerClass">
         <button v-if="showCloseBtn" @click="$emit('close')" class="absolute right-3 top-2 text-2xl">
           <i class="fa-solid fa-xmark"></i>
         </button>
-        <h2 v-if="title" class="text-3xl font-bold text-gray-900 mb-3">{{ title }}</h2>
+        <h2 v-if="title" class="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">{{ title }}</h2>
         <p v-if="message" class="text-gray-500 mb-6 text-center">{{ message }}</p>
         <slot></slot>
       </div>
@@ -20,13 +21,17 @@
 <script>
 
 export default {
-  name: "AlertBox",
+  name: "DetailsBox",
   props: {
     title: String,
     message: String,
     isOpen: {
       type: Boolean,
-      default: true,
+      default: false,
+    },
+    closeOutside: {
+      type: Boolean,
+      default: false,
     },
     maxW: {
       type: String,
@@ -41,5 +46,24 @@ export default {
       default: true,
     }
   },
+  mounted() {
+    // Fake push to history, so that back button triggers popstate
+    history.pushState(null, null, location.href);
+    window.addEventListener("popstate", this.handleBackPress);
+  },
+  beforeUnmount() {
+    window.removeEventListener("popstate", this.handleBackPress);
+  },
+  methods: {
+    handleBackPress() {
+      history.pushState(null, null, location.href);
+      this.$emit("close");
+      
+    },
+
+    closeOut() {
+      if(this.closeOutside) this.$emit('close');
+    }
+  }
 };
 </script>

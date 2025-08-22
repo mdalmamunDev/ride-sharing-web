@@ -59,7 +59,7 @@
         </div>
       </div>
 
-      <button type="submit" class="w-full bg-[#5B84D7] text-white py-3 rounded text-lg font-medium hover:bg-blue-700">
+      <button type="submit" class="w-full btn-g py-4">
         Update Password
       </button>
     </form>

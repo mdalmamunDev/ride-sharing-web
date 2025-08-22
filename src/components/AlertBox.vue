@@ -46,14 +46,20 @@ export default {
       default: false,
     },
   },
-  data() {
-    return {
-      //
-    };
+  mounted() {
+    // Fake push to history, so that back button triggers popstate
+    history.pushState(null, null, location.href);
+    window.addEventListener("popstate", this.handleBackPress);
+  },
+  beforeUnmount() {
+    window.removeEventListener("popstate", this.handleBackPress);
   },
   methods: {
-    //
-  },
+    handleBackPress() {
+      history.pushState(null, null, location.href);
+      this.closeAlert()
+    },
+  }
 };
 </script>
 

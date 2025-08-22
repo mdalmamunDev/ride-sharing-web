@@ -11,7 +11,7 @@
         <!-- Tab Buttons -->
         <div class="w-full sm:w-auto flex bg-purple-100 rounded-full shadow-sm">
           <button @click="activeTab = 'scheduled'" :class="[
-            'flex-1 sm:flex-auto px-5 sm:px-12 py-2 text-sm font-medium rounded-full transition-all duration-200',
+            'flex-1 sm:flex-auto px-5 sm:px-12 py-3 text-sm font-medium rounded-full transition-all duration-200',
             activeTab === 'scheduled'
               ? 'bg-g text-white shadow-sm'
               : 'text-gray-600 hover:text-gray-900'
@@ -19,7 +19,7 @@
             Scheduled Rides
           </button>
           <button @click="activeTab = 'completed'" :class="[
-            'flex-1 sm:flex-auto px-5 sm:px-12 py-2 text-sm font-medium rounded-full transition-all duration-200',
+            'flex-1 sm:flex-auto px-5 sm:px-12 py-3 text-sm font-medium rounded-full transition-all duration-200',
             activeTab === 'completed'
               ? 'bg-g text-white shadow-sm'
               : 'text-gray-600 hover:text-gray-900'

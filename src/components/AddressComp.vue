@@ -25,7 +25,7 @@
 <script>
 
 export default {
-	name: "AlertBox",
+	name: "AddressComp",
 	props: {
 		fromAddress: String,
 		toAddress: String,

@@ -5,8 +5,8 @@
       <!-- mobile -->
       <div class="sm:hidden flex flex-col justify-end mx-auto w-full bg-g">
         <!-- Logo -->
-        <img src="/logo-white.svg" alt="Split Ride Logo" class="w-48 pt-8 mx-auto mb-8" />
-        <div class="bg-white p-4 rounded-t-[40px] min-h-[75vh]">
+        <img src="/logo-white.svg" alt="Split Ride Logo" class="w-48 pt-12 mx-auto mb-8" />
+        <div class="bg-white p-4 rounded-t-[40px] min-h-[75vh] z-20">
           <router-view />
         </div>
       </div>
@@ -27,8 +27,8 @@
       <div class="absolute bottom-[6%] right-[6%] w-[7%] h-[7%] bg-white rounded-full"></div> -->
       </div>
     </div>
-    <button v-if="!isLoginPage" @click="$router.back()"
-      class="sm:hidden w-10 h-10 fixed top-10 left-3 bg-white/20 backdrop-blur-md text-white rounded-full shadow-lg hover:bg-white/30 transition">
+    <button v-if="!isLoginPage" @click="$router.push('/login')"
+      class="sm:hidden w-10 h-10 fixed top-10 left-3 bg-white/20 backdrop-blur-md text-white rounded-full shadow-lg hover:bg-white/30 transition z-10">
       <i class="fas fa-arrow-left"></i>
     </button>
   </div>

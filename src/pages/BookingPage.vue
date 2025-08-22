@@ -183,7 +183,7 @@
         </div>
 
         <div class="w-full flex justify-center">
-          <button type="submit" class="max-w-full w-[300px] py-3 btn-g">
+          <button type="submit" class="w-full sm:max-w-full sm:w-[300px] py-3 btn-g">
             {{ formData._id ? 'Update Trip' : 'Find Now' }}
           </button>
         </div>

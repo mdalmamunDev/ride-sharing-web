@@ -116,7 +116,7 @@
 
 
     <!-- Mail Verify -->
-    <details-box :is-open="isOpenVerify" :show-close-btn="false" title="Enter your 6 digit code"
+    <details-box :is-open="isOpenVerify" :show-close-btn="false" @close="isOpenVerify = false" title="Enter your 6 digit code"
       message="Please check your email and enter your 6 digit code.">
       <div class="flex flex-col items-center w-full">
 

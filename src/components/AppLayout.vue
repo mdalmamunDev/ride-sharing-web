@@ -60,74 +60,78 @@
         </div>
       </div>
 
-      <!-- Side Navigation Overlay (Mobile) -->
-      <div v-if="isSideNavOpen" @click="closeSideNav" class="sm:hidden fixed inset-0 z-50 bg-black bg-opacity-50">
-        <div @click.stop :class="[
-          'fixed left-0 top-0 h-full w-80 max-w-[95%] overflow-auto bg-white shadow-xl transform transition-transform duration-300 ease-in-out pt-6',
-          isSideNavOpen ? 'translate-x-0' : '-translate-x-full'
-        ]">
-          <!-- Side Nav Header -->
-          <div class="flex items-center justify-between p-6 border-b border-gray-200">
-            <img src="/logo.svg" class="w-32" alt="Logo" />
-            <button @click="closeSideNav" class="text-gray-400 hover:text-gray-600">
-              <i class="fa-solid fa-times text-xl"></i>
-            </button>
-          </div>
-
-          <!-- User Profile -->
-          <div class="p-6 border-b border-gray-100">
-            <router-link to="/profile" @click="closeSideNav">
-              <div class="flex items-center space-x-3">
-                <div class="w-12 h-12 rounded-full overflow-hidden">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnnFf6DXcgRxe71BOQm1orHpnKjJloo9c2jg&s"
-                    alt="Kimmy Natasa" class="w-full h-full object-cover" />
-                </div>
-                <div>
-                  <span class="text-gray-800 font-bold">{{ auth?.name || 'Unknown User' }}</span>
-                  <p v-if="auth?.role === 'user' || auth?.approvalStatus === 'verified'"
-                    class="text-sm text-g-2 font-bold mt-0.5">Verified</p>
-                  <p v-else-if="auth?.approvalStatus" class="text-sm text-g-danger font-bold mt-0.5 capitalize">
-                    Unverified</p>
-                </div>
+      <transition name="fade">
+        <!-- Side Navigation Overlay (Mobile) -->
+        <div v-if="isSideNavOpen" @click="closeSideNav" class="sm:hidden fixed inset-0 z-50 bg-black bg-opacity-50">
+          <!-- Drawer -->
+          <transition name="slide-left">
+            <div v-if="isSideNavOpen" @click.stop
+              class="fixed left-0 top-0 h-full w-80 max-w-[95%] overflow-auto bg-white shadow-xl pt-6">
+              <!-- Side Nav Header -->
+              <div class="flex items-center justify-between p-6 border-b border-gray-200">
+                <img src="/logo.svg" class="w-32 h-[42px]" alt="Logo" />
+                <button @click="closeSideNav" class="text-gray-400 hover:text-gray-600">
+                  <i class="fa-solid fa-times text-xl"></i>
+                </button>
               </div>
-            </router-link>
-          </div>
 
-          <!-- Navigation Menu -->
-          <nav class="py-4">
-            <template v-for="link in navLinks" :key="link.to">
-              <router-link :to="link.to" @click="closeSideNav"
-                class="flex items-center px-6 py-4 text-gray-700 hover:bg-gray-50 font-medium"
-                :class="{ 'text-g bg-gray-50': link.activePaths.includes($route.path) }">
-                <i :class="link.icon + ' text-lg me-4 w-5'"></i>
-                {{ link.label }}
-              </router-link>
-            </template>
-
-            <!-- Extra menu items -->
-            <div class="border-t border-gray-100 mt-4 pt-4">
-              <template v-for="link in extraLinks" :key="link.to">
-                <router-link :to="link.to" @click="closeSideNav"
-                  class="flex items-center px-6 py-4 text-gray-700 hover:bg-gray-50 font-medium"
-                  :class="{ 'text-g bg-gray-50': link.activePaths.includes($route.path) }">
-                  <i :class="link.icon + ' text-lg me-4 w-5'"></i>
-                  {{ link.label }}
+              <!-- User Profile -->
+              <div class="p-6 border-b border-gray-100">
+                <router-link to="/profile" @click="closeSideNav">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 rounded-full overflow-hidden">
+                      <img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnnFf6DXcgRxe71BOQm1orHpnKjJloo9c2jg&s"
+                        alt="Kimmy Natasa" class="w-full h-full object-cover" />
+                    </div>
+                    <div>
+                      <span class="text-gray-800 font-bold">{{ auth?.name || 'Unknown User' }}</span>
+                      <p v-if="auth?.role === 'user' || auth?.approvalStatus === 'verified'"
+                        class="text-sm text-g-2 font-bold mt-0.5">Verified</p>
+                      <p v-else-if="auth?.approvalStatus" class="text-sm text-g-danger font-bold mt-0.5 capitalize">
+                        Unverified</p>
+                    </div>
+                  </div>
                 </router-link>
-              </template>
-              <button @click="showAlert(); closeSideNav()"
-                class="flex items-center px-6 py-4 text-gray-700 hover:bg-gray-50 font-medium">
-                <i class="fa-solid fa-sign-out-alt text-lg me-4 w-5"></i> Logout
-              </button>
+              </div>
+
+              <!-- Navigation Menu -->
+              <nav class="py-4">
+                <template v-for="link in navLinks" :key="link.to">
+                  <router-link :to="link.to" @click="closeSideNav"
+                    class="flex items-center px-6 py-4 text-gray-700 hover:bg-gray-50 font-medium"
+                    :class="{ 'text-g bg-gray-50': link.activePaths.includes($route.path) }">
+                    <i :class="link.icon + ' text-lg me-4 w-5'"></i>
+                    {{ link.label }}
+                  </router-link>
+                </template>
+
+                <!-- Extra menu items -->
+                <div class="border-t border-gray-100 mt-4 pt-4">
+                  <template v-for="link in extraLinks" :key="link.to">
+                    <router-link :to="link.to" @click="closeSideNav"
+                      class="flex items-center px-6 py-4 text-gray-700 hover:bg-gray-50 font-medium"
+                      :class="{ 'text-g bg-gray-50': link.activePaths.includes($route.path) }">
+                      <i :class="link.icon + ' text-lg me-4 w-5'"></i>
+                      {{ link.label }}
+                    </router-link>
+                  </template>
+                  <button @click="showAlert(); closeSideNav()"
+                    class="flex items-center px-6 py-4 text-gray-700 hover:bg-gray-50 font-medium">
+                    <i class="fa-solid fa-sign-out-alt text-lg me-4 w-5"></i> Logout
+                  </button>
+                </div>
+              </nav>
             </div>
-          </nav>
+          </transition>
         </div>
-      </div>
+      </transition>
 
       <!-- Page Content -->
       <div class="h-screen sm:pt-20">
         <router-view />
-        <div v-if="$route.path !== '/navigate'" class="sm:hidden h-[86px] w-full fixed top-0 left-0 bg-glass shadow-lg rounded-b-lg z-10"></div>
+        <div v-if="$route.path !== '/navigate'"
+          class="sm:hidden h-[86px] w-full fixed top-0 left-0 bg-glass shadow-lg rounded-b-lg z-10"></div>
       </div>
     </template>
   </div>
@@ -236,3 +240,28 @@ export default {
   }
 };
 </script>
+
+
+<style>
+/* Fade for backdrop */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* Slide for drawer */
+.slide-left-enter-active,
+.slide-left-leave-active {
+  transition: transform 0.3s ease;
+}
+
+.slide-left-enter-from,
+.slide-left-leave-to {
+  transform: translateX(-100%);
+}
+</style>

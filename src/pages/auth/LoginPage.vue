@@ -86,7 +86,7 @@
     </div>
 
     <!-- Forgot Password -->
-    <details-box :is-open="isOpenForgotPass" @clickOutside="isOpenForgotPass = false" :show-close-btn="false"
+    <details-box :is-open="isOpenForgotPass" :close-outside="true" :show-close-btn="false" @close="isOpenForgotPass = false"
       title="Forgot Your Password?"
       message="Please enter your email and we will send you a code to reset your password.">
       <div class="flex flex-col items-center w-full">
@@ -108,7 +108,7 @@
     </details-box>
 
     <!-- Mail Verify -->
-    <details-box :is-open="isOpenVerify" :show-close-btn="false" title="Enter your 6 digit code"
+    <details-box :is-open="isOpenVerify" :show-close-btn="false" @close="isOpenVerify = false" title="Enter your 6 digit code"
       message="Please check your email and enter your 6 digit code.">
       <div class="flex flex-col items-center w-full">
 
@@ -132,7 +132,7 @@
     </details-box>
 
     <!-- Reset Password -->
-    <details-box :is-open="isOpenReset" :show-close-btn="false" title="Setup New Password"
+    <details-box :is-open="isOpenReset" :show-close-btn="false" @close="isOpenReset = false" title="Setup New Password"
       message="Enter your new password.">
       <form @submit.prevent="handleReset" class="space-y-6">
         <div>
