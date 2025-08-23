@@ -3,7 +3,8 @@
   <pagination-comp custom-url="notification">
     <div class="flex flex-col items-center gap-2 h-full w-full">
       <div v-for="(item, index) in dataList?.data" :key="index"
-        class="max-w-xl bg-purple-100 sm:bg-white border border-purple-200 rounded-lg p-4 w-full shadow-sm">
+        class="max-w-xl border border-purple-200 rounded-lg p-4 w-full shadow-sm"
+        :class="item.viewStatus ? 'bg-white' : 'bg-purple-100'">
         <div class="flex items-start space-x-3">
           <!-- User Icon -->
           <div class="flex-shrink-0">

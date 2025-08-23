@@ -46,7 +46,8 @@
             class="w-24 h-24 rounded-full object-cover bg-g p-0.5" />
           <h3 class="text-md font-bold mt-2">{{ details?.otherUser?.name || 'N/A' }}</h3>
         </button>
-        <router-link :to="`/user-details?userId=${details?.otherUser?._id}`" class="flex sm:hidden items-center justify-center flex-col">
+        <router-link :to="`/user-details?userId=${details?.otherUser?._id}`"
+          class="flex sm:hidden items-center justify-center flex-col">
           <img :src="showImg(details?.otherUser?.profileImage)" :alt="details?.otherUser?.name || 'Image'"
             class="w-16 h-16 rounded-full object-cover bg-g p-0.5" />
           <h3 class="text-md font-bold mt-2">{{ details?.otherUser?.name || 'N/A' }}</h3>
@@ -60,7 +61,8 @@
       </address-comp>
 
       <!-- Chat Mobile -->
-      <router-link :to="`/messages?receiverId=${details?.otherUser?._id}`" class="btn-g sm:hidden w-full p-3 flex items-center justify-center gap-4">
+      <router-link :to="`/messages?receiverId=${details?.otherUser?._id}`"
+        class="btn-g sm:hidden w-full p-3 flex items-center justify-center gap-4">
         <i class="fa-solid fa-comment-dots text-3xl"></i> Chat with your driver
       </router-link>
     </div>
@@ -78,7 +80,7 @@
 
     <!-- user details -->
     <details-box class="hidden sm:flex" :is-open="isShowUser" @close="isShowUser = false" maxW="md">
-      <UserDetails />
+      <user-details :user-id="details?.otherUser?._id" />
     </details-box>
 
     <!-- mark as completed -->
@@ -205,22 +207,23 @@ export default {
     };
   },
   mounted() {
-    function check(bool) {
-      if (bool) {
-        this.showToast('No ride found', 'error');
-        this.$router.back();
-      }
-      return bool;
-    }
     // get job id
-    const jobId = this.$route.query.jobId;
-    if (check(!jobId)) return;
+    const jobId = this.$route.query?.jobId;
+    if (!jobId) {
+      this.showToast('No ride found', 'error');
+      this.$router.back();
+      return;
+    }
 
     this.httpReq({
       urlSuffix: jobId,
       method: 'get',
       callback: (data) => {
-        if (check(!data)) return;
+        if (!data) {
+          this.showToast('No ride found', 'error');
+          this.$router.back();
+          return;
+        }
         this.details = data;
 
         this.updateTimeLeft(); // initial calculation
@@ -232,7 +235,7 @@ export default {
     // const destLoc = { lat: 23.795519, lng: 90.3936814 };
     // const manualStart = new Date("2025-08-11T15:30:00");
 
-    this.simulateSimpleMove();
+    // this.simulateSimpleMove();
   },
   beforeUnmount() {
     clearInterval(this.timer); // cleanup
@@ -256,32 +259,32 @@ export default {
       }
     },
 
-    simulateSimpleMove() {
-      const destination = { lat: 23.795519, lng: 90.3936814 };
+    // simulateSimpleMove() {
+    //   const destination = { lat: 23.795519, lng: 90.3936814 };
 
-      const steps = 500;
-      let stepCount = 0;
+    //   const steps = 500;
+    //   let stepCount = 0;
 
-      const latStep = (destination.lat - this.location.lat) / steps;
-      const lngStep = (destination.lng - this.location.lng) / steps;
+    //   const latStep = (destination.lat - this.location.lat) / steps;
+    //   const lngStep = (destination.lng - this.location.lng) / steps;
 
-      const interval = setInterval(() => {
-        if (stepCount >= steps) {
-          clearInterval(interval);
-          console.log("Arrived at destination");
-          return;
-        }
+    //   const interval = setInterval(() => {
+    //     if (stepCount >= steps) {
+    //       clearInterval(interval);
+    //       console.log("Arrived at destination");
+    //       return;
+    //     }
 
-        // this.location.lat += latStep;
-        // this.location.lng += lngStep;
-        this.location = { lat: this.location.lat + latStep, lng: this.location.lng + lngStep }
+    //     // this.location.lat += latStep;
+    //     // this.location.lng += lngStep;
+    //     this.location = { lat: this.location.lat + latStep, lng: this.location.lng + lngStep }
 
 
-        // console.log(`Current position: ${this.location.lat.toFixed(6)}, ${this.location.lng.toFixed(6)}`);
+    //     // console.log(`Current position: ${this.location.lat.toFixed(6)}, ${this.location.lng.toFixed(6)}`);
 
-        stepCount++;
-      }, 500);
-    }
+    //     stepCount++;
+    //   }, 500);
+    // }
 
 
   },

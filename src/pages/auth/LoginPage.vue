@@ -9,20 +9,20 @@
       <!-- Passenger -->
       <button :class="[
         'flex-1 py-4 rounded-full font-semibold shadow transition-all duration-300 transform hover:scale-105 hover:shadow-lg',
-        userType === 'user'
+        formData.role === 'user'
           ? 'bg-g text-white hover:brightness-110'
           : 'bg-purple-200 text-purple-600 hover:bg-purple-300'
-      ]" @click="userType = 'user'">
+      ]" @click="formData.role = 'user'">
         Passenger
       </button>
 
       <!-- Driver -->
       <button :class="[
         'flex-1 py-4 rounded-full font-semibold shadow transition-all duration-300 transform hover:scale-105 hover:shadow-lg',
-        userType === 'provider'
+        formData.role === 'provider'
           ? 'bg-g text-white hover:brightness-110'
           : 'bg-purple-200 text-purple-600 hover:bg-purple-300'
-      ]" @click="userType = 'provider'">
+      ]" @click="formData.role = 'provider'">
         Driver
       </button>
     </div>
@@ -86,8 +86,8 @@
     </div>
 
     <!-- Forgot Password -->
-    <details-box :is-open="isOpenForgotPass" :close-outside="true" :show-close-btn="false" @close="isOpenForgotPass = false"
-      title="Forgot Your Password?"
+    <details-box :is-open="isOpenForgotPass" :close-outside="true" :show-close-btn="false"
+      @close="isOpenForgotPass = false" title="Forgot Your Password?"
       message="Please enter your email and we will send you a code to reset your password.">
       <div class="flex flex-col items-center w-full">
         <!-- Form -->
@@ -108,8 +108,8 @@
     </details-box>
 
     <!-- Mail Verify -->
-    <details-box :is-open="isOpenVerify" :show-close-btn="false" @close="isOpenVerify = false" title="Enter your 6 digit code"
-      message="Please check your email and enter your 6 digit code.">
+    <details-box :is-open="isOpenVerify" :show-close-btn="false" @close="isOpenVerify = false"
+      title="Enter your 6 digit code" message="Please check your email and enter your 6 digit code.">
       <div class="flex flex-col items-center w-full">
 
         <form @submit.prevent="handleVerify" class="space-y-6">
@@ -126,7 +126,8 @@
           <action-button class="w-full py-4 btn-g font-semibold">Verify your account</action-button>
         </form>
         <div class="flex justify-end items-center text-sm mt-4">
-          Don't get code? <span class="text-g hover:underline ms-1 cursor-pointer font-bold">Resend</span>
+          Don't get code? <span @click="handleResend"
+            class="text-g hover:underline ms-1 cursor-pointer font-bold">Resend</span>
         </div>
       </div>
     </details-box>
@@ -141,11 +142,11 @@
             <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-1">
               <img src="/icons/lock.svg" alt="">
             </span>
-            <input v-model="resetPassword" :type="showPassword ? 'text' : 'password'" placeholder="Enter your password"
+            <input v-model="resetPassword" :type="showPassword2 ? 'text' : 'password'" placeholder="Enter your password"
               class="pl-12 pr-10 py-5 w-full rounded-full bg-gray-100 text-sm outline-none" required />
             <span class="absolute right-4 top-1/2 transform -translate-y-1/2 text-1 cursor-pointer"
-              @click="showPassword = !showPassword">
-              <img v-if="showPassword" src="/icons/eye.svg" alt="">
+              @click="showPassword2 = !showPassword2">
+              <img v-if="showPassword2" src="/icons/eye.svg" alt="">
               <img v-else src="/icons/eye-s.svg" alt="">
             </span>
           </div>
@@ -156,12 +157,12 @@
             <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-1">
               <img src="/icons/lock.svg" alt="">
             </span>
-            <input v-model="resetConformPassword" :type="showPassword ? 'text' : 'password'"
+            <input v-model="resetConformPassword" :type="showPassword3 ? 'text' : 'password'"
               placeholder="Enter again your password"
               class="pl-12 pr-10 py-5 w-full rounded-full bg-gray-100 text-sm outline-none" required />
             <span class="absolute right-4 top-1/2 transform -translate-y-1/2 text-1 cursor-pointer"
-              @click="showPassword = !showPassword">
-              <img v-if="showPassword" src="/icons/eye.svg" alt="">
+              @click="showPassword3 = !showPassword3">
+              <img v-if="showPassword3" src="/icons/eye.svg" alt="">
               <img v-else src="/icons/eye-s.svg" alt="">
             </span>
           </div>
@@ -181,8 +182,9 @@ export default {
   components: { DetailsBox },
   data() {
     return {
-      userType: 'user',
       showPassword: false,
+      showPassword2: false,
+      showPassword3: false,
       isOpenForgotPass: false,
       isOpenVerify: false,
       isOpenReset: false,
@@ -199,6 +201,9 @@ export default {
       resetConformPassword: "",
 
     };
+  },
+  mounted() {
+    this.$store.commit('setFormData', { role: 'user' })
   },
   methods: {
     handleLogIn() {
@@ -261,11 +266,10 @@ export default {
           }
           this.isOpenVerify = false;
           this.code = "";
+          // remove the token
+          localStorage.removeItem('resetPasswordToken');
         },
       });
-
-      // remove the token
-      localStorage.removeItem('resetPasswordToken');
     },
 
     handleReset() {
@@ -361,6 +365,23 @@ export default {
           if (nextInput && nextInput[0]) nextInput[0].focus();
         });
       }
+    },
+    handleResend() {
+      const resetPasswordToken = localStorage.getItem('resetPasswordToken');
+      if (!resetPasswordToken) {
+        this.showToast('Reset token error', 'error');
+        return;
+      }
+
+      this.httpReq({
+        token: resetPasswordToken,
+        customUrl: 'auth/resend-otp',
+        data: {},
+        callback: ({ resetPasswordToken }) => {          
+          // reset the token
+          localStorage.setItem('resetPasswordToken', resetPasswordToken);
+        },
+      });
     },
   },
 };

@@ -13,6 +13,10 @@ export default {
         sports_bag: 'Sports Bag',
         box: 'Box',
         golf_bag: 'Golf Bag'
+      },
+      Role: {
+        user: 'Passenger',
+        provider: 'Driver',
       }
     };
   },
@@ -175,7 +179,7 @@ export default {
       this.$toast(message, {
         type: type,
         timeout: 3000,        // 3 seconds timeout
-        position: "top-right", // Toast position at top-right
+        position: "bottom-right", // Toast position at top-right
       });
     },
     printStr(str, len = 20) {

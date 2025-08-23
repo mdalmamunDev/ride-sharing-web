@@ -83,7 +83,7 @@
             <!-- Booking ID -->
             <div class="flex justify-between items-center mb-6 bg-purple-100 p-3 rounded-xl font-semibold">
               <span class="text-sm text-gray-600 font-bold">Booking ID:</span>
-              <span class="text-sm text-blue-600">{{ trip.jobId }}</span>
+              <BookingId class="text-sm text-blue-600" :value="trip.jobId" />
             </div>
 
             <!-- Route Information -->
@@ -133,11 +133,12 @@
     </div>
   </div>
 
-  <AlertBox ok-btn-text="View The Map" @ok="$router.push('/navigate'); closeAlert()" title="Ride Accepted"
-    message="Reach the location by 10:25 PM to pick up the passenger" />
+  <AlertBox ok-btn-text="View The Map" @ok="$router.push(`/navigate?jobId=${details.jobId}`); closeAlert()"
+    title="Ride Accepted" message="Reach the location by 10:25 PM to pick up the passenger" />
 
   <!-- box ride view -->
-  <details-box :is-open="isOpenRideViewBox" @close="isOpenRideViewBox = false" @click-outside="isOpenRideViewBox = false">
+  <details-box :is-open="isOpenRideViewBox" @close="isOpenRideViewBox = false"
+    @click-outside="isOpenRideViewBox = false">
     <!-- Profile Header -->
     <div class="text-center pb-6">
       <div class="w-28 h-28 mx-auto mb-4 rounded-full overflow-hidden bg-gray-200">
@@ -174,7 +175,7 @@
       </div>
       <div class="flex justify-between py-3 border-b">
         <span class="text-sm font-bold">Booking ID</span>
-        <span class="text-sm text-gray-900">{{ details.jobId }}</span>
+        <BookingId class="text-sm text-gray-900" :value="details.jobId" />
       </div>
       <div class="flex justify-between py-3 border-b">
         <span class="text-sm font-bold">Date</span>
@@ -214,12 +215,13 @@
 <script>
 import AddressComp from '@/components/AddressComp.vue';
 import AlertBox from '@/components/AlertBox.vue';
+import BookingId from '@/components/BookingId.vue';
 import DetailsBox from '@/components/DetailsBox.vue';
 import PaginationComp from '@/components/PaginationComp.vue';
 
 export default {
   name: 'DriverHomePage',
-  components: { AlertBox, DetailsBox, PaginationComp, AddressComp },
+  components: { AlertBox, DetailsBox, PaginationComp, AddressComp, BookingId },
   data() {
     return {
       rideType: 'split',
@@ -247,11 +249,13 @@ export default {
       this.details = trip;
     },
     acceptTrip(id, trId) {
-      this.httpReq({customUrl: `job/provider/accept/${id}/${trId}`, callback: () => {
-        this.isOpenRideViewBox = false;
-        this.openAlert();
-        this.fetchData();
-      }});
+      this.httpReq({
+        customUrl: `job/provider/accept/${id}/${trId}`, callback: () => {
+          this.isOpenRideViewBox = false;
+          this.openAlert();
+          this.fetchData();
+        }
+      });
     },
     declineTrip() {
       console.log("Ride declined:", this.rideRequest?.bookingId);

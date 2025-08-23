@@ -1,5 +1,5 @@
 <template>
-  <span class="font-bold cursor-copy" @click="copyToClipboard(value)">
+  <span class="cursor-copy" @click="copyToClipboard(value)">
     {{ bid }}
   </span>
 </template>

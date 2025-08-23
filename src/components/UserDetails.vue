@@ -41,35 +41,33 @@
     <!-- Reviews Section -->
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-xl font-bold text-gray-800">
-        Reviews <span class="text-gray-400 font-normal">(150)</span>
+        Reviews <span class="text-gray-400 font-normal">({{ dataList?.pagination?.totalCount || 0 }})</span>
       </h2>
-      <button class="text-blue-500 text-sm font-medium hover:text-blue-600">
+      <!-- <button class="text-blue-500 text-sm font-medium hover:text-blue-600">
         View All
-      </button>
+      </button> -->
     </div>
 
     <!-- Review 1 -->
-     <!-- TODO: make it dinamic -->
-    <pagination-comp class="w-full">
-      <div v-for="(item, index) in 20" :key="index" class="bg-blue-50 rounded-xl p-4 mb-4">
+    <pagination-comp class="w-full" :custom-url="'review/' + this.userId">
+      <div v-for="(item, index) in dataList.data" :key="index" class="bg-blue-50 rounded-xl p-4 mb-4">
         <div class="flex items-start justify-between mb-3">
           <div class="flex items-center">
             <div class="w-10 h-10 rounded-full overflow-hidden bg-gray-300 mr-3">
-              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face"
-                alt="Devon Lane" class="w-full h-full object-cover">
+              <img :src="showImg(item.reviewerId?.profileImage)" alt="Profile" class="w-full h-full object-cover">
             </div>
             <div class="text-start">
-              <h3 class="font-semibold text-gray-800">Devon Lane</h3>
-              <p class="text-xs text-gray-500">Passenger</p>
+              <h3 class="font-semibold text-gray-800">{{ item.reviewerId?.name || 'N/A' }}</h3>
+              <p class="text-xs text-gray-500">{{ Role[item.reviewerId?.role] || 'N/A' }}</p>
             </div>
           </div>
           <div class="flex items-center">
             <i class="fas fa-star text-orange-400 text-sm mr-1"></i>
-            <span class="font-bold text-gray-800">5.0</span>
+            <span class="font-bold text-gray-800">{{ item.rating?.toFixed(1) }}</span>
           </div>
         </div>
         <p class="text-gray-700 text-sm leading-relaxed text-start">
-          "Expedited service was requested and pickup from the driver was very fast and earlier than expected"
+          {{ item.comment }}
         </p>
       </div>
     </pagination-comp>
@@ -97,14 +95,14 @@ export default {
       return;
     }
 
-    this.httpReq({
-      customUrl: 'user/single',
-      urlSuffix: this.userId,
-      method: 'get',
-      callback: (data) => {
+    this.fetchData({
+      customUrl: 'user/single/' + this.userId,
+      callback: ({ data }) => {
         this.user = data;
       }
-    })
+    });
+    this.fetchData({ customUrl: 'review/' + this.userId });
+
   },
   methods: {
     timeAgo(dateString) {

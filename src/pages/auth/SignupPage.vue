@@ -116,7 +116,7 @@
 
 
     <!-- Mail Verify -->
-    <details-box :is-open="isOpenVerify" :show-close-btn="false" @close="isOpenVerify = false" title="Enter your 6 digit code"
+    <details-box :is-open="isOpenVerify" :show-close-btn="false" title="Enter your 6 digit code"
       message="Please check your email and enter your 6 digit code.">
       <div class="flex flex-col items-center w-full">
 
@@ -134,7 +134,8 @@
           <action-button class="w-full py-4 btn-g font-semibold">Verify your account</action-button>
         </form>
         <div class="flex justify-end items-center text-sm mt-4">
-          Don't get code? <span class="text-g hover:underline ms-1 cursor-pointer font-bold">Resend</span>
+          Don't get code?<span @click="handleResend"
+            class="text-g hover:underline ms-1 cursor-pointer font-bold">Resend</span>
         </div>
       </div>
     </details-box>
@@ -146,7 +147,7 @@ import DetailsBox from '@/components/DetailsBox.vue';
 
 export default {
   name: "SignupPage",
-  components: {DetailsBox},
+  components: { DetailsBox },
   data() {
     return {
       showPassword: false,
@@ -208,11 +209,11 @@ export default {
           this.code = "";
 
           this.$router.push('login');
+
+          // remove the token
+          localStorage.removeItem('resetPasswordToken');
         },
       });
-
-      // remove the token
-      localStorage.removeItem('resetPasswordToken');
     },
     handleInput(e, idx) {
       this.error = ""; // Clear any previous error
@@ -277,6 +278,23 @@ export default {
           if (nextInput && nextInput[0]) nextInput[0].focus();
         });
       }
+    },
+    handleResend() {
+      const resetPasswordToken = localStorage.getItem('resetPasswordToken');
+      if (!resetPasswordToken) {
+        this.showToast('Reset token error', 'error');
+        return;
+      }
+
+      this.httpReq({
+        token: resetPasswordToken,
+        customUrl: 'auth/resend-otp',
+        data: {},
+        callback: ({ verificationToken }) => {
+          // reset the token
+          localStorage.setItem('resetPasswordToken', verificationToken);
+        },
+      });
     },
   },
 };

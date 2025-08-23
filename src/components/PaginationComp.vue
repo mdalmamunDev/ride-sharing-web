@@ -16,6 +16,11 @@
         </div>
       </span>
     </div>
+    <div v-else-if="!dataList.data?.length" class="w-full min-h-24 flex flex-col items-center justify-center">
+      <h3 class="w-full flex justify-center items-center">
+        Nothing to show
+      </h3>
+    </div>
 
     <slot class="w-full" v-else>
       <!--  -->

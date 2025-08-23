@@ -1,8 +1,9 @@
 <template>
   <div class="h-screen bg-white">
     <template v-if="auth?.role === 'provider' && auth?.step === 1">
-      <div class="w-full h-full flex items-center justify-center">
-        <router-link class="text-g underline" to="/auth/complete">Please complete your profile first</router-link>
+      <div class="w-full h-full flex items-center justify-center text-xl">
+        Please <router-link class="text-g underline mx-1" to="/auth/complete">complete</router-link> your profile
+        first
       </div>
     </template>
     <template v-else>
@@ -218,9 +219,15 @@ export default {
 
     } else {
       this.httpReq({
-        customUrl: 'user/me', method: 'get', callback: (data) => {
+        customUrl: 'user/me',
+        method: 'get',
+        callback: (data) => {
           socket.emit("user-connected", { userId: data?._id });
           this.$store.commit('setAuth', data);
+        },
+        errorCallback: () => {
+          localStorage.removeItem('token');
+          this.$router.push('/auth/login');
         }
       });
     }

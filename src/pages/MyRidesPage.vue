@@ -49,7 +49,9 @@
               <div class="">
                 <div class="flex justify-between items-center py-3 border-b">
                   <span class="text-xs text-gray-500">Booking ID</span>
-                  <span class="text-xs font-medium text-gray-700">{{ ride.jobId }}</span>
+                  <span class="text-xs font-medium text-gray-700">
+                    <BookingId :value="ride.jobId" />
+                  </span>
                 </div>
 
                 <div class="flex justify-between items-center py-3 border-b">
@@ -149,12 +151,13 @@
 
 <script>
 import AddressComp from '@/components/AddressComp.vue';
+import BookingId from '@/components/BookingId.vue';
 import DetailsBox from '@/components/DetailsBox.vue';
 import PaginationComp from '@/components/PaginationComp.vue';
 
 export default {
   name: "MyRidesPage",
-  components: { AddressComp, PaginationComp, DetailsBox },
+  components: { AddressComp, PaginationComp, DetailsBox, BookingId },
   data() {
     return {
       activeTab: 'scheduled',
