@@ -12,9 +12,9 @@
         class="hidden sm:block z-20 absolute w-full top-0 bg-white border-b shadow-lg border-gray-200 px-6 h-20 overflow-hidden">
         <div class="flex items-center justify-between h-full">
           <!-- Logo -->
-          <router-link to="/">
+          <button @click="$router.push(auth?.role === 'provider' ? '/d-home' : '/')">
             <img src="/logo.svg" class="w-32 md:w-40" alt="Logo" />
-          </router-link>
+          </button>
 
           <!-- Navigation -->
           <nav class="flex space-x-4 md:space-x-8 text-sm md:text-md items-center h-full relative font-bold">
@@ -215,14 +215,15 @@ export default {
   mounted() {
     const existAuth = this.$store.getters.auth;
     if (existAuth?._id) {
-      socket.emit("user-connected", { userId: existAuth?._id });
-
+      socket?.emit("user-connected", { userId: existAuth?._id });
+      this.startLocationSharing(existAuth?._id)
     } else {
       this.httpReq({
         customUrl: 'user/me',
         method: 'get',
         callback: (data) => {
-          socket.emit("user-connected", { userId: data?._id });
+          socket?.emit("user-connected", { userId: data?._id });
+          this.startLocationSharing(data?._id)
           this.$store.commit('setAuth', data);
         },
         errorCallback: () => {
@@ -233,6 +234,20 @@ export default {
     }
   },
   methods: {
+    startLocationSharing(userId) {
+      if (navigator.geolocation) {
+        setInterval(() => {
+          navigator.geolocation.getCurrentPosition((pos) => {
+            const data = {
+              lat: pos.coords.latitude,
+              lng: pos.coords.longitude,
+              userId // optional user ID
+            };
+            socket?.emit("location-share", data);
+          });
+        }, 5000); // update every 5s
+      }
+    },
     toggleSideNav() {
       this.isSideNavOpen = !this.isSideNavOpen;
     },

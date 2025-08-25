@@ -75,7 +75,8 @@ export default {
       // Initialize Directions
       this.directionsService = new google.maps.DirectionsService();
       this.directionsRenderer = new google.maps.DirectionsRenderer({
-        suppressMarkers: true
+        suppressMarkers: true,
+        preserveViewport: true
       });
       this.directionsRenderer.setMap(this.map);
 
@@ -91,9 +92,6 @@ export default {
               lat: position.coords.latitude,
               lng: position.coords.longitude
             };
-            // For testing you can force a fixed location
-            this.userLatLng = { lat: 23.795519, lng: 90.3936814 }; // TODO: test mode
-
             this.map.setCenter(this.userLatLng);
 
             if (this.userMarker) {
@@ -148,7 +146,7 @@ export default {
       });
     },
 
-    showRoute(destination) {
+    showRoute(destination) {      
       if (!this.userLatLng) {
         console.error("User location not available yet.");
         return;
@@ -159,6 +157,7 @@ export default {
       trafficLayer.setMap(this.map);
 
       this.directionsService.route(
+        
         {
           origin: this.userLatLng,
           destination: destination,
@@ -204,6 +203,8 @@ export default {
                 ? leg.duration_in_traffic.text
                 : leg.duration.text
             );
+
+            this.$emit('minDuration', minDuration)
           } else {
             console.error("Directions request failed due to " + status);
           }
@@ -231,6 +232,7 @@ export default {
     destination(newDest) {
       if (newDest) {
         this.updateMarker('destination', newDest, `/icons/map-${this.icon}.png`);
+        this.showRoute(newDest)
       }
     }
   }

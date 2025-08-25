@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full overflow-y-auto bg-white flex flex-col md:flex-row text-gray-800">
+  <div v-show="auth?.role === 'user'" class="h-full overflow-y-auto bg-white flex flex-col md:flex-row text-gray-800">
     <!-- Map Panel - Shows first on mobile, second on desktop -->
     <div class="w-full md:w-1/2 relative order-1 md:order-2 z-20">
       <div class="h-[60vh] md:h-full">
@@ -557,6 +557,15 @@ export default {
       return date < nowPlus2Hrs;
     },
   },
+  watch: {
+    auth(newVal) {
+      if (newVal.role === 'provider') {
+        this.$router.push('/d-home');
+        return;
+      }
+
+    }
+  }
 };
 </script>
 
