@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center w-full pt-8">
+  <div class="flex flex-col items-center w-full pt-10">
     <!-- Heading -->
     <h2 class="text-2xl font-bold mb-2 text-center">Forgot Your Password?</h2>
     <p class="text-sm text-gray-500 mb-6 text-center">Please enter your email and we will send you a code to reset your password.</p>

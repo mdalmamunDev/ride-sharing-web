@@ -11,7 +11,7 @@
           <i class="fa-solid fa-xmark"></i>
         </button>
         <h2 v-if="title" class="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">{{ title }}</h2>
-        <p v-if="message" class="text-gray-500 mb-6 text-center">{{ message }}</p>
+        <p v-if="message" class="text-[#858585] mb-6 text-center">{{ message }}</p>
         <slot></slot>
       </div>
     </div>

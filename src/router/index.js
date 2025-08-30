@@ -43,7 +43,7 @@ const routes = [
       { path: "d-home", component: DriverHomePage, meta: { title: "Home", dataUrl: "job/provider/requested" } },
       { path: "navigate", component: NavigatePage, meta: { title: "Navigate", dataUrl: "job" } },
       { path: "my-rides", component: MyRidesPage, meta: { title: "My Rides", dataUrl: "job/ongoing" } },
-      { path: "support", component: SupportPage, meta: { title: "Help & Support", dataUrl: "support" } },
+      { path: "support", component: SupportPage, meta: { title: "Help & Support", dataUrl: "report" } },
       { path: "messages", component: MessagePage, meta: { title: "Chat", dataUrl: "messages" } },
       { path: "payments", component: MyPaymentsPage, meta: { title: "Payments", dataUrl: "payment/recent" } },
       { path: "user-details", component: UserDetailsPage, meta: { title: "User Details", dataUrl: "users" } },

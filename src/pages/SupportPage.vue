@@ -16,7 +16,7 @@
             <div class="h-6 w-6 flex justify-center items-center rounded-full bg-purple-100/70 text-purple-500 text-xs">
               <img src="/icons/email-2.svg" alt="">
             </div>
-            <span class="text-sm text-gray-600">info@etriride.com</span>
+            <span class="text-sm text-gray-600">{{ support?.email || 'N/A' }}</span>
           </div>
 
           <!-- Phone -->
@@ -25,23 +25,23 @@
               <img src="/icons/phone-2.svg" alt="">
 
             </div>
-            <span class="text-sm text-gray-600">+1 234 567 8901</span>
+            <span class="text-sm text-gray-600">{{ support?.phone || 'N/A' }}</span>
           </div>
         </div>
       </div>
 
       <!-- Support Form -->
-      <form @submit.prevent="submitForm">
+      <form @submit.prevent="httpReq">
         <!-- Full Name and Phone Number Row -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-            <input v-model="form.fullName" type="text" placeholder="Enter your full name"
+            <input readonly :value="auth?.name" type="text" placeholder="Enter your full name"
               class="w-full px-4 py-3 bg-gray-100 border rounded-2xl text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white/50 transition-colors" />
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-            <input v-model="form.phoneNumber" type="tel" placeholder="Enter your phone number"
+            <input readonly :value="auth?.phone" type="tel" placeholder="Enter your phone number"
               class="w-full px-4 py-3 bg-gray-100 border rounded-2xl text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white/50 transition-colors" />
           </div>
         </div>
@@ -50,12 +50,12 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-            <input v-model="form.email" type="email" placeholder="Enter your email"
+            <input readonly :value="auth?.email" type="email" placeholder="Enter your email"
               class="w-full px-4 py-3 bg-gray-100 border rounded-2xl text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white/50 transition-colors" />
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Booking ID</label>
-            <input v-model="form.bookingId" type="text" placeholder="Enter your booking ID (Optional)"
+            <input v-model="formData.jobId" type="text" placeholder="Enter your booking ID (Optional)"
               class="w-full px-4 py-3 bg-gray-100 border rounded-2xl text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white/50 transition-colors" />
           </div>
         </div>
@@ -63,7 +63,7 @@
         <!-- Message -->
         <div class="mb-6">
           <label class="block text-sm font-medium text-gray-700 mb-2">Your Message</label>
-          <textarea v-model="form.message" rows="5" placeholder="Write your message..."
+          <textarea v-model="formData.reason" rows="5" placeholder="Write your message..."
             class="w-full px-4 py-3 bg-gray-100 border rounded-2xl text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white/50 transition-colors resize-none"></textarea>
         </div>
 
@@ -81,37 +81,25 @@ export default {
   name: "SupportPage",
   data() {
     return {
-      form: {
-        fullName: '',
-        phoneNumber: '',
-        email: '',
-        bookingId: '',
-        message: ''
-      }
+      support: {},
     };
   },
-  methods: {
-    submitForm() {
-      // Handle form submission
-      console.log('Form submitted:', this.form);
+  mounted() {
+    this.$store.commit('setFormData', {});
 
-      // You can add form validation here
-      if (!this.form.fullName || !this.form.email || !this.form.message) {
-        alert('Please fill in required fields');
-        return;
+    this.httpReq({
+      customUrl: 'setting/support',
+      method: 'get',
+      callback: ({value}) => {
+        this.support = value;
       }
-
-      // Add your API call or form processing logic here
-      alert('Thank you for your message! We will get back to you soon.');
-
-      // Reset form
-      this.form = {
-        fullName: '',
-        phoneNumber: '',
-        email: '',
-        bookingId: '',
-        message: ''
-      };
+    })
+  },
+  methods: {
+    submitReport() {
+      this.httpReq({
+        customUrl: 'report'
+      })
     }
   }
 };

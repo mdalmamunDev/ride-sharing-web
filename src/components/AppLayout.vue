@@ -17,10 +17,10 @@
           </button>
 
           <!-- Navigation -->
-          <nav class="flex space-x-4 md:space-x-8 text-sm md:text-md items-center h-full relative font-bold">
+          <nav class="flex space-x-4 md:space-x-8 text-sm md:text-md items-center h-full relative font-semibold">
             <template v-for="link in navLinks" :key="link.to">
               <router-link :to="link.to" class="relative h-full flex items-center"
-                :class="{ 'text-g': link.activePaths.includes($route.path) }">
+                :class="{ 'text-1 font-bold': link.activePaths.includes($route.path) }">
                 {{ link.label }}
                 <div v-if="link.activePaths.includes($route.path)"
                   class="absolute -bottom-[7px] left-0 right-0 h-[14px] bg-g rounded-full"></div>

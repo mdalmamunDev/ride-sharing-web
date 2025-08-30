@@ -14,7 +14,7 @@
       <!-- desktop -->
       <div class="hidden sm:flex w-1/3 flex-col justify-center mx-auto min-w-[500px]">
         <div class="bg-white p-10 rounded-t-[40px] overflow-y-auto">
-          <img src="/logo.svg" alt="Split Ride Logo" class="w-48 pt-8 mx-auto" />
+          <img src="/logo.svg" alt="Split Ride Logo" class="w-[275px] pt-8 mx-auto" />
           <router-view />
         </div>
       </div>
@@ -53,7 +53,7 @@ export default {
 </script>
 
 <style>
-body {
+/* body {
   font-family: "Outfit", sans-serif;
-}
+} */
 </style>

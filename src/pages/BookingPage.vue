@@ -21,8 +21,8 @@
 
     <!-- Form Panel - Shows second on mobile, first on desktop -->
     <div class="w-full my-auto sm:max-h-full sm:overflow-auto md:w-1/2 p-4 sm:p-8 md:p-16 order-2 md:order-1">
-      <h1 class="hidden sm:block text-3xl md:text-4xl font-bold mb-4 text-center">
-        {{ formData._id ? 'Update' : "Let'sBook" }} Your Ride
+      <h1 class="hidden sm:block text-3xl md:text-4xl font-bold mb-10 text-center">
+        {{ formData._id ? 'Update ' : "Let's Book " }} Your Ride
       </h1>
 
       <!-- Tabs -->
@@ -51,7 +51,7 @@
           <!-- Passengers -->
           <div class="flex flex-col">
             <label class="text-sm font-medium text-gray-600 mb-1">Passengers</label>
-            <div class="flex items-center justify-between bg-gray-100 w-full p-3 rounded-xl overflow-hidden">
+            <div class="flex items-center justify-between bg-gray-100 w-full p-4 rounded-xl overflow-hidden">
               <button type="button" @click="decreasePassengers">
                 <img class="w-5" src="/icons/minus.svg" alt="-">
               </button>
@@ -74,7 +74,7 @@
               <!-- Vue Datepicker -->
               <Datepicker placeholder="Date & Time" v-model="formData.dateTime" :enable-time-picker="true"
                 :required="true" :minute-increment="5" :disabled-dates="disablePastAndNearDates"
-                class="w-full bg-gray-100 rounded-xl border-none focus:outline-none focus:ring-2 focus:ring-purple-300" />
+                class="w-full bg-gray-100 py-1 rounded-xl border-none focus:outline-none focus:ring-2 focus:ring-purple-300" />
             </div>
           </div>
 
@@ -86,7 +86,7 @@
                 <img src="/icons/car.svg" alt="">
               </div>
               <select v-model="selectedCarModel" @change="changeCarModel" required
-                class="w-full bg-gray-100 rounded-xl p-3 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300">
+                class="w-full bg-gray-100 rounded-xl p-4 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300">
                 <option value="" disabled>Select Car Model</option>
                 <option v-for="(item, index) in carModels" :key="index" :value="item">{{ item.name }}</option>
               </select>
@@ -101,7 +101,7 @@
                 <img src="/icons/car.svg" alt="">
               </div>
               <select v-model="formData.seat" required
-                class="w-full bg-gray-100 rounded-xl p-3 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300">
+                class="w-full bg-gray-100 rounded-xl p-4 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300">
                 <option value="" disabled>Select Car Option</option>
                 <option v-for="(item, index) in seatList" :key="index" :value="item">{{ item }} Seater</option>
               </select>
@@ -117,7 +117,7 @@
                   <img src="/icons/luggage.svg" alt="">
                 </div>
                 <select v-model="luggage.type" required
-                  class="w-full bg-gray-100 rounded-xl p-3 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300">
+                  class="w-full bg-gray-100 rounded-xl p-4 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300">
                   <option v-for="(label, key) in JobLuggageTypes" :key="key" :value="key">
                     {{ label }}
                   </option>
@@ -134,7 +134,7 @@
                 </div>
                 <div class="flex">
                   <select v-model="luggage.weight"
-                    class="w-full bg-gray-100 rounded-xl rounded-e-none p-3 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300">
+                    class="w-full bg-gray-100 rounded-xl rounded-e-none p-4 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300">
                     <option :value="10">10 kg</option>
                     <option :value="15">15 kg</option>
                     <option :value="20">20 kg</option>
@@ -165,7 +165,7 @@
                 <img src="/icons/location.svg" alt="">
               </div>
               <input ref="mapAddressInput1" type="text" placeholder="Get Ride From"
-                class="w-full bg-gray-100 rounded-xl p-3 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300" />
+                class="w-full bg-gray-100 rounded-xl p-4 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300" />
             </div>
           </div>
 
@@ -177,14 +177,27 @@
                 <img src="/icons/location.svg" alt="">
               </div>
               <input ref="mapAddressInput2" type="text" placeholder="Ride Destination"
-                class="w-full bg-gray-100 rounded-xl p-3 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300" />
+                class="w-full bg-gray-100 rounded-xl p-4 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300" />
             </div>
           </div>
+          
+          <!-- Note -->
+          <!-- <div class="w-full col-span-2">
+            <label class="text-sm font-medium text-gray-600 mb-1">Note</label>
+            <div class="relative w-full">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-purple-800">
+                <img src="/icons/car.svg" alt="">
+              </div>
+              <textarea v-model="formData.note" required rows="2"
+                class="w-full bg-gray-100 rounded-xl p-4 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300">
+              </textarea>
+            </div>
+          </div> -->
         </div>
 
         <div class="w-full flex justify-center">
-          <button type="submit" class="w-full sm:max-w-full sm:w-[300px] py-3 btn-g">
-            {{ formData._id ? 'Update Trip' : 'Find Now' }}
+          <button type="submit" class="w-full sm:max-w-full sm:w-[300px] py-4 btn-g">
+            {{ formData._id ? 'Update Trip' : 'Complete Your Booking' }}
           </button>
         </div>
       </form>
@@ -356,7 +369,7 @@
     </div>
 
     <!-- Action Button -->
-    <button @click="isOpenRideViewBox = false; $router.push('/navigate')" class="w-full py-3 btn-g">
+    <button @click="isOpenRideViewBox = false; $router.push('/navigate')" class="w-full py-4 btn-g">
       View Your Ride
     </button>
   </details-box>

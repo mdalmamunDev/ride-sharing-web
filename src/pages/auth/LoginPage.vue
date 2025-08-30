@@ -1,8 +1,8 @@
 <template>
-  <div class="flex flex-col items-center w-full pt-8">
+  <div class="flex flex-col items-center w-full pt-10">
     <!-- Heading -->
     <h2 class="text-2xl font-bold mb-2 text-center">Welcome Back</h2>
-    <p class="text-sm text-gray-500 mb-6 text-center">Enter your email &amp; password to login.</p>
+    <p class="text-sm text-[#858585] font-medium mb-6 text-center">Enter your email &amp; password to login.</p>
 
     <!-- Toggle -->
     <div class="flex w-full max-w-md mb-6 gap-3 justify-center">
@@ -11,7 +11,7 @@
         'flex-1 py-4 rounded-full font-semibold shadow transition-all duration-300 transform hover:scale-105 hover:shadow-lg',
         formData.role === 'user'
           ? 'bg-g text-white hover:brightness-110'
-          : 'bg-purple-200 text-purple-600 hover:bg-purple-300'
+          : 'bg-[#BA63FF2E] text-[#BA63FF] hover:bg-purple-300'
       ]" @click="formData.role = 'user'">
         Passenger
       </button>
@@ -21,7 +21,7 @@
         'flex-1 py-4 rounded-full font-semibold shadow transition-all duration-300 transform hover:scale-105 hover:shadow-lg',
         formData.role === 'provider'
           ? 'bg-g text-white hover:brightness-110'
-          : 'bg-purple-200 text-purple-600 hover:bg-purple-300'
+          : 'bg-[#BA63FF2E] text-[#BA63FF] hover:bg-purple-300'
       ]" @click="formData.role = 'provider'">
         Driver
       </button>
