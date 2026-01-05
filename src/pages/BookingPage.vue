@@ -3,18 +3,8 @@
     <!-- Map Panel - Shows first on mobile, second on desktop -->
     <div class="w-full md:w-1/2 relative order-1 md:order-2 z-20">
       <div class="h-[60vh] md:h-full">
-        <!-- <div class="w-full h-full bg-gray-200 flex items-center justify-center">
-          <div class="text-center text-gray-500">
-            <i class="fa-solid fa-map-location-dot text-4xl mb-2"></i>
-            <p>Map View</p>
-          </div>
-        </div> -->
         <div class="absolute inset-0 h-full max-h-[100vh]">
-          <!-- <MapComp :locations="locations" icon="car" authIcon="user" /> -->
           <img src="images/map-placeholder.png" alt="Map" class="w-full h-full object-cover" />
-
-
-          <!-- <pre>{{ formData }}</pre> -->
         </div>
       </div>
     </div>
@@ -71,10 +61,16 @@
                 <i class="fa-solid fa-calendar-days"></i>
               </div>
 
-              <!-- Vue Datepicker -->
-              <Datepicker placeholder="Date & Time" v-model="formData.dateTime" :enable-time-picker="true"
-                :required="true" :minute-increment="5" :disabled-dates="disablePastAndNearDates"
-                class="w-full bg-gray-100 py-1 rounded-xl border-none focus:outline-none focus:ring-2 focus:ring-purple-300" />
+              <!-- Display selected date and time -->
+              <input 
+                type="text" 
+                :value="formattedDateTime" 
+                @click="showDatePicker = true"
+                placeholder="Select Date & Time"
+                readonly
+                required
+                class="w-full bg-gray-100 py-4 pl-10 pr-6 rounded-xl border-none focus:outline-none focus:ring-2 focus:ring-purple-300 cursor-pointer" 
+              />
             </div>
           </div>
 
@@ -108,58 +104,64 @@
             </div>
           </div>
 
-          <template v-for="(luggage, i) in formData.luggages" :key="i">
-            <!-- Luggage Type -->
-            <div class="w-full">
-              <label class="text-sm font-medium text-gray-600 mb-1">Luggage Type</label>
-              <div class="relative w-full">
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-purple-800">
-                  <img src="/icons/luggage.svg" alt="">
-                </div>
-                <select v-model="luggage.type" required
-                  class="w-full bg-gray-100 rounded-xl p-4 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300">
-                  <option v-for="(label, key) in JobLuggageTypes" :key="key" :value="key">
-                    {{ label }}
-                  </option>
-                </select>
-              </div>
+          <div class="col-span-2">
+            <label class="text-sm font-medium text-gray-600 mb-1">Luggages</label>
+
+            <div class="flex flex-wrap gap-2 mb-2">
+              <!-- Selected items -->
+              <span
+                v-for="(item, index) in formData.luggages"
+                :key="index"
+                class="inline-flex items-center gap-2 px-3 py-1.5 bg-violet-50 rounded-md text-sm font-medium hover:bg-violet-100 transition-colors"
+              >
+                {{ JobLuggageTypes[item] }}
+
+                <button
+                  type="button"
+                  @click="removeItem(formData.luggages, index)"
+                  class="hover:bg-violet-300 rounded-full w-5 h-5 flex items-center justify-center transition-colors"
+                  aria-label="Remove"
+                >
+                  <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+              </span>
+
+              <!-- Select -->
+              <select
+                v-if="formData.luggages?.length < 5"
+                required
+                @change="onAddLuggage"
+                class="px-3 py-1.5 bg-violet-50 rounded-md text-sm font-medium hover:bg-violet-100 transition-colors"
+              >
+                <option value="" disabled selected>Add Luggage</option>
+                <option
+                  v-for="(label, key) in JobLuggageTypes"
+                  :key="key"
+                  :value="key"
+                >
+                  {{ label }}
+                </option>
+              </select>
             </div>
 
-            <!-- Weight -->
-            <div class="w-full">
-              <label class="text-sm font-medium text-gray-600 mb-1">Weight</label>
-              <div class="relative w-full">
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-purple-800">
-                  <img src="/icons/weight.svg" alt="">
-                </div>
-                <div class="flex">
-                  <select v-model="luggage.weight"
-                    class="w-full bg-gray-100 rounded-xl rounded-e-none p-4 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300">
-                    <option :value="10">10 kg</option>
-                    <option :value="15">15 kg</option>
-                    <option :value="20">20 kg</option>
-                    <option :value="25">25 kg</option>
-                    <option :value="30">30 kg</option>
-                    <option :value="35">35 kg</option>
-                    <option :value="40">40+ kg</option>
-                  </select>
-                  <button type="button" v-if="i === formData.luggages?.length - 1"
-                    @click="addItem(formData.luggages, { ...defLuggage })"
-                    class="p-2 text-lg rounded-e-xl text-white bg-g">
-                    <i class="fa-solid fa-plus"></i>
-                  </button>
-                  <button type="button" v-else @click="removeItem(formData.luggages, i)"
-                    class="p-2 text-lg rounded-e-xl text-white bg-g-danger">
-                    <i class="fa-solid fa-minus"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </template>
+            <textarea
+              v-model="formData.luggageDetails"
+              placeholder="Enter Your Luggage Details"
+              class="w-full bg-gray-100 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-purple-300"
+            ></textarea>
+          </div>
+          
+
 
           <!-- From Location -->
           <div class="w-full col-span-2 sm:col-span-1">
-            <label class="text-sm font-medium text-gray-600 mb-1">From</label>
+            <div class="mb-1 flex items-center justify-between">
+              <label class="text-sm font-medium text-gray-600">From</label>
+              <button type="button" class="flex items-center gap-1 text-xs" :class="formData.coordinates ? 'text-1' : 'text-gray-400'">
+                <i class="far fa-star"></i>
+                <span>Save this place</span>
+              </button>
+            </div>
             <div class="relative w-full">
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-purple-800">
                 <img src="/icons/location.svg" alt="">
@@ -167,32 +169,51 @@
               <input ref="mapAddressInput1" type="text" placeholder="Get Ride From"
                 class="w-full bg-gray-100 rounded-xl p-4 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300" />
             </div>
+            <span class="text-1 font-semibold text-md">Choose from Saved Places</span>
           </div>
 
           <!-- To Location -->
           <div class="w-full col-span-2 sm:col-span-1">
-            <label class="text-sm font-medium text-gray-600 mb-1">To</label>
+            <div class="mb-1 flex items-center justify-between">
+              <label class="text-sm font-medium text-gray-600">To</label>
+
+              <button
+                type="button"
+                class="flex items-center gap-1 text-xs"
+                :class="formData.destCoordinates ? 'text-1' : 'text-gray-400'"
+              >
+                <i class="far fa-star"></i>
+                <span>Save this place</span>
+              </button>
+            </div>
+
             <div class="relative w-full">
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-purple-800">
                 <img src="/icons/location.svg" alt="">
               </div>
-              <input ref="mapAddressInput2" type="text" placeholder="Ride Destination"
-                class="w-full bg-gray-100 rounded-xl p-4 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300" />
+
+              <input
+                ref="mapAddressInput2"
+                type="text"
+                placeholder="Ride Destination"
+                class="w-full bg-gray-100 rounded-xl p-4 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300"
+              />
             </div>
+
+            <span class="text-1 font-semibold text-md">Choose from Saved Places</span>
           </div>
-          
-          <!-- Note -->
-          <!-- <div class="w-full col-span-2">
+
+
+
+          <div class="col-span-2">
             <label class="text-sm font-medium text-gray-600 mb-1">Note</label>
-            <div class="relative w-full">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-purple-800">
-                <img src="/icons/car.svg" alt="">
-              </div>
-              <textarea v-model="formData.note" required rows="2"
-                class="w-full bg-gray-100 rounded-xl p-4 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300">
-              </textarea>
-            </div>
-          </div> -->
+
+            <textarea
+              v-model="formData.note"
+              placeholder="Enter note for driver"
+              class="w-full bg-gray-100 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-purple-300"
+            ></textarea>
+          </div>
         </div>
 
         <div class="w-full flex justify-center">
@@ -209,6 +230,36 @@
     </div>
   </div>
 
+  <!-- Date Picker Modal -->
+  <div v-if="showDatePicker" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-2xl p-3">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-bold text-gray-800">Date</h3>
+        <button @click="showDatePicker = false" class="text-2xl text-gray-500 hover:text-gray-700">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <Datepicker 
+        v-model="selectedDate" 
+        :enable-time-picker="false"
+        :disabled-dates="disablePastAndNearDates"
+        inline
+        auto-apply
+        @update:model-value="handleDateSelected"
+      />
+    </div>
+  </div>
+
+  <!-- Time Picker Modal -->
+  <div v-if="showTimePicker" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <TimePicker 
+      v-model="selectedTime" 
+      @confirm="handleTimeConfirmed"
+      @cancel="showTimePicker = false"
+    />
+  </div>
+
+  <!-- Overview Modal -->
   <details-box :is-open="isOpenOverview" title="Overview" @close="isOpenOverview = false" container-class="px-0">
     <!-- <h3 class="text-lg font-semibold text-gray-800 mb-6 text-start">Overview</h3> -->
     <AddressComp class="px-6 py-4 rounded-xl mb-3 bg-blue-50" :from-address="overview.fromAddress"
@@ -233,15 +284,12 @@
 
       <div class="flex justify-between items-center">
         <span class="text-gray-600">Car Type</span>
-        <span class="text-gray-800 font-medium">{{ findObj(carModels, overview?.carModelId)?.name }} ({{ overview?.seat
-        }}
-          Seater)</span>
+        <span class="text-gray-800 font-medium">{{ findObj(carModels, overview?.carModelId)?.name }} ({{ overview?.seat }} Seater)</span>
       </div>
 
       <div class="flex justify-between items-center">
         <span class="text-gray-600">Luggages</span>
-        <span class="text-gray-800 font-medium">{{ overview?.luggages?.length }} ({{overview?.luggages?.reduce((sum,
-          item) => sum + item.weight, 0)}})Kg</span>
+        <span class="text-gray-800 font-medium">{{ overview?.luggages?.length }} ({{overview?.luggages?.reduce((sum, item) => sum + item.weight, 0)}})Kg</span>
       </div>
 
       <div class="flex justify-between items-center">
@@ -342,9 +390,7 @@
         <div class="flex justify-between">
           <span class="text-sm font-bold">Luggages</span>
           <span class="text-sm text-gray-800">
-            {{ successOverview?.luggages?.length }} ({{successOverview?.luggages?.reduce((sum, item) => sum +
-              item.weight,
-              0)}})Kg
+            {{ successOverview?.luggages?.length }} ({{successOverview?.luggages?.reduce((sum, item) => sum + item.weight, 0)}})Kg
           </span>
         </div>
       </div>
@@ -382,16 +428,21 @@ import AddressComp from '@/components/AddressComp.vue';
 import AlertBox from '@/components/AlertBox.vue';
 import DetailsBox from '@/components/DetailsBox.vue';
 import Datepicker from '@vuepic/vue-datepicker';
+import TimePicker from '@/components/TimePicker.vue';
 
 import '@vuepic/vue-datepicker/dist/main.css';
 
 export default {
   name: 'BookingPage',
-  components: { AlertBox, DetailsBox, Datepicker, AddressComp },
+  components: { AlertBox, DetailsBox, Datepicker, AddressComp, TimePicker },
   data() {
     return {
       isOpenOverview: false,
       isOpenRideViewBox: false,
+      showDatePicker: false,
+      showTimePicker: false,
+      selectedDate: null,
+      selectedTime: '14:30',
 
       carModels: [],
       selectedCarModel: "",
@@ -400,7 +451,6 @@ export default {
       overview: {},
       successOverview: {},
 
-      defLuggage: { type: "suitcase", weight: 10 },
       defForm: {},
       locations: [
         { lat: 23.797309, lng: 90.393681, title: "Driver 1" },
@@ -414,11 +464,26 @@ export default {
       ],
     };
   },
+  computed: {
+    formattedDateTime() {
+      if (!this.formData.dateTime) return '';
+      
+      const date = new Date(this.formData.dateTime);
+      const options = { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      };
+      return date.toLocaleString('en-US', options);
+    }
+  },
   mounted() {
     this.defForm = {
       type: 'split',
       passengers: 1,
-      luggages: [{ ...this.defLuggage }],
+      luggages: [],
       seat: "",
 
     };
@@ -457,6 +522,27 @@ export default {
 
   },
   methods: {
+    handleDateSelected(date) {
+      if (date) {
+        this.selectedDate = date;
+        this.showDatePicker = false;
+        this.showTimePicker = true;
+      }
+    },
+    handleTimeConfirmed(time) {
+      // time is in 24-hour format like "14:30"
+      const [hours, minutes] = time.split(':').map(Number);
+      
+      // Combine selected date with selected time
+      const dateTime = new Date(this.selectedDate);
+      dateTime.setHours(hours, minutes, 0, 0);
+      
+      // Store in formData
+      this.formData.dateTime = dateTime;
+      
+      // Close time picker
+      this.showTimePicker = false;
+    },
     submitBooking() {
       if (!this.formData.coordinates || !this.formData.destCoordinates) {
         this.showToast('Please select your locations', 'error');
@@ -568,6 +654,16 @@ export default {
     disablePastAndNearDates(date) {
       const nowPlus2Hrs = new Date(Date.now() - 24 * 60 * 60 * 1000);
       return date < nowPlus2Hrs;
+    },
+
+    onAddLuggage(event) {
+      const value = event.target.value;
+
+      // ALLOW duplicates
+      this.formData.luggages.push(value);
+
+      // reset select
+      event.target.value = '';
     },
   },
   watch: {

@@ -193,7 +193,7 @@ export default {
     },
 
     removeItem(arr, index) {
-      if (Array.isArray(arr) && arr.length > 1) {
+      if (Array.isArray(arr) && arr.length > 0) {
         arr.splice(index, 1);
       }
     },
@@ -201,6 +201,10 @@ export default {
       if (Array.isArray(arr)) {
         arr.push(item);
       }
+    },
+
+    dd(data) {
+      console.log(data);
     },
     getTime(dateTime) {
       if (!dateTime) return "";
