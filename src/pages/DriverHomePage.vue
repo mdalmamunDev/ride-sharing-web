@@ -112,7 +112,7 @@
               </div>
               <!-- Action Buttons -->
               <div class="flex space-x-3">
-                <button @click="declineTrip"
+                <button @click="declineTrip(trip.trId)"
                   class="flex-1 bg-purple-100 text-purple-600 font-medium py-2 px-3 sm:py-3 sm:px-6 rounded-full hover:bg-purple-200 transition-colors duration-200">
                   Decline
                 </button>
@@ -257,10 +257,12 @@ export default {
         }
       });
     },
-    declineTrip() {
-      console.log("Ride declined:", this.rideRequest?.bookingId);
-      // Add your decline ride logic here
-      alert(`Ride ${this.rideRequest?.bookingId} declined.`);
+    declineTrip(trId) {
+      this.httpReq({
+        customUrl: `job/provider/decline/tr/${trId}`, callback: () => {
+          this.fetchData();
+        }
+      });
     },
   },
   watch: {

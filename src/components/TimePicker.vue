@@ -1,7 +1,7 @@
 <template>
   <div class="bg-white rounded-lg shadow-lg w-64 overflow-hidden">
     <!-- Header -->
-    <div class="bg-blue-500 text-white p-4">
+    <div class="bg-g text-white p-4">
       <div class="flex items-center justify-center gap-4">
         <div class="text-4xl font-light text-center">
           <span 
@@ -71,7 +71,7 @@
             @click.stop="handleNumberClick(hour)"
             :class="[
               'absolute text-sm w-8 h-8 flex items-center justify-center rounded-full cursor-pointer transition-colors text-gray-700 hover:bg-gray-200',
-              // display12Hour === hour ? 'text-white font-medium' : 'text-gray-700 hover:bg-gray-200'
+              display12Hour === hour ? '!text-white font-medium' : 'text-gray-700 hover:bg-gray-200'
             ]"
             :style="getNumberPosition(hour, index)"
           >
@@ -158,7 +158,7 @@ export default {
     },
     selectedAngle() {
       if (this.mode === 'hour') {
-        return ((this.display12Hour % 12) * 30 - 90) * (Math.PI / 180);
+        return ((this.display12Hour % 12-1) * 30 - 90) * (Math.PI / 180);
       } else {
         return (this.selectedMinute * 6 - 90) * (Math.PI / 180);
       }

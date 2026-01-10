@@ -71,7 +71,10 @@
             class="w-16 h-16 rounded-full object-cover bg-g p-0.5" />
           <h3 class="text-md font-bold mt-2">{{ details?.otherUser?.name || 'N/A' }}</h3>
         </router-link>
-        <img v-if="auth?.role === 'user'" src="/images/car.png" alt="Car" class="w-28 mt-1" />
+        <div v-if="auth?.role === 'user'">
+          <img src="/images/car.png" alt="Car" class="w-28 mt-1" />
+          <span class="text-xs bg-g text-white p-1 rounded-lg">{{ details?.carModel?.name }}</span>
+        </div>
       </div>
 
       <!-- Right Section -->

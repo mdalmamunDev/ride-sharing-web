@@ -96,7 +96,7 @@
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-purple-800">
                 <img src="/icons/car.svg" alt="">
               </div>
-              <select v-model="formData.seat" required
+              <select v-model="formData.seat" required :disabled="!formData.carModelId"
                 class="w-full bg-gray-100 rounded-xl p-4 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300">
                 <option value="" disabled>Select Car Option</option>
                 <option v-for="(item, index) in seatList" :key="index" :value="item">{{ item }} Seater</option>
@@ -129,7 +129,6 @@
               <!-- Select -->
               <select
                 v-if="formData.luggages?.length < 5"
-                required
                 @change="onAddLuggage"
                 class="px-3 py-1.5 bg-violet-50 rounded-md text-sm font-medium hover:bg-violet-100 transition-colors"
               >
@@ -157,10 +156,21 @@
           <div class="w-full col-span-2 sm:col-span-1">
             <div class="mb-1 flex items-center justify-between">
               <label class="text-sm font-medium text-gray-600">From</label>
-              <button type="button" class="flex items-center gap-1 text-xs" :class="formData.coordinates ? 'text-1' : 'text-gray-400'">
-                <i class="far fa-star"></i>
-                <span>Save this place</span>
-              </button>
+              
+              <div class="text-xs" :class="formData.coordinates ? 'text-1' : 'text-gray-400'">
+                <button type="button" 
+                  v-if="isCoordinateSaved(formData?.coordinates)"
+                  class="flex items-center gap-1"
+                  @click="removePlace(formData?.coordinates)"
+                >
+                  <i class="fa fa-star"></i>
+                  <span>Saved place</span>
+                </button>
+                <button v-else type="button" @click="savePlace(formData.coordinates)" class="flex items-center gap-1">
+                  <i class="far fa-star"></i>
+                  <span>Save this place</span>
+                </button>
+              </div>
             </div>
             <div class="relative w-full">
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-purple-800">
@@ -169,7 +179,7 @@
               <input ref="mapAddressInput1" type="text" placeholder="Get Ride From"
                 class="w-full bg-gray-100 rounded-xl p-4 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300" />
             </div>
-            <span class="text-1 font-semibold text-md">Choose from Saved Places</span>
+            <button type="button" @click="isOpenSavedPlace = true" class="text-1 font-semibold text-md">Choose from Saved Places</button>
           </div>
 
           <!-- To Location -->
@@ -177,14 +187,20 @@
             <div class="mb-1 flex items-center justify-between">
               <label class="text-sm font-medium text-gray-600">To</label>
 
-              <button
-                type="button"
-                class="flex items-center gap-1 text-xs"
-                :class="formData.destCoordinates ? 'text-1' : 'text-gray-400'"
-              >
-                <i class="far fa-star"></i>
-                <span>Save this place</span>
-              </button>
+              <div class="text-xs" :class="formData.destCoordinates ? 'text-1' : 'text-gray-400'">
+                <button type="button" 
+                  v-if="isCoordinateSaved(formData?.destCoordinates)"
+                  class="flex items-center gap-1"
+                  @click="removePlace(formData?.destCoordinates)"
+                >
+                  <i class="fa fa-star"></i>
+                  <span>Saved place</span>
+                </button>
+                <button v-else type="button" @click="savePlace(formData.destCoordinates)" class="flex items-center gap-1">
+                  <i class="far fa-star"></i>
+                  <span>Save this place</span>
+                </button>
+              </div>
             </div>
 
             <div class="relative w-full">
@@ -192,17 +208,43 @@
                 <img src="/icons/location.svg" alt="">
               </div>
 
-              <input
-                ref="mapAddressInput2"
-                type="text"
-                placeholder="Ride Destination"
+              <input ref="mapAddressInput2" type="text" placeholder="Ride Destination"
                 class="w-full bg-gray-100 rounded-xl p-4 pl-10 pr-6 focus:outline-none focus:ring-2 focus:ring-purple-300"
               />
             </div>
 
-            <span class="text-1 font-semibold text-md">Choose from Saved Places</span>
+            <button type="button" @click="isOpenSavedPlace = true" class="text-1 font-semibold text-md">Choose from Saved Places</button>
           </div>
 
+
+          <!-- Choose from save places -->
+          <details-box 
+            :is-open="isOpenSavedPlace" 
+            title="Choose from Saved Places" 
+            @close="isOpenSavedPlace = false"
+            container-class="p-8"
+          >
+            <div class="bg-blue-100/70 rounded-2xl px-4">
+              <!-- Radio Options -->
+              <label v-for="(item, index) in savedPlaceAddresses" :key="index" class="flex items-center text-start gap-3 py-4 cursor-pointer border-b border-white">
+                <input type="radio" name="location" class="text-blue-600 accent-blue-600"
+                :value="item" 
+                v-model="selectedSavedPlace"
+              >
+                <span class="text-gray-800 font-medium">{{ item.address }}</span>
+              </label>
+            </div>
+
+            <!-- Buttons -->
+            <div class="space-y-3 mt-6">
+              <button @click="handleSavedPlaceSelected('coordinates')" class="btn-g w-full p-4">
+                Choose as start address
+              </button>
+              <button @click="handleSavedPlaceSelected('destCoordinates')" class="btn-g w-full p-4">
+                Choose as ride destination
+              </button>
+            </div>
+          </details-box>
 
 
           <div class="col-span-2">
@@ -217,9 +259,17 @@
         </div>
 
         <div class="w-full flex justify-center">
-          <button type="submit" class="w-full sm:max-w-full sm:w-[300px] py-4 btn-g">
+          <button
+            type="submit"
+            class="w-full sm:w-[300px] py-4 btn-g disabled:opacity-60 disabled:cursor-not-allowed"
+            :disabled="!availableProviders?.length"
+            :title="availableProviders?.length
+              ? `${availableProviders.length} providers available for your selected option`
+              : 'No providers available for your selected option'"
+          >
             {{ formData._id ? 'Update Trip' : 'Complete Your Booking' }}
           </button>
+
         </div>
       </form>
 
@@ -441,15 +491,21 @@ export default {
       isOpenRideViewBox: false,
       showDatePicker: false,
       showTimePicker: false,
+      isOpenSavedPlace: false,
       selectedDate: null,
       selectedTime: '14:30',
 
       carModels: [],
+      savedPlaceCoordinates: [],
+      savedPlaceAddresses: [],
       selectedCarModel: "",
       seatList: [],
+      selectedSavedPlace: null,
 
       overview: {},
       successOverview: {},
+
+      availableProviders: [],
 
       defForm: {},
       locations: [
@@ -494,6 +550,7 @@ export default {
         this.carModels = list;
       }
     });
+    this.getSavedPlaces();
 
     if (!window.google) {
       const script = document.createElement("script");
@@ -522,6 +579,14 @@ export default {
 
   },
   methods: {
+    getSavedPlaces() {
+      this.httpReq({
+      customUrl: 'user-setting/ready/saved-places', method: 'get', callback: ({ready, setting}) => {
+        this.savedPlaceCoordinates = setting?.value;
+        this.savedPlaceAddresses = ready;
+      }
+    });
+    },
     handleDateSelected(date) {
       if (date) {
         this.selectedDate = date;
@@ -631,7 +696,9 @@ export default {
       );
     },
     increasePassengers() {
-      this.formData.passengers++;
+      if(this.formData.passengers < 10) {
+        this.formData.passengers++;
+      }
     },
     decreasePassengers() {
       if (this.formData.passengers > 1) {
@@ -665,6 +732,89 @@ export default {
       // reset select
       event.target.value = '';
     },
+
+    savePlace(coordinates) {
+      if(!coordinates) return;
+
+      this.savedPlaceCoordinates?.push(coordinates);
+
+      this.httpReq({
+        customUrl: 'user-setting/add-saved-place',
+        method: 'put',
+        data: {coordinates: this.formData.coordinates},
+        callback: this.getSavedPlaces,
+      });
+    },
+    removePlace(coordinates) {
+      if(!coordinates) return;
+
+      this.savedPlaceCoordinates = this.savedPlaceCoordinates.filter(savedCoord => 
+        JSON.stringify(savedCoord) !== JSON.stringify(coordinates)
+      );
+
+      this.httpReq({
+        customUrl: 'user-setting/remove-saved-place',
+        method: 'delete',
+        data: {coordinates: this.formData.coordinates},
+        callback: this.getSavedPlaces,
+      });
+    },
+
+    handleSavedPlaceSelected(field) { // field = 'coordinates' | 'destCoordinates'
+      // Check if a place is selected
+      if (!this.selectedSavedPlace) {
+        this.showToast('Please select a saved place first', 'error');
+        return;
+      }
+      
+      // Set the coordinates to the form data
+      this.formData[field] = this.selectedSavedPlace.coordinates;
+      
+      // Also update the corresponding input field with the address
+      if (field === 'coordinates') {
+        // Update "From" input field
+        const fromInput = this.$refs.mapAddressInput1;
+        if (fromInput) {
+          fromInput.value = this.selectedSavedPlace.address;
+        }
+      } else if (field === 'destCoordinates') {
+        // Update "To" input field
+        const toInput = this.$refs.mapAddressInput2;
+        if (toInput) {
+          toInput.value = this.selectedSavedPlace.address;
+        }
+      }
+      
+      // Reset the selected saved place
+      this.selectedSavedPlace = null;
+      // Close the modal
+      this.isOpenSavedPlace = false;
+      
+    },
+
+     // Check if coordinates exist in saved places
+    isCoordinateSaved(coordinates) {
+      if (!coordinates || !Array.isArray(coordinates) || coordinates.length !== 2) {
+        return false;
+      }
+      
+      if (!this.savedPlaceCoordinates || !Array.isArray(this.savedPlaceCoordinates)) {
+        return false;
+      }
+      
+      // Compare each coordinate pair
+      return this.savedPlaceCoordinates.some(savedCoord => {
+        if (!Array.isArray(savedCoord) || savedCoord.length !== 2) {
+          return false;
+        }
+        
+        // Compare with precision (floating point comparison)
+        const latMatch = Math.abs(savedCoord[0] - coordinates[0]) < 0.000001;
+        const lngMatch = Math.abs(savedCoord[1] - coordinates[1]) < 0.000001;
+        
+        return latMatch && lngMatch;
+      });
+    },
   },
   watch: {
     auth(newVal) {
@@ -673,7 +823,16 @@ export default {
         return;
       }
 
-    }
+    },
+    'formData.seat'(newVal) {
+      if(!this.formData.carModelId || !newVal) return;
+
+      this.httpReq({
+        customUrl: `provider/by-vehicle/${this.formData.carModelId}/${newVal}`, method: 'get', callback: (providers) => {
+          this.availableProviders = providers || [];
+        }
+      });
+    },
   }
 };
 </script>

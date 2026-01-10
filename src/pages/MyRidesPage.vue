@@ -86,6 +86,30 @@
             </div>
           </div>
         </div>
+
+        <template #empty>
+          <div class="w-full max-w-lg bg-black/5 rounded-3xl px-10 py-20 text-center sm:mt-10">
+            <!-- Icon -->
+            <div class="flex justify-center mb-6">
+              <img src="/icons/empty-rides.svg" />
+            </div>
+
+            <!-- Title -->
+            <h3 class="text-2xl font-bold text-gray-900 mb-2">
+              No upcoming rides
+            </h3>
+
+            <!-- Subtitle -->
+            <p class="text-gray-500 text-md mb-3">
+              Once you schedule a ride, it will appear here
+            </p>
+
+            <!-- Button -->
+            <button class="btn-g w-2/3 p-3.5 font-semibold" @click="$router.push(auth?.role === 'user' ? '/': 'd-home')">
+              Schedule a ride
+            </button>
+          </div>
+        </template>
       </pagination-comp>
 
       <!-- fetch more data -->
