@@ -339,7 +339,7 @@
 
       <div class="flex justify-between items-center">
         <span class="text-gray-600">Luggages</span>
-        <span class="text-gray-800 font-medium">{{ overview?.luggages?.length }} ({{overview?.luggages?.reduce((sum, item) => sum + item.weight, 0)}})Kg</span>
+        <span class="text-gray-800 font-medium">{{ overview?.luggages?.length }}</span>
       </div>
 
       <div class="flex justify-between items-center">
@@ -398,7 +398,7 @@
     <!-- Booking ID -->
     <div class="mb-8 flex gap-2 justify-center text-sm">
       <span class="font-bold">Booking ID:</span>
-      <span class="text-g">{{ successOverview._id }}</span>
+      <BookingId class="text-blue-600 font-semibold" :value="successOverview._id" />
     </div>
   </AlertBox>
 
@@ -412,7 +412,7 @@
           <span class="ml-2 text-g font-medium">Pending</span>
         </div>
         <div class="text-right">
-          {{ successOverview?._id || 'N/A' }}
+          <BookingId class="text-blue-600 font-semibold" :value="successOverview?._id || 'N/A'" />
         </div>
       </div>
     </div>
@@ -440,7 +440,7 @@
         <div class="flex justify-between">
           <span class="text-sm font-bold">Luggages</span>
           <span class="text-sm text-gray-800">
-            {{ successOverview?.luggages?.length }} ({{successOverview?.luggages?.reduce((sum, item) => sum + item.weight, 0)}})Kg
+            {{ successOverview?.luggages?.length }}
           </span>
         </div>
       </div>
@@ -465,7 +465,7 @@
     </div>
 
     <!-- Action Button -->
-    <button @click="isOpenRideViewBox = false; $router.push('/navigate')" class="w-full py-4 btn-g">
+    <button @click="isOpenRideViewBox = false; $router.push(`/navigate?jobId=${successOverview?._id}`)" class="w-full py-4 btn-g">
       View Your Ride
     </button>
   </details-box>
@@ -481,10 +481,11 @@ import Datepicker from '@vuepic/vue-datepicker';
 import TimePicker from '@/components/TimePicker.vue';
 
 import '@vuepic/vue-datepicker/dist/main.css';
+import BookingId from '@/components/BookingId.vue';
 
 export default {
   name: 'BookingPage',
-  components: { AlertBox, DetailsBox, Datepicker, AddressComp, TimePicker },
+  components: { AlertBox, DetailsBox, Datepicker, AddressComp, TimePicker, BookingId },
   data() {
     return {
       isOpenOverview: false,

@@ -1,8 +1,8 @@
 <template>
   <!-- Notification Card -->
-  <pagination-comp custom-url="notification">
+  <PaginationCustomComp custom-url="notification" :resData="notificationRes" @setData="(data) => notificationRes = data">
     <div class="flex flex-col items-center gap-2 h-full w-full">
-      <div v-for="(item, index) in dataList?.data" :key="index"
+      <div v-for="(item, index) in notificationRes?.data" :key="index"
         class="max-w-xl border border-purple-200 rounded-lg p-4 w-full shadow-sm"
         :class="item.viewStatus ? 'bg-white' : 'bg-purple-100'">
         <div class="flex items-start space-x-3">
@@ -29,22 +29,26 @@
         </div>
       </div>
     </div>
-  </pagination-comp>
+  </PaginationCustomComp>
 </template>
 
 <script>
-import PaginationComp from './PaginationComp.vue';
+import PaginationCustomComp from './PaginationCustomComp.vue';
+
 
 export default {
   name: "AppLayout",
-  components: { PaginationComp },
+  components: { PaginationCustomComp },
   data() {
     return {
-      //
+      notificationRes: null,
     }
   },
   mounted() {
-    this.fetchData();
+    this.fetchData({
+      customUrl: 'notification',
+      callback: (data) => this.notificationRes = data 
+    });
   }
 }
 </script>
