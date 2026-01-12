@@ -1,40 +1,34 @@
 <template>
   <div class="flex flex-col sm:flex-row gap-8 sm:p-4 pt-0 h-full mt-[80px] sm:mt-0">
-    <!-- Sidebar (hidden on mobile) -->
-    <div class="hidden sm:flex w-64 bg-white rounded-xl shadow-lg p-4 flex-col justify-between py-10">
-      <div class="space-y-2">
-        <router-link to="profile" class="w-full flex items-center gap-2 border border-gray-300 px-4 py-2 rounded"
-          :class="isRoute('profile') ? 'bg-g text-white' : ''">
-          <i class="fas fa-user"></i>
-          <span>Profile</span>
-        </router-link>
-        <router-link to="notifications" class="w-full flex items-center gap-2 border border-gray-300 px-4 py-2 rounded"
-          :class="isRoute('notifications') ? 'bg-g text-white' : ''">
-          <i class="fa-solid fa-bell"></i>
-          <span>Notifications</span>
-        </router-link>
-        <router-link to="reset-pass" class="w-full flex items-center gap-2 border border-gray-300 px-4 py-2 rounded"
-          :class="isRoute('reset-pass') ? 'bg-g text-white' : ''">
-          <i class="fa-solid fa-key"></i>
-          <span>Reset Password</span>
-        </router-link>
-        <!-- Future settings -->
-        <!-- <router-link
-          to="settings"
-          class="w-full flex items-center gap-2 border border-gray-300 px-4 py-2 rounded"
-          :class="isRoute('settings') ? 'bg-1 text-white' : ''"
-        >
-          <i class="fas fa-cog"></i>
-          <span>App Settings</span>
-        </router-link> -->
-      </div>
 
-      <button @click="showAlert"
-        class="w-full flex items-center gap-2 border border-gray-300 px-4 py-2 rounded text-red-600">
-        <img src="/icons/logout.svg" alt="">
-        <span>Logout</span>
-      </button>
-    </div>
+    <!-- Sidebar -->
+    <aside class="hidden sm:flex w-64 bg-white rounded-xl shadow-lg py-10 flex-col justify-between">
+      <!-- Menu -->
+      <nav class="space-y-1">
+        <router-link v-for="item in menuItems" :key="item.name" :to="item.route"
+          class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-semibold transition" :class="isRoute(item.route)
+            ? 'bg-purple-50 text-1'
+            : 'text-gray-600 hover:bg-gray-50'">
+          <img :src="`/icons/${item.icon}`" />
+          <span>{{ item.label }}</span>
+        </router-link>
+      </nav>
+
+      <!-- Actions -->
+      <div class="space-y-2">
+        <button @click="showAlert"
+          class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50">
+          <img :src="`/icons/logout.svg`" />
+          <span>Log out</span>
+        </button>
+
+        <button
+          class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50">
+          <img :src="`/icons/delete_acc.svg`" />
+          <span>Delete account</span>
+        </button>
+      </div>
+    </aside>
 
     <!-- Main Content -->
     <div class="flex-1 bg-white rounded-xl sm:shadow-lg overflow-auto">
@@ -42,24 +36,66 @@
         <router-view />
       </div>
     </div>
+
   </div>
 </template>
+
 
 <script>
 import Swal from 'sweetalert2';
 
 export default {
-  name: "UserLayout",
+  name: 'UserLayout',
+
+  data() {
+    return {
+      menuItems: [
+        {
+          label: 'Personal Info',
+          route: '/profile',
+          icon: 'user-2.svg',
+        },
+        {
+          label: 'Reset Password',
+          route: '/reset-pass',
+          icon: 'lock_24.svg',
+        },
+        {
+          label: 'Terms & Conditions',
+          route: '/terms',
+          icon: 'docs.svg',
+        },
+        {
+          label: 'Privacy',
+          route: '/privacy',
+          icon: 'privacy.svg',
+        },
+        {
+          label: 'About Us',
+          route: '/about-us',
+          icon: 'about_us.svg',
+        },
+        {
+          label: 'Help & Support',
+          route: '/a/support',
+          icon: 'support.svg',
+        },
+        {
+          label: 'Saved Places',
+          route: '/saved-places',
+          icon: 'saved_places.svg',
+        },
+      ],
+    };
+  },
 
   methods: {
     showAlert() {
       Swal.fire({
-        title: 'Do you want to Logout?',
-        text: 'You won’t be able to revert this!',
+        title: 'Do you want to logout?',
+        text: 'You will need to login again.',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
         confirmButtonText: 'Cancel',
         cancelButtonText: 'Logout',
       }).then((result) => {
@@ -69,7 +105,7 @@ export default {
           this.$router.push('/auth/login');
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
