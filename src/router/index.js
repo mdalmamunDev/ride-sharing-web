@@ -17,7 +17,10 @@ import SupportPage from "@/pages/SupportPage.vue";
 import CompleteAccountPage from "@/pages/auth/CompleteAccountPage.vue";
 import DriverHomePage from "@/pages/DriverHomePage.vue";
 import MyPaymentsPage from "@/pages/MyPaymentsPage.vue";
-import NotificationsPage from "@/pages/NotificationsPage.vue";
+import TermsConditionsPage from "@/pages/TermsConditionsPage.vue";
+import PrivacyPolicyPage from "@/pages/PrivacyPolicyPage.vue";
+import AboutUsPage from "@/pages/AboutUsPage.vue";
+import SupportDashPage from "@/pages/SupportDashPage.vue";
 
 const routes = [
   {
@@ -53,7 +56,11 @@ const routes = [
         children: [
           { path: "profile", component: ProfilePage, meta: { title: "Profile", dataUrl: "user/me" } },
           { path: "reset-pass", component: ChangePassPage, meta: { title: "Reset Password", dataUrl: "auth/change-password" } },
-          { path: "notifications", component: NotificationsPage, meta: { title: "Notifications", dataUrl: "notification" } },
+          // { path: "notifications", component: NotificationsPage, meta: { title: "Notifications", dataUrl: "notification" } },
+          { path: "a/support", component: SupportDashPage, meta: { title: "Support", dataUrl: "setting/support" } },
+          { path: "terms", component: TermsConditionsPage, meta: { title: "Terms & Conditions", dataUrl: "setting/terms-conditions" } },
+          { path: "privacy", component: PrivacyPolicyPage, meta: { title: "Privacy & Policies", dataUrl: "setting/privacy-policy" } },
+          { path: "about-us", component: AboutUsPage, meta: { title: "About Us", dataUrl: "setting/about-us" } },
 
           // { path: "settings", component: SettingsPage, meta: { title: "Settings", dataUrl: "settings" } },
         ],
