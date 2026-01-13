@@ -22,6 +22,7 @@ import PrivacyPolicyPage from "@/pages/PrivacyPolicyPage.vue";
 import AboutUsPage from "@/pages/AboutUsPage.vue";
 import SupportDashPage from "@/pages/SupportDashPage.vue";
 import SavedPlacesPage from "@/pages/SavedPlacesPage.vue";
+import NotificationsPage from "@/pages/NotificationsPage.vue";
 
 const routes = [
   {
@@ -51,13 +52,14 @@ const routes = [
       { path: "messages", component: MessagePage, meta: { title: "Chat", dataUrl: "messages" } },
       { path: "payments", component: MyPaymentsPage, meta: { title: "Payments", dataUrl: "payment/recent" } },
       { path: "user-details", component: UserDetailsPage, meta: { title: "User Details", dataUrl: "users" } },
+      { path: "notifications", component: NotificationsPage, meta: { title: "Notifications", dataUrl: "notification" } },
+
       {
         path: "/",
         component: UserLayout,
         children: [
           { path: "profile", component: ProfilePage, meta: { title: "Profile", dataUrl: "user/me" } },
           { path: "reset-pass", component: ChangePassPage, meta: { title: "Reset Password", dataUrl: "auth/change-password" } },
-          // { path: "notifications", component: NotificationsPage, meta: { title: "Notifications", dataUrl: "notification" } },
           { path: "a/support", component: SupportDashPage, meta: { title: "Support", dataUrl: "setting/support" } },
           { path: "terms", component: TermsConditionsPage, meta: { title: "Terms & Conditions", dataUrl: "setting/terms-conditions" } },
           { path: "privacy", component: PrivacyPolicyPage, meta: { title: "Privacy & Policies", dataUrl: "setting/privacy-policy" } },

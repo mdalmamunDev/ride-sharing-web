@@ -45,10 +45,9 @@
               </div>
             </router-link>
             <!-- <button @click="$router.push('/notifications')">
-              <img class="w-8" src="/icons/bell.svg" alt="">
             </button> -->
             <button @click="showNotifications = !showNotifications">
-              <img class="w-8" src="/icons/bell.svg" alt="">
+              <img class="w-8" src="/icons/bell_dot.svg" alt="">
             </button>
           </div>
         </div>
@@ -109,7 +108,7 @@
                   <router-link :to="link.to" @click="closeSideNav"
                     class="flex items-center px-6 py-4 text-gray-700 hover:bg-gray-50 font-medium"
                     :class="{ 'text-g bg-gray-50': link.activePaths.includes($route.path) }">
-                    <i :class="link.icon + ' text-lg me-4 w-5'"></i>
+                    <i :class="link.icon + ' text-lg me-4 w-5 text-1'"></i>
                     {{ link.label }}
                   </router-link>
                 </template>
@@ -120,13 +119,13 @@
                     <router-link :to="link.to" @click="closeSideNav"
                       class="flex items-center px-6 py-4 text-gray-700 hover:bg-gray-50 font-medium"
                       :class="{ 'text-g bg-gray-50': link.activePaths.includes($route.path) }">
-                      <i :class="link.icon + ' text-lg me-4 w-5'"></i>
+                      <img :src="`/icons/${link.icon}`" alt="" class="me-4 w-5">
                       {{ link.label }}
                     </router-link>
                   </template>
                   <button @click="showAlert(); closeSideNav()"
                     class="flex items-center px-6 py-4 text-gray-700 hover:bg-gray-50 font-medium">
-                    <i class="fa-solid fa-sign-out-alt text-lg me-4 w-5"></i> Logout
+                    <i class="fa-solid fa-sign-out-alt text-lg me-4 w-5 text-1"></i> Logout
                   </button>
                 </div>
               </nav>
@@ -159,7 +158,7 @@ import Swal from 'sweetalert2';
 import NotificationsComp from '@/components/NotificationsComp.vue';
 export default {
   name: "AppLayout",
-  components: {NotificationsComp},
+  components: { NotificationsComp },
   data() {
     return {
       isSideNavOpen: false,
@@ -204,10 +203,45 @@ export default {
       extraLinks: [
         {
           label: "Reset Password",
-          roles: ['user', 'provider'],
+          roles: ["user", "provider"],
           to: "/reset-pass",
-          icon: "fa-solid fa-cog",
+          icon: "lock_24.svg",
           activePaths: ["/reset-pass"]
+        },
+        {
+          label: "Terms & Conditions",
+          roles: ["user", "provider"],
+          to: "/terms",
+          icon: "docs.svg",
+          activePaths: ["/terms"]
+        },
+        {
+          label: "Privacy",
+          roles: ["user", "provider"],
+          to: "/privacy",
+          icon: "privacy.svg",
+          activePaths: ["/privacy"]
+        },
+        {
+          label: "About Us",
+          roles: ["user", "provider"],
+          to: "/about-us",
+          icon: "about_us.svg",
+          activePaths: ["/about-us"]
+        },
+        {
+          label: "Help & Support",
+          roles: ["user", "provider"],
+          to: "/a/support",
+          icon: "support.svg",
+          activePaths: ["/a/support"]
+        },
+        {
+          label: "Saved Places",
+          roles: ["user", "provider"],
+          to: "/saved-places",
+          icon: "saved_places.svg",
+          activePaths: ["/saved-places"]
         }
       ],
     };
