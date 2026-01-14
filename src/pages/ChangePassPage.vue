@@ -12,12 +12,12 @@
             <img src="/icons/lock.svg" alt="lock">
           </div>
 
-          <input :type="showPassword ? 'text' : 'password'" v-model="formData.currentPassword" minlength="8"
+          <input :type="showCurrentPassword ? 'text' : 'password'" v-model="formData.currentPassword" minlength="8"
             placeholder="Enter old password" class="w-full bg-gray-100 rounded-xl p-4 pl-10 pr-10 focus:outline-none" />
 
-          <span @click="togglePasswordVisibility"
-            class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-gray-500">
-            <component :is="showPassword ? EyeInvisibleOutlined : EyeOutlined" />
+          <span @click="showCurrentPassword = !showCurrentPassword"
+            class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-gray-500 hover:text-gray-700">
+            <i :class="showCurrentPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"></i>
           </span>
         </div>
       </div>
@@ -30,12 +30,12 @@
             <img src="/icons/lock.svg" alt="lock">
           </div>
 
-          <input :type="showPassword ? 'text' : 'password'" v-model="formData.password" minlength="8"
+          <input :type="showNewPassword ? 'text' : 'password'" v-model="formData.password" minlength="8"
             placeholder="Enter new password" class="w-full bg-gray-100 rounded-xl p-4 pl-10 pr-10 focus:outline-none" />
 
-          <span @click="togglePasswordVisibility"
-            class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-gray-500">
-            <component :is="showPassword ? EyeInvisibleOutlined : EyeOutlined" />
+          <span @click="showNewPassword = !showNewPassword"
+            class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-gray-500 hover:text-gray-700">
+            <i :class="showNewPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"></i>
           </span>
         </div>
       </div>
@@ -48,13 +48,13 @@
             <img src="/icons/lock.svg" alt="lock">
           </div>
 
-          <input :type="showPassword ? 'text' : 'password'" v-model="formData.confirmPassword" minlength="8"
+          <input :type="showConfirmPassword ? 'text' : 'password'" v-model="formData.confirmPassword" minlength="8"
             placeholder="Confirm new password"
             class="w-full bg-gray-100 rounded-xl p-4 pl-10 pr-10 focus:outline-none" />
 
-          <span @click="togglePasswordVisibility"
-            class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-gray-500">
-            <component :is="showPassword ? EyeInvisibleOutlined : EyeOutlined" />
+          <span @click="showConfirmPassword = !showConfirmPassword"
+            class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-gray-500 hover:text-gray-700">
+            <i :class="showConfirmPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"></i>
           </span>
         </div>
       </div>
@@ -72,7 +72,9 @@ export default {
   name: "ChangePassPage",
   data() {
     return {
-      showPassword: false
+      showCurrentPassword: false,
+      showNewPassword: false,
+      showConfirmPassword: false
     };
   },
   mounted() {

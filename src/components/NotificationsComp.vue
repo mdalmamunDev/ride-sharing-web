@@ -9,7 +9,7 @@
           <!-- User Icon -->
           <div class="flex-shrink-0">
             <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-              <img src="/icons/bell.svg" alt="">
+              <img :src="`/icons/notification_type/${item.type || 'default'}.svg`" alt="">
             </div>
           </div>
 

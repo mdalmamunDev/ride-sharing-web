@@ -46,8 +46,9 @@
             </router-link>
             <!-- <button @click="$router.push('/notifications')">
             </button> -->
-            <button @click="showNotifications = !showNotifications">
-              <img class="w-8" src="/icons/bell_dot.svg" alt="">
+            <button @click="showNotifications = !showNotifications; haveNewNotification = false">
+              <img v-if="haveNewNotification" class="w-8" src="/icons/bell_dot.svg" alt="">
+              <img v-else class="w-8" src="/icons/bell.svg" alt="">
             </button>
           </div>
         </div>
@@ -63,9 +64,10 @@
           </button>
           <span class="font-bold text-xl">{{ $route.meta.title }}</span>
         </div>
-        <router-link to="notifications"
+        <router-link to="notifications" @click="haveNewNotification = false"
           class="bg-white w-10 h-10 rounded-full flex items-center justify-center text-xl text-1">
-          <img src="/icons/bell.svg" alt="">
+          <img v-if="haveNewNotification" src="/icons/bell_dot.svg" alt="">
+          <img v-else src="/icons/bell.svg" alt="">
         </router-link>
       </div>
 
@@ -163,6 +165,7 @@ export default {
     return {
       isSideNavOpen: false,
       showNotifications: false,
+      haveNewNotification: false,
       links: [
         {
           label: "Home",
@@ -271,6 +274,8 @@ export default {
         }
       });
     }
+
+    this.checkNewNotification();
   },
   methods: {
     startLocationSharing(userId) {
@@ -310,7 +315,17 @@ export default {
           this.$router.push('/auth/login');
         }
       });
-    }
+    },
+
+    checkNewNotification() {
+      this.httpReq({
+        customUrl: 'notification/count',
+        method: 'get',
+        callback: (data) => {
+          this.haveNewNotification = data > 0;
+        }
+      });
+    },
   }
 };
 </script>

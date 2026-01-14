@@ -178,6 +178,10 @@
         <BookingId class="text-sm text-gray-900" :value="details.jobId" />
       </div>
       <div class="flex justify-between py-3 border-b">
+        <span class="text-sm font-bold">Type</span>
+        <span class="text-sm text-gray-800">{{ details.type }}</span>
+      </div>
+      <div class="flex justify-between py-3 border-b">
         <span class="text-sm font-bold">Date</span>
         <span class="text-sm text-gray-800">{{ getDate(details.dateTime) }}</span>
       </div>

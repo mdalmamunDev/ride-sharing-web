@@ -22,7 +22,7 @@
           <span>Log out</span>
         </button>
 
-        <button
+        <button @click="deleteProfile"
           class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50">
           <img :src="`/icons/delete_acc.svg`" />
           <span>Delete account</span>
@@ -96,16 +96,84 @@ export default {
         text: 'You will need to login again.',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Cancel',
-        cancelButtonText: 'Logout',
+        confirmButtonColor: '#ef4444',
+        cancelButtonColor: '#6b7280',
+        confirmButtonText: 'Logout',
+        cancelButtonText: 'Cancel',
       }).then((result) => {
-        if (!result.isConfirmed) {
+        if (result.isConfirmed) {
           localStorage.removeItem('token');
           this.$store.commit('setAuth', null);
           this.$router.push('/auth/login');
         }
       });
     },
+
+    deleteProfile() {
+      let timerInterval;
+      let countdown = 3;
+
+      Swal.fire({
+        title: 'Delete Account?',
+        html: `
+          <p class="text-gray-600 mb-4">This action cannot be undone. Your account and all data will be permanently deleted.</p>
+          <p class="text-sm text-red-600 font-semibold">Please wait <b id="countdown">${countdown}</b> seconds before you can confirm deletion.</p>
+        `,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#ef4444',
+        cancelButtonColor: '#6b7280',
+        confirmButtonText: 'Delete Account',
+        cancelButtonText: 'Cancel',
+        allowOutsideClick: false,
+        didOpen: () => {
+          const confirmButton = Swal.getConfirmButton();
+          confirmButton.disabled = true;
+          confirmButton.style.opacity = '0.5';
+          confirmButton.style.cursor = 'not-allowed';
+
+          timerInterval = setInterval(() => {
+            countdown--;
+            const countdownElement = document.getElementById('countdown');
+            if (countdownElement) {
+              countdownElement.textContent = countdown;
+            }
+
+            if (countdown <= 0) {
+              clearInterval(timerInterval);
+              confirmButton.disabled = false;
+              confirmButton.style.opacity = '1';
+              confirmButton.style.cursor = 'pointer';
+
+              const warningText = Swal.getHtmlContainer().querySelector('.text-red-600');
+              if (warningText) {
+                warningText.innerHTML = '<span class="text-green-600">You can now confirm account deletion.</span>';
+              }
+            }
+          }, 1000);
+        },
+        willClose: () => {
+          clearInterval(timerInterval);
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Call your API to delete account
+          this.httpReq({
+            method: 'delete',
+            customUrl: 'user/me',
+            callback: () => {
+              localStorage.removeItem('token');
+              this.$store.commit('setAuth', null);
+              this.$router.push('/auth/login');
+            },
+          });
+        }
+      });
+    },
   },
 };
 </script>
+
+<style scoped>
+/* Add any custom styles if needed */
+</style>
