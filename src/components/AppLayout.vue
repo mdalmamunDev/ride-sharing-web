@@ -140,7 +140,7 @@
       <transition name="fade">
         <div v-if="showNotifications"
           class="hidden sm:block w-[500px] max-w-[40%] max-h-[70vh] p-4 bg-white overflow-auto absolute top-20 right-2 z-50 border rounded-lg shadow-lg">
-          <notifications-comp></notifications-comp>
+          <notifications-comp @afterClick="showNotifications = false"></notifications-comp>
         </div>
       </transition>
 

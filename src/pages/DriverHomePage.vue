@@ -197,7 +197,6 @@
         <span class="text-sm font-bold">Luggages</span>
         <span class="text-sm text-gray-800">
           {{ details?.luggages?.length }} Bag
-          ({{details?.luggages?.reduce((sum, item) => sum + item.weight, 0)}})Kg
         </span>
       </div>
     </div>

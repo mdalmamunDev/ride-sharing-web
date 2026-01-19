@@ -132,46 +132,66 @@
 
 
           <!-- Document Upload Section -->
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-            <!-- Upload CNIC -->
-            <div class="col-span-1">
-              <label class="block text-sm font-medium text-gray-700 mb-2">Upload CNIC (Front)</label>
-              <!-- Front Side -->
-              <file-uploader v-model="formData.cnicFront"
-                class="bg-purple-50 border-2 border-dashed border-purple-300 rounded-lg text-center cursor-pointer hover:border-purple-400 hover:bg-purple-50/20 transition-all duration-200 h-[100px] flex flex-col items-center justify-center">
-                <img v-if="formData.cnicFront" class="w-full h-full object-cover" :src="showImg(formData.cnicFront)"
-                  alt="">
-                <div class="p-3" v-else>
-                  <i class="fa-solid fa-plus text-purple-400 text-xl mb-2"></i>
-                  <p class="text-[10px] text-gray-400">Upload image of CNIC (front side)</p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Upload CNIC</label>
+              <div class="grid grid-cols-2 gap-2">
+                <!-- Upload CNIC -->
+                <div class="col-span-1">
+                  <!-- Front Side -->
+                  <file-uploader v-model="formData.cnicFront"
+                    class="bg-purple-50 border-2 border-dashed border-purple-300 rounded-lg text-center cursor-pointer hover:border-purple-400 hover:bg-purple-50/20 transition-all duration-200 h-[100px] flex flex-col items-center justify-center">
+                    <img v-if="formData.cnicFront" class="w-full h-full object-cover" :src="showImg(formData.cnicFront)"
+                      alt="">
+                    <div class="p-3" v-else>
+                      <i class="fa-solid fa-plus text-purple-400 text-xl mb-2"></i>
+                      <p class="text-[10px] text-gray-400">Upload image of CNIC <br/>(front side)</p>
+                    </div>
+                  </file-uploader>
                 </div>
-              </file-uploader>
-            </div>
-            <div class="col-span-1">
-              <label class="block text-sm font-medium text-gray-700 mb-2">Upload CNIC (Back)</label>
-              <!-- Back Side -->
-              <file-uploader v-model="formData.cnicBack"
-                class="bg-purple-50 border-2 border-dashed border-purple-300 rounded-lg text-center cursor-pointer hover:border-purple-400 hover:bg-purple-50/20 transition-all duration-200 h-[100px] flex flex-col items-center justify-center">
-                <img v-if="formData.cnicBack" class="w-full h-full object-cover" :src="showImg(formData.cnicBack)"
-                  alt="">
-                <div class="p-3" v-else>
-                  <i class="fa-solid fa-plus text-purple-400 text-xl mb-2"></i>
-                  <p class="text-[10px] text-gray-400">Upload image of CNIC (back side)</p>
+                <div class="col-span-1">
+                  <!-- Back Side -->
+                  <file-uploader v-model="formData.cnicBack"
+                    class="bg-purple-50 border-2 border-dashed border-purple-300 rounded-lg text-center cursor-pointer hover:border-purple-400 hover:bg-purple-50/20 transition-all duration-200 h-[100px] flex flex-col items-center justify-center">
+                    <img v-if="formData.cnicBack" class="w-full h-full object-cover" :src="showImg(formData.cnicBack)"
+                      alt="">
+                    <div class="p-3" v-else>
+                      <i class="fa-solid fa-plus text-purple-400 text-xl mb-2"></i>
+                      <p class="text-[10px] text-gray-400">Upload image of CNIC <br/>(back side)</p>
+                    </div>
+                  </file-uploader>
                 </div>
-              </file-uploader>
+              </div>
             </div>
 
             <!-- Upload Driving License -->
-            <div class="col-span-1">
+
+            <div>
               <label class="block text-sm font-medium text-gray-700 mb-2">Upload Driving License</label>
-              <file-uploader v-model="formData.license"
-                class="bg-purple-50 border-2 border-dashed border-purple-300 rounded-lg text-center cursor-pointer hover:border-purple-400 hover:bg-purple-50/20 transition-all duration-200 h-[100px] flex flex-col items-center justify-center">
-                <img v-if="formData.license" class="w-full h-full object-cover" :src="showImg(formData.license)" alt="">
-                <div class="p-3" v-else>
-                  <i class="fa-solid fa-plus text-purple-400 text-2xl mb-2"></i>
-                  <p class="text-[10px] text-gray-400">Upload image of your driving license</p>
+              <div class="grid grid-cols-2 gap-2">
+                <div class="col-span-1">
+                  <file-uploader v-model="formData.licenseFront"
+                    class="bg-purple-50 border-2 border-dashed border-purple-300 rounded-lg text-center cursor-pointer hover:border-purple-400 hover:bg-purple-50/20 transition-all duration-200 h-[100px] flex flex-col items-center justify-center">
+                    <img v-if="formData.licenseFront" class="w-full h-full object-cover" :src="showImg(formData.licenseFront)"
+                      alt="">
+                    <div class="p-3" v-else>
+                      <i class="fa-solid fa-plus text-purple-400 text-xl mb-2"></i>
+                      <p class="text-[10px] text-gray-400">Upload image of your driving license (front side)</p>
+                    </div>
+                  </file-uploader>
                 </div>
-              </file-uploader>
+                <div class="col-span-1">
+                  <file-uploader v-model="formData.licenseBack"
+                    class="bg-purple-50 border-2 border-dashed border-purple-300 rounded-lg text-center cursor-pointer hover:border-purple-400 hover:bg-purple-50/20 transition-all duration-200 h-[100px] flex flex-col items-center justify-center">
+                    <img v-if="formData.licenseBack" class="w-full h-full object-cover" :src="showImg(formData.licenseBack)"
+                      alt="">
+                    <div class="p-3" v-else>
+                      <i class="fa-solid fa-plus text-purple-400 text-xl mb-2"></i>
+                      <p class="text-[10px] text-gray-400">Upload image of your driving license (back side)</p>
+                    </div>
+                  </file-uploader>
+                </div>
+              </div>
             </div>
 
             <!-- Upload Car Papers -->
@@ -253,11 +273,12 @@ export default {
       this.formData.vehicles.splice(index, 1);
     },
     submitForm() {
-      const { cnicFront, cnicBack, license, carPapers } = this.formData;
-      if (!cnicFront || !cnicBack || !license || !carPapers) {
-        this.showToast("Please fill the required documents first.", 'error');
-        return;
-      }
+      console.log(this.formData);
+      // const { cnicFront, cnicBack, licenseFront, licenseBack, carPapers } = this.formData;
+      // if (!cnicFront || !cnicBack || !licenseFront || licenseBack || !carPapers) {
+      //   this.showToast("Please fill the required documents first.", 'error');
+      //   return;
+      // }
 
       this.httpReq({
         callback: () => {
