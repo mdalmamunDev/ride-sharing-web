@@ -273,7 +273,6 @@ export default {
       this.formData.vehicles.splice(index, 1);
     },
     submitForm() {
-      console.log(this.formData);
       // const { cnicFront, cnicBack, licenseFront, licenseBack, carPapers } = this.formData;
       // if (!cnicFront || !cnicBack || !licenseFront || licenseBack || !carPapers) {
       //   this.showToast("Please fill the required documents first.", 'error');

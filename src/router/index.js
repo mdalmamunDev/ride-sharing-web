@@ -23,6 +23,7 @@ import AboutUsPage from "@/pages/AboutUsPage.vue";
 import SupportDashPage from "@/pages/SupportDashPage.vue";
 import SavedPlacesPage from "@/pages/SavedPlacesPage.vue";
 import NotificationsPage from "@/pages/NotificationsPage.vue";
+import BusinessInfoPage from "@/pages/BusinessInfoPage.vue";
 
 const routes = [
   {
@@ -65,7 +66,7 @@ const routes = [
           { path: "privacy", component: PrivacyPolicyPage, meta: { title: "Privacy & Policies", dataUrl: "setting/privacy-policy" } },
           { path: "about-us", component: AboutUsPage, meta: { title: "About Us", dataUrl: "setting/about-us" } },
           { path: "saved-places", component: SavedPlacesPage, meta: { title: "Saved Places", dataUrl: "user-setting/ready/saved-places" } },
-
+          { path: "business-info", component: BusinessInfoPage, meta: { title: "Complete Account", dataUrl: "provider/complete-profile" } },
           // { path: "settings", component: SettingsPage, meta: { title: "Settings", dataUrl: "settings" } },
         ],
       },
