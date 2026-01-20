@@ -7,7 +7,7 @@
       @input="$emit('update:modelValue', JSON.parse($event.target.value))" />
 
     <!-- Preview images -->
-    <div v-if="modelValue.length" class="mt-2 grid grid-cols-3 gap-2">
+    <div v-if="modelValue.length" class="grid grid-cols-3 gap-2">
       <div v-for="(img, index) in modelValue" :key="index"
         class="w-full h-24 overflow-hidden rounded-lg relative group">
         <img :src="showImg(img)" class="w-full h-full object-cover" />
