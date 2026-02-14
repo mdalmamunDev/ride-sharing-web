@@ -5,7 +5,7 @@
     <aside class="hidden sm:flex w-64 bg-white rounded-xl shadow-lg py-10 flex-col justify-between">
       <!-- Menu -->
       <nav class="space-y-1">
-        <router-link v-for="item in menuItems" :key="item.name" :to="item.route"
+        <router-link v-for="item in filteredMenuItems" :key="item.name" :to="item.route"
           class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-semibold transition" :class="isRoute(item.route)
             ? 'bg-purple-50 text-1'
             : 'text-gray-600 hover:bg-gray-50'">
@@ -96,10 +96,18 @@ export default {
           label: 'Saved Places',
           route: '/saved-places',
           icon: 'saved_places.svg',
-          roles: ["user", "provider"],
+          roles: ["user"],
         },
       ],
     };
+  },
+
+  computed: {
+    filteredMenuItems() {
+      return this.menuItems.filter(
+        item => !item.roles || item.roles.includes(this.auth?.role)
+      )
+    }
   },
 
   methods: {
@@ -108,7 +116,7 @@ export default {
         title: 'Do you want to logout?',
         text: 'You will need to login again.',
         icon: 'warning',
-          roles: ["user", "provider"],
+        roles: ["user", "provider"],
         showCancelButton: true,
         confirmButtonColor: '#ef4444',
         cancelButtonColor: '#6b7280',
@@ -134,7 +142,7 @@ export default {
           <p class="text-sm text-red-600 font-semibold">Please wait <b id="countdown">${countdown}</b> seconds before you can confirm deletion.</p>
         `,
         icon: 'warning',
-          roles: ["user", "provider"],
+        roles: ["user", "provider"],
         showCancelButton: true,
         confirmButtonColor: '#ef4444',
         cancelButtonColor: '#6b7280',
