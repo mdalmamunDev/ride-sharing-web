@@ -1,5 +1,9 @@
 <template>
   <div class="h-screen bg-white">
+    <template v-if="auth?.step == 0">
+      <!-- here create a layout were user can choose his role -->
+      <ChooseRole />
+    </template>
     <template v-if="auth?.role === 'provider' && auth?.step === 1">
       <div class="w-full h-full flex items-center justify-center text-xl">
         Please <router-link class="text-g underline mx-1" to="/auth/complete">complete</router-link> your profile
@@ -45,10 +49,10 @@
               </div>
             </router-link>
             <!-- <button @click="$router.push('/notifications')">
-              <img class="w-8" src="/icons/bell.svg" alt="">
+              <img class="w-8" src="/images/role.svg" alt="">
             </button> -->
             <button @click="showNotifications = !showNotifications">
-              <img class="w-8" src="/icons/bell.svg" alt="">
+              <img class="w-8" src="/images/role.svg" alt="">
             </button>
           </div>
         </div>
@@ -60,13 +64,13 @@
         <div class="flex items-center">
           <button @click="toggleSideNav"
             class="bg-g w-10 h-10 rounded-full flex items-center justify-center text-white me-4">
-            <img src="/icons/bars.svg" alt="">
+            <img src="/images/role.svg" alt="">
           </button>
           <span class="font-bold text-xl">{{ $route.meta.title }}</span>
         </div>
         <router-link to="notifications"
           class="bg-white w-10 h-10 rounded-full flex items-center justify-center text-xl text-1">
-          <img src="/icons/bell.svg" alt="">
+          <img src="/images/role.svg" alt="">
         </router-link>
       </div>
 
@@ -157,9 +161,10 @@
 import socket from '@/plugins/socket';
 import Swal from 'sweetalert2';
 import NotificationsComp from '@/components/NotificationsComp.vue';
+import ChooseRole from './ChooseRole.vue';
 export default {
   name: "AppLayout",
-  components: {NotificationsComp},
+  components: { NotificationsComp, ChooseRole },
   data() {
     return {
       isSideNavOpen: false,

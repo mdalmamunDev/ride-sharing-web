@@ -27,6 +27,7 @@
       <action-button extra-class="w-full py-3">Verify</action-button>
     </form>
     <div class="flex justify-end items-center text-sm mt-10 mb-2">
+      <!-- TODO: resend otp -->
       Don't get code? <span class="text-g hover:underline ms-1 cursor-pointer">Resend</span>
     </div>
   </div>

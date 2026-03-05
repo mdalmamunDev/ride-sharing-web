@@ -145,6 +145,13 @@ export default {
     showImg(path) {
       if (!path) return '/images/def.png';
 
+      try {
+        new URL(path);
+        return path; // Already a valid URL
+      } catch (err) {
+        // Not a valid absolute URL → continue
+      }
+
       const baseFilePath = process.env.VUE_APP_BASE_FILE_PATH || '';
 
       // Extract file extension

@@ -203,7 +203,13 @@ export default {
     };
   },
   mounted() {
-    this.$store.commit('setFormData', { role: 'user' })
+    this.$store.commit('setFormData', { role: 'user' });
+    const token = this.$route.query?.accessToken;
+    if (token) {
+      localStorage.setItem('token', token || '');
+      this.$route.query = {};
+      location.reload();
+    }
   },
   methods: {
     handleLogIn() {
@@ -377,7 +383,7 @@ export default {
         token: resetPasswordToken,
         customUrl: 'auth/resend-otp',
         data: {},
-        callback: ({ resetPasswordToken }) => {          
+        callback: ({ resetPasswordToken }) => {
           // reset the token
           localStorage.setItem('resetPasswordToken', resetPasswordToken);
         },
