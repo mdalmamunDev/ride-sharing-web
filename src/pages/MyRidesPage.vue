@@ -32,11 +32,11 @@
       <!-- Rides Grid -->
       <pagination-comp>
         <div class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
-          <div v-for="ride in dataList?.data" :key="ride.jobId" @click="goNavigate(ride)"
-            :class="ride.status !== 'completed' ? 'cursor-pointer text-blue-600' : ''"
-            class="bg-glass bg-gray-100 rounded-2xl p-3 shadow-sm border border-gray-100">
+          <div v-for="ride in dataList?.data" :key="ride.jobId" class="bg-glass bg-gray-100 rounded-2xl p-3 shadow-sm border border-gray-100">
             <!-- Map Placeholder -->
-            <div class="flex gap-2 items-center mb-6">
+            <div class="flex gap-2 items-center mb-6"  @click="goNavigate(ride)"
+            :class="ride.status !== 'completed' ? 'cursor-pointer text-blue-600' : ''"
+            >
               <img class="w-18 h-18" src="/images/map-thumb.svg" alt="">
 
               <address-comp :from-address="ride.fromAddress" :to-address="ride.toAddress" class="flex flex-1"
@@ -83,6 +83,10 @@
                   </span>
                 </div>
               </div>
+            </div>
+            <div v-if="ride.refundPercent" class="mt-3 text-xs font-semibold flex justify-between items-center">
+              <span class="text-gray-600">Cancel your ride?</span>
+              <button class="text-red-400" @click="cancelRide(ride)">Cancel</button>
             </div>
           </div>
         </div>
@@ -215,6 +219,10 @@ export default {
       }
       this.$router.push(`navigate?jobId=${ride.jobId}`);
     },
+
+    cancelRide(ride) {
+      console.log(ride);
+    }
   },
 };
 </script>

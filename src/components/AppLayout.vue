@@ -51,8 +51,11 @@
             <!-- <button @click="$router.push('/notifications')">
               <img class="w-8" src="/images/role.svg" alt="">
             </button> -->
-            <button @click="showNotifications = !showNotifications">
-              <img class="w-8" src="/images/role.svg" alt="">
+            <!-- <button @click="showNotifications = !showNotifications">
+              <img class="w-8" src="/images/role.svg" alt=""> -->
+            <button @click="showNotifications = !showNotifications; haveNewNotification = false">
+              <img v-if="haveNewNotification" class="w-8" src="/icons/bell_dot.svg" alt="">
+              <img v-else class="w-8" src="/icons/bell.svg" alt="">
             </button>
           </div>
         </div>
@@ -68,9 +71,10 @@
           </button>
           <span class="font-bold text-xl">{{ $route.meta.title }}</span>
         </div>
-        <router-link to="notifications"
+        <router-link to="notifications" @click="haveNewNotification = false"
           class="bg-white w-10 h-10 rounded-full flex items-center justify-center text-xl text-1">
-          <img src="/images/role.svg" alt="">
+          <img v-if="haveNewNotification" src="/icons/bell_dot.svg" alt="">
+          <img v-else src="/icons/bell.svg" alt="">
         </router-link>
       </div>
 
@@ -113,7 +117,7 @@
                   <router-link :to="link.to" @click="closeSideNav"
                     class="flex items-center px-6 py-4 text-gray-700 hover:bg-gray-50 font-medium"
                     :class="{ 'text-g bg-gray-50': link.activePaths.includes($route.path) }">
-                    <i :class="link.icon + ' text-lg me-4 w-5'"></i>
+                    <i :class="link.icon + ' text-lg me-4 w-5 text-1'"></i>
                     {{ link.label }}
                   </router-link>
                 </template>
@@ -124,13 +128,13 @@
                     <router-link :to="link.to" @click="closeSideNav"
                       class="flex items-center px-6 py-4 text-gray-700 hover:bg-gray-50 font-medium"
                       :class="{ 'text-g bg-gray-50': link.activePaths.includes($route.path) }">
-                      <i :class="link.icon + ' text-lg me-4 w-5'"></i>
+                      <img :src="`/icons/${link.icon}`" alt="" class="me-4 w-5">
                       {{ link.label }}
                     </router-link>
                   </template>
                   <button @click="showAlert(); closeSideNav()"
                     class="flex items-center px-6 py-4 text-gray-700 hover:bg-gray-50 font-medium">
-                    <i class="fa-solid fa-sign-out-alt text-lg me-4 w-5"></i> Logout
+                    <i class="fa-solid fa-sign-out-alt text-lg me-4 w-5 text-1"></i> Logout
                   </button>
                 </div>
               </nav>
@@ -143,7 +147,7 @@
       <transition name="fade">
         <div v-if="showNotifications"
           class="hidden sm:block w-[500px] max-w-[40%] max-h-[70vh] p-4 bg-white overflow-auto absolute top-20 right-2 z-50 border rounded-lg shadow-lg">
-          <notifications-comp></notifications-comp>
+          <notifications-comp @afterClick="showNotifications = false"></notifications-comp>
         </div>
       </transition>
 
@@ -169,6 +173,7 @@ export default {
     return {
       isSideNavOpen: false,
       showNotifications: false,
+      haveNewNotification: false,
       links: [
         {
           label: "Home",
@@ -209,10 +214,45 @@ export default {
       extraLinks: [
         {
           label: "Reset Password",
-          roles: ['user', 'provider'],
+          roles: ["user", "provider"],
           to: "/reset-pass",
-          icon: "fa-solid fa-cog",
+          icon: "lock_24.svg",
           activePaths: ["/reset-pass"]
+        },
+        {
+          label: "Terms & Conditions",
+          roles: ["user", "provider"],
+          to: "/terms",
+          icon: "docs.svg",
+          activePaths: ["/terms"]
+        },
+        {
+          label: "Privacy",
+          roles: ["user", "provider"],
+          to: "/privacy",
+          icon: "privacy.svg",
+          activePaths: ["/privacy"]
+        },
+        {
+          label: "About Us",
+          roles: ["user", "provider"],
+          to: "/about-us",
+          icon: "about_us.svg",
+          activePaths: ["/about-us"]
+        },
+        {
+          label: "Help & Support",
+          roles: ["user", "provider"],
+          to: "/a/support",
+          icon: "support.svg",
+          activePaths: ["/a/support"]
+        },
+        {
+          label: "Saved Places",
+          roles: ["user", "provider"],
+          to: "/saved-places",
+          icon: "saved_places.svg",
+          activePaths: ["/saved-places"]
         }
       ],
     };
@@ -242,6 +282,8 @@ export default {
         }
       });
     }
+
+    this.checkNewNotification();
   },
   methods: {
     startLocationSharing(userId) {
@@ -281,7 +323,17 @@ export default {
           this.$router.push('/auth/login');
         }
       });
-    }
+    },
+
+    checkNewNotification() {
+      this.httpReq({
+        customUrl: 'notification/count',
+        method: 'get',
+        callback: (data) => {
+          this.haveNewNotification = data > 0;
+        }
+      });
+    },
   }
 };
 </script>

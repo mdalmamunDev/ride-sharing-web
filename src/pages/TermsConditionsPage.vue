@@ -1,6 +1,6 @@
 <template>
   <div class="max-w-xl mx-auto">
-    <h1 class="text-3xl mb-6 font-bold text-center">{{ $route.meta.title }}</h1>
+    <h1 class="text-2xl mb-6 font-bold text-center">{{ $route.meta.title }}</h1>
     <div v-html="terms"></div>
   </div>
 </template>
