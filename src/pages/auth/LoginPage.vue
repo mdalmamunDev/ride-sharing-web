@@ -69,16 +69,7 @@
       </div>
 
       <!-- Social Login Buttons -->
-      <div class="w-full grid grid-cols-2 gap-4">
-        <button
-          class="col-span-1 flex items-center justify-center bg-gray-100 py-4 rounded-full duration-300 transform hover:bg-gray-200">
-          <img src="/icons/fb.svg" alt="">
-        </button>
-        <button
-          class="col-span-1 flex items-center justify-center bg-gray-100 py-4 rounded-full duration-300 transform hover:bg-gray-200">
-          <img src="/icons/google.svg" alt="">
-        </button>
-      </div>
+      <social-login />
     </form>
 
     <div class="flex justify-end items-center text-sm mt-10 mb-2 text-gray-400 font-bold">
@@ -176,10 +167,11 @@
 
 <script>
 import DetailsBox from '@/components/DetailsBox.vue';
+import SocialLogin from '@/components/SocialLogin.vue';
 
 export default {
   name: "LoginPage",
-  components: { DetailsBox },
+  components: { DetailsBox, SocialLogin },
   data() {
     return {
       showPassword: false,
