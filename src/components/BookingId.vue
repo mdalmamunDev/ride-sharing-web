@@ -16,7 +16,7 @@ export default {
   computed: {
     bid() {
       if (!this.value) return this.value;
-      return this.value.slice(0, 4) + "..." + this.value.slice(-4)
+      return this.value.slice(0, 4) + ".." + this.value.slice(-4)
     }
   }
 };
