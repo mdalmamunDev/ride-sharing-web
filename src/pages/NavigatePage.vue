@@ -143,7 +143,8 @@
     </details-box>
 
     <!-- revive user -->
-    <details-box :is-open="isShowReview" max-w="sm" @close="isShowReview = false" :show-close-btn="false" title="How was your ride?">
+    <details-box :is-open="isShowReview" max-w="sm" @close="isShowReview = false" :show-close-btn="false"
+      title="How was your ride?">
       <!-- Profile Section -->
       <div class="flex flex-col items-center mb-6">
         <!-- Profile Image -->
@@ -261,7 +262,9 @@ export default {
       }
 
 
-      if (minutes < 60) {
+      if (minutes < 0) {
+        return minutes = `0 Min`;
+      } else if (minutes < 60) {
         return `${minutes} Min`;
       } else if (minutes < 1440) { // 60 * 24
         let hours = Math.floor(minutes / 60);
@@ -310,7 +313,7 @@ export default {
     // this.simulateSimpleMove();
 
 
-    socket.on('location-receive', ({lat, lng, userId}) => {
+    socket.on('location-receive', ({ lat, lng, userId }) => {
       if (userId === this.details?.otherUser?._id) {
         this.location = { lat, lng }
       }
